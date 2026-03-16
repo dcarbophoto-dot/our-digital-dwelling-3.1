@@ -208,7 +208,14 @@ export const setupStripeSync = (uid: string, onUpdate: (profile: UserProfile) =>
     if (type === 'subscriptions') {
       priceId = stripeData.items?.[0]?.price?.id || stripeData.price?.id;
     } else {
-      priceId = stripeData.items?.[0]?.price?.id || stripeData.price?.id;
+      priceId = stripeData.items?.[0]?.price?.id || stripeData.prices?.[0]?.id;
+      
+      // Fallback to inferring from amount if priceId is missing
+      if (!priceId && stripeData.amount) {
+        if (stripeData.amount === 3999) priceId = 'price_1T2dYXIY2wu1OpEHx43rE2WD';
+        else if (stripeData.amount === 6999) priceId = 'price_1T2dYdIY2wu1OpEHxhSwJWYO';
+        else if (stripeData.amount === 11999) priceId = 'price_1T2dYiIY2wu1OpEHxCsp12Cx';
+      }
     }
 
     if (!priceId || !CREDIT_MAP[priceId]) return;
@@ -269,7 +276,7 @@ export const setupStripeSync = (uid: string, onUpdate: (profile: UserProfile) =>
     const paymentsRef = collection(db, "customers", uid, "payments");
     unsubscribes.push(onSnapshot(paymentsRef, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
-        if (change.type === "added") {
+        if (change.type === "added" || change.type === "modified") {
           const data = change.doc.data();
           if (data.status === 'succeeded') {
             handleSync('payments', change.doc.id, data);
