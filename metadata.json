@@ -1,0 +1,7 @@
+{
+  "name": "Our Digital Dwelling 3.1",
+  "description": "Professional editing and virtual staging for real estate agents. Upload room photos and instantly visualize them in various styles including Modern, Rustic, or completely empty, saving thousands on physical staging costs.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
