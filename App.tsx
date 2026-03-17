@@ -13,6 +13,7 @@ import RefundPolicy from './RefundPolicy';
 import ContactUs from './ContactUs';
 import UserGuide from './UserGuide';
 import { AdminDashboard } from './src/components/AdminDashboard';
+import { Tutorials } from './src/components/Tutorials';
 
 const App: React.FC = () => {
   // Auth State
@@ -46,6 +47,7 @@ const App: React.FC = () => {
   const [showCreditPacks, setShowCreditPacks] = useState(false);
   const [showManageSubscription, setShowManageSubscription] = useState(false);
   const [showAdminDashboard, setShowAdminDashboard] = useState(false);
+  const [showTutorials, setShowTutorials] = useState(false);
 
   // Admin Validation
   const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').map((e: string) => e.trim().toLowerCase());
@@ -1767,6 +1769,7 @@ const App: React.FC = () => {
                     </button>
                   )}
                   <button onClick={() => { setShowMyProjects(true); setShowProfileMenu(false); }} className="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>My Projects</button>
+                  <button onClick={() => { setShowTutorials(true); setShowProfileMenu(false); }} className="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/><path d="m5 21 0-18"/></svg>Watch Tutorials</button>
                   <button onClick={() => { setShowUserGuide(true); setShowProfileMenu(false); }} className="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>User Guide</button>
                   <button onClick={handleDeleteAccount} className="w-full text-left px-4 py-3 text-xs font-bold text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>Delete Account</button>
                   <button onClick={handleLogout} className="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Sign Out</button>
@@ -1802,6 +1805,8 @@ const App: React.FC = () => {
       {/* ... (Main Content) ... */}
       {showAdminDashboard ? (
         <AdminDashboard onBack={() => setShowAdminDashboard(false)} />
+      ) : showTutorials ? (
+        <Tutorials onBack={() => setShowTutorials(false)} />
       ) : (
       <main className="flex-1 flex flex-col overflow-hidden bg-slate-100 dark:bg-slate-950 transition-colors">
         {items.length === 0 ? (
