@@ -25,13 +25,13 @@ export const Tutorials: React.FC<TutorialsProps> = ({ onBack }) => {
       id: "tutorial-2",
       title: "Season Change Tutorial",
       description: "Easily change the season of your Image using Our Digital Dwelling !",
-      embedUrl: "https://www.youtube.com/embed/rVwMgrKDypY" // <-- Replace with your actual YouTube embed link
+      embedUrl: "https://www.youtube.com/embed/4WV03mpp_BM" // <-- Replace with your actual YouTube embed link
     },
     {
       id: "tutorial-3",
       title: "Empty the Room Tutorial",
       description: "Using the Empty the Room preset to Empty a Room with Our Digital Dwelling !",
-      embedUrl: "https://www.youtube.com/embed/G5ZKESVEQmo" // <-- Replace with your actual YouTube embed link
+      embedUrl: "https://www.youtube.com/embed/Dw_n9cX58EI" // <-- Replace with your actual YouTube embed link
     }
   ]);
 
