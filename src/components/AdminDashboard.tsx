@@ -133,8 +133,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                           <img className="h-10 w-10 rounded-full border border-gray-200 dark:border-gray-700" src={user.photoURL || `https://ui-avatars.com/api/?name=${user.email || 'User'}`} alt="" />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900 dark:text-white">{user.displayName || 'Unknown Name'}</div>
-                          <div className="text-sm text-gray-500 dark:text-gray-400">{user.email}</div>
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">{user.name || 'Unknown Name'}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            <a href={`mailto:${user.email}`} className="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline flex items-center gap-1 transition-colors">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                              {user.email}
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </td>
