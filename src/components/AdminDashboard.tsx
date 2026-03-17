@@ -141,7 +141,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                   </th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors select-none" onClick={() => handleSort('lastLoginAt')}>
                     <div className="flex items-center gap-1">
-                      Signed In
+                      Last Signed In
                       {sortField === 'lastLoginAt' && (sortDirection === 'asc' ? '↑' : '↓')}
                     </div>
                   </th>
