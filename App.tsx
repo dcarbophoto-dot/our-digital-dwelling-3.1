@@ -4,7 +4,7 @@ import { INTERIOR_STYLES, OUTDOOR_STYLES, ROOM_TYPES, ALL_STYLES, INTERIOR_ROOM_
 import { StagingStyle, StagedItem, RoomType, HistoryItem, StyleCategory } from './types';
 import { stageRoom } from './services/geminiService';
 import { subscribeToAuth, login, register, logout, resetPassword, loginWithGoogle, deleteUserAccount, resendVerificationEmail } from './services/authService';
-import { getUserProfile, updateUserProfile, deleteUserProfile, UserProfile, saveFileRecord, getUserFiles, FileRecord, deductCredit, createStripeCheckout, createProject, getUserProjects, ProjectRecord, setupStripeSync, createPortalLink, deleteProject } from './services/dbService';
+import { getUserProfile, updateUserProfile, deleteUserProfile, UserProfile, saveFileRecord, getUserFiles, FileRecord, deductCredit, createStripeCheckout, createProject, getUserProjects, ProjectRecord, setupStripeSync, createPortalLink, deleteProject, updateLastLogin } from './services/dbService';
 import { uploadBase64ToStorage } from './services/storageService';
 import { useStorage } from './hooks/useStorage';
 import JSZip from 'jszip';
@@ -210,8 +210,21 @@ const App: React.FC = () => {
           // Establish Stripe Sync Listener
           if (stripeUnsubRef.current) stripeUnsubRef.current();
           stripeUnsubRef.current = setupStripeSync(u.uid, (updatedProfile) => {
-            setUserProfile(updatedProfile);
+            if (updatedProfile.isDisabled) {
+              logout();
+              alert("Your account has been suspended by an administrator.");
+            } else {
+              setUserProfile(updatedProfile);
+            }
           });
+          
+          // Check disability state initially and update last logic
+          if (profile?.isDisabled) {
+            logout();
+            alert("Your account has been suspended by an administrator.");
+          } else {
+             updateLastLogin(u.uid);
+          }
           
         } else {
           setVerificationEmail(u.email || '');

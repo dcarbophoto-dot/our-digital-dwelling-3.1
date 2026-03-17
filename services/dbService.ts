@@ -12,6 +12,8 @@ export interface UserProfile {
   createdAt: number;
   credits: number;
   plan: string;
+  lastLoginAt?: number;
+  isDisabled?: boolean;
 }
 
 export interface FileRecord {
@@ -65,13 +67,16 @@ export const ensureUserProfile = async (uid: string, email: string | null, displ
     return data;
   } else {
     const existingData = docSnap.data();
-    if (existingData.plan === undefined || existingData.credits === undefined) {
+    if (existingData.plan === undefined || existingData.credits === undefined || existingData.lastLoginAt === undefined) {
       const updates: Partial<UserProfile> = {};
       if (existingData.plan === undefined) updates.plan = "free";
       if (existingData.credits === undefined) updates.credits = 10;
+      updates.lastLoginAt = Date.now();
       await updateDoc(docRef, updates);
       return { ...existingData, ...updates } as UserProfile;
     }
+    // Just update login time on regular fetching
+    await updateDoc(docRef, { lastLoginAt: Date.now() });
   }
   return docSnap.data() as UserProfile;
 };
@@ -414,6 +419,25 @@ export const getAllUsers = async (): Promise<UserProfile[]> => {
     return users.sort((a, b) => b.createdAt - a.createdAt);
   } catch (error) {
     console.error("Error fetching all users:", error);
+    throw error;
+  }
+};
+
+export const updateLastLogin = async (uid: string) => {
+  try {
+    const docRef = doc(db, USERS_COLLECTION, uid);
+    await updateDoc(docRef, { lastLoginAt: Date.now() });
+  } catch (error) {
+    console.error("Failed to update last login:", error);
+  }
+};
+
+export const toggleUserStatus = async (uid: string, isDisabled: boolean) => {
+  try {
+    const docRef = doc(db, USERS_COLLECTION, uid);
+    await updateDoc(docRef, { isDisabled });
+  } catch (error) {
+    console.error("Failed to toggle user status:", error);
     throw error;
   }
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { UserProfile, getAllUsers } from '../../services/dbService';
+import { UserProfile, getAllUsers, toggleUserStatus } from '../../services/dbService';
 
 interface AdminDashboardProps {
   onBack: () => void;
@@ -26,8 +26,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
     fetchUsers();
   }, []);
 
+  const handleToggleStatus = async (uid: string, currentStatus: boolean | undefined) => {
+    try {
+      const newStatus = !currentStatus;
+      await toggleUserStatus(uid, newStatus);
+      // Update local state instantly
+      setUsers(prev => prev.map(u => u.uid === uid ? { ...u, isDisabled: newStatus } : u));
+    } catch (err) {
+      alert("Failed to update user status.");
+    }
+  };
+
   return (
-    <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900 min-h-screen transition-colors">
+    <div className="w-full px-[20px] py-[20px] bg-slate-50 dark:bg-slate-900 min-h-screen transition-colors">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
         <button
@@ -82,6 +93,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Plan</th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Credits</th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Joined</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Last Login</th>
+                  <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -108,6 +121,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {new Date(user.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                      {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleString() : 'Never'}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button
+                        onClick={() => handleToggleStatus(user.uid as string, user.isDisabled)}
+                        className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${user.isDisabled ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-800/50' : 'bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-800/50'}`}
+                      >
+                        {user.isDisabled ? 'Enable Profile' : 'Disable Profile'}
+                      </button>
                     </td>
                   </tr>
                 ))}
