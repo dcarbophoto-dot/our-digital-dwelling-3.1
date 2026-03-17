@@ -50,7 +50,7 @@ const CREDIT_MAP: Record<string, { credits: number, plan?: string }> = {
 /**
  * Ensures a user document exists in Firestore. 
  */
-export const ensureUserProfile = async (uid: string, email: string | null, displayName: string | null): Promise<UserProfile> => {
+export const ensureUserProfile = async (uid: string, email: string | null, displayName: string | null, creationTime?: string, lastSignInTime?: string): Promise<UserProfile> => {
   const docRef = doc(db, USERS_COLLECTION, uid);
   const docSnap = await getDoc(docRef);
   
@@ -59,9 +59,10 @@ export const ensureUserProfile = async (uid: string, email: string | null, displ
       name: displayName || email?.split('@')[0] || "User",
       email: email || "",
       photoFileName: "",
-      createdAt: Date.now(),
+      createdAt: creationTime ? new Date(creationTime).getTime() : Date.now(),
       credits: 10, // Default for free plan
-      plan: "free"
+      plan: "free",
+      lastLoginAt: lastSignInTime ? new Date(lastSignInTime).getTime() : Date.now()
     };
     await setDoc(docRef, data);
     return data;
@@ -71,12 +72,12 @@ export const ensureUserProfile = async (uid: string, email: string | null, displ
       const updates: Partial<UserProfile> = {};
       if (existingData.plan === undefined) updates.plan = "free";
       if (existingData.credits === undefined) updates.credits = 10;
-      updates.lastLoginAt = Date.now();
+      updates.lastLoginAt = lastSignInTime ? new Date(lastSignInTime).getTime() : Date.now();
       await updateDoc(docRef, updates);
       return { ...existingData, ...updates } as UserProfile;
     }
     // Just update login time on regular fetching
-    await updateDoc(docRef, { lastLoginAt: Date.now() });
+    await updateDoc(docRef, { lastLoginAt: lastSignInTime ? new Date(lastSignInTime).getTime() : Date.now() });
   }
   return docSnap.data() as UserProfile;
 };
@@ -423,10 +424,11 @@ export const getAllUsers = async (): Promise<UserProfile[]> => {
   }
 };
 
-export const updateLastLogin = async (uid: string) => {
+export const updateLastLogin = async (uid: string, lastSignInTime?: string) => {
   try {
     const docRef = doc(db, USERS_COLLECTION, uid);
-    await updateDoc(docRef, { lastLoginAt: Date.now() });
+    const loginTime = lastSignInTime ? new Date(lastSignInTime).getTime() : Date.now();
+    await updateDoc(docRef, { lastLoginAt: loginTime });
   } catch (error) {
     console.error("Failed to update last login:", error);
   }

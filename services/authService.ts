@@ -22,7 +22,13 @@ export const loginWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     // Sync with Firestore profile
-    await ensureUserProfile(result.user.uid, result.user.email, result.user.displayName);
+    await ensureUserProfile(
+      result.user.uid, 
+      result.user.email, 
+      result.user.displayName, 
+      result.user.metadata.creationTime, 
+      result.user.metadata.lastSignInTime
+    );
     return result.user;
   } catch (error: any) {
     throw error;
@@ -36,7 +42,13 @@ export const login = async (email: string, pass: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, pass);
     // Ensure profile exists (for existing users who don't have a doc yet)
-    await ensureUserProfile(userCredential.user.uid, userCredential.user.email, userCredential.user.displayName);
+    await ensureUserProfile(
+      userCredential.user.uid, 
+      userCredential.user.email, 
+      userCredential.user.displayName,
+      userCredential.user.metadata.creationTime,
+      userCredential.user.metadata.lastSignInTime
+    );
     return userCredential.user;
   } catch (error: any) {
     if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
@@ -53,7 +65,13 @@ export const register = async (email: string, pass: string) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
     // Create Firestore profile immediately
-    await ensureUserProfile(userCredential.user.uid, userCredential.user.email, null);
+    await ensureUserProfile(
+      userCredential.user.uid, 
+      userCredential.user.email, 
+      null,
+      userCredential.user.metadata.creationTime,
+      userCredential.user.metadata.lastSignInTime
+    );
     // Send verification email
     await sendEmailVerification(userCredential.user);
     // Sign out immediately so they aren't logged in unverified

@@ -225,7 +225,7 @@ const App: React.FC = () => {
             logout();
             alert("Your account has been suspended by an administrator.");
           } else {
-             updateLastLogin(u.uid);
+             updateLastLogin(u.uid, u.metadata.lastSignInTime);
           }
           
         } else {
