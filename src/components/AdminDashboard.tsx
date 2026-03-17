@@ -9,6 +9,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [sortField, setSortField] = useState<'createdAt' | 'lastLoginAt'>('createdAt');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -36,6 +38,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
       alert("Failed to update user status.");
     }
   };
+
+  const handleSort = (field: 'createdAt' | 'lastLoginAt') => {
+    if (sortField === field) {
+      setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('desc'); // Default to newest first when switching fields
+    }
+  };
+
+  const sortedUsers = [...users].sort((a, b) => {
+    const aValue = a[sortField] || 0;
+    const bValue = b[sortField] || 0;
+    return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
+  });
 
   return (
     <div className="w-full px-[20px] py-[20px] bg-slate-50 dark:bg-slate-900 min-h-screen transition-colors">
@@ -92,13 +109,23 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">User</th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Plan</th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Credits</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Joined</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Last Login</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors select-none" onClick={() => handleSort('createdAt')}>
+                    <div className="flex items-center gap-1">
+                      Joined
+                      {sortField === 'createdAt' && (sortDirection === 'asc' ? '↑' : '↓')}
+                    </div>
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors select-none" onClick={() => handleSort('lastLoginAt')}>
+                    <div className="flex items-center gap-1">
+                      Last Login
+                      {sortField === 'lastLoginAt' && (sortDirection === 'asc' ? '↑' : '↓')}
+                    </div>
+                  </th>
                   <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                {users.map((user) => (
+                {sortedUsers.map((user) => (
                   <tr key={user.uid} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
