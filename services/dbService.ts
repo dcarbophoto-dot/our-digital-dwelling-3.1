@@ -1,4 +1,3 @@
-
 import { doc, getDoc, setDoc, deleteDoc, updateDoc, collection, addDoc, serverTimestamp, getDocs, query, orderBy, onSnapshot, runTransaction, where } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { db, functions } from "./firebase";
@@ -397,5 +396,24 @@ export const getUserFiles = async (uid: string): Promise<FileRecord[]> => {
     } as FileRecord));
   } catch (error) {
     return [];
+  }
+};
+
+export const getAllUsers = async (): Promise<UserProfile[]> => {
+  try {
+    const usersRef = collection(db, USERS_COLLECTION);
+    const querySnapshot = await getDocs(usersRef);
+    
+    const users: UserProfile[] = [];
+    querySnapshot.forEach((doc) => {
+      // Pass doc.id as uid if needed, but UserProfile interface doesn't strictly have an id field, so we just return data.
+      users.push({ uid: doc.id, ...doc.data() } as any);
+    });
+    
+    // Sort by most recently created
+    return users.sort((a, b) => b.createdAt - a.createdAt);
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+    throw error;
   }
 };

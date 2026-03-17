@@ -12,6 +12,7 @@ import TermsOfService from './TermsOfService';
 import RefundPolicy from './RefundPolicy';
 import ContactUs from './ContactUs';
 import UserGuide from './UserGuide';
+import { AdminDashboard } from './src/components/AdminDashboard';
 
 const App: React.FC = () => {
   // Auth State
@@ -44,6 +45,11 @@ const App: React.FC = () => {
   const [showSubscriptionPlans, setShowSubscriptionPlans] = useState(false);
   const [showCreditPacks, setShowCreditPacks] = useState(false);
   const [showManageSubscription, setShowManageSubscription] = useState(false);
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
+
+  // Admin Validation
+  const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').map((e: string) => e.trim().toLowerCase());
+  const isAdmin = userProfile?.email ? adminEmails.includes(userProfile.email.toLowerCase()) : false;
 
   // Storage for items using IndexedDB to avoid localStorage quota limits
   const [items, setItems, isStorageReady] = useStorage<StagedItem[]>('our_digital_dwelling_items', []);
@@ -1741,6 +1747,12 @@ const App: React.FC = () => {
                   <div className="flex items-center gap-2 mt-2"><span className={`text-2xl font-black ${isLowCredits ? 'text-red-500' : isMediumCredits ? 'text-yellow-500' : 'text-slate-900 dark:text-white'}`}>{userProfile?.credits ?? '--'}</span><div className="flex-1 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden"><div className={`h-full transition-all duration-500 ${isLowCredits ? 'bg-red-500' : isMediumCredits ? 'bg-yellow-500' : 'bg-indigo-600 dark:bg-indigo-500'}`} style={{ width: `${Math.min(100, ((userProfile?.credits || 0) / 20) * 100)}%` }}></div></div></div>
                 </div>
                 <div className="pt-2 flex flex-col gap-1">
+                  {isAdmin && (
+                    <button onClick={() => { setShowAdminDashboard(true); setShowProfileMenu(false); }} className="w-full text-left px-4 py-3 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl flex items-center gap-2 transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="m9 12 2 2 4-4" /></svg>
+                      Admin Dashboard
+                    </button>
+                  )}
                   <button onClick={() => { setShowMyProjects(true); setShowProfileMenu(false); }} className="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>My Projects</button>
                   <button onClick={() => { setShowUserGuide(true); setShowProfileMenu(false); }} className="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>User Guide</button>
                   <button onClick={handleDeleteAccount} className="w-full text-left px-4 py-3 text-xs font-bold text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>Delete Account</button>
@@ -1775,6 +1787,9 @@ const App: React.FC = () => {
       )}
 
       {/* ... (Main Content) ... */}
+      {showAdminDashboard ? (
+        <AdminDashboard onBack={() => setShowAdminDashboard(false)} />
+      ) : (
       <main className="flex-1 flex flex-col overflow-hidden bg-slate-100 dark:bg-slate-950 transition-colors">
         {items.length === 0 ? (
           <div className="max-w-2xl mx-auto mt-24 text-center px-6">
@@ -1886,6 +1901,7 @@ const App: React.FC = () => {
           </div>
         )}
       </main>
+      )}
       <input type="file" ref={fileInputRef} className="hidden" multiple accept="image/*" onChange={handleFileUpload} />
       
       {showDownloadModal && (
