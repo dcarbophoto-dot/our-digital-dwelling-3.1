@@ -82,7 +82,7 @@ const App: React.FC = () => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem('theme');
-    return saved === 'dark';
+    return saved ? saved === 'dark' : true;
   });
   useEffect(() => {
     if (isDarkMode) {
