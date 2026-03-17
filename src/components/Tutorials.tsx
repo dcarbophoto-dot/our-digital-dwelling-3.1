@@ -21,13 +21,18 @@ export const Tutorials: React.FC<TutorialsProps> = ({ onBack }) => {
       description: "Learn the basics of uploading a photo and staging your first room.",
       embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" // <-- Replace with your actual YouTube embed link
     },
-    // Add additional videos like this:
-    // {
-    //   id: "advanced-lighting",
-    //   title: "Advanced Lighting Techniques",
-    //   description: "How to match the ambient lighting of your source photo seamlessly.",
-    //   embedUrl: "https://www.youtube.com/embed/YOUR_VIDEO_ID"
-    // }
+    {
+      id: "tutorial-2",
+      title: "Tutorial 2 Placeholder",
+      description: "Description for tutorial 2 goes here.",
+      embedUrl: "" // <-- Replace with your actual YouTube embed link
+    },
+    {
+      id: "tutorial-3",
+      title: "Tutorial 3 Placeholder",
+      description: "Description for tutorial 3 goes here.",
+      embedUrl: "" // <-- Replace with your actual YouTube embed link
+    }
   ]);
 
   return (
