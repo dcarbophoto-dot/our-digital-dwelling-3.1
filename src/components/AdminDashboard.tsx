@@ -9,7 +9,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [sortField, setSortField] = useState<'createdAt' | 'lastLoginAt'>('createdAt');
+  const [sortField, setSortField] = useState<'createdAt' | 'lastLoginAt' | 'plan'>('createdAt');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
     }
   };
 
-  const handleSort = (field: 'createdAt' | 'lastLoginAt') => {
+  const handleSort = (field: 'createdAt' | 'lastLoginAt' | 'plan') => {
     if (sortField === field) {
       setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
     } else {
@@ -49,21 +49,40 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
   };
 
   const sortedUsers = [...users].sort((a, b) => {
+    if (sortField === 'plan') {
+      const aVal = a.plan || '';
+      const bVal = b.plan || '';
+      const cmp = aVal.localeCompare(bVal);
+      return sortDirection === 'asc' ? cmp : -cmp;
+    }
     const aValue = a[sortField] || 0;
     const bValue = b[sortField] || 0;
     return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
   });
 
+  const handleBulkEmail = () => {
+    const bccEmails = users.map(u => u.email).filter(Boolean).join(',');
+    window.location.href = `mailto:?bcc=${bccEmails}`;
+  };
+
   return (
     <div className="w-full px-[20px] py-[20px] bg-slate-50 dark:bg-slate-900 min-h-screen transition-colors">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
-        <button
-          onClick={onBack}
-          className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none transition-colors"
-        >
-          Exit Dashboard
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={handleBulkEmail}
+            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none transition-colors"
+          >
+            Bulk Email All Users
+          </button>
+          <button
+            onClick={onBack}
+            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none transition-colors"
+          >
+            Exit Dashboard
+          </button>
+        </div>
       </div>
 
       {error ? (
@@ -107,7 +126,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
               <thead className="bg-gray-50 dark:bg-gray-900 sticky top-0 z-10">
                 <tr>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">User</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Plan</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors select-none" onClick={() => handleSort('plan')}>
+                    <div className="flex items-center gap-1">
+                      Plan
+                      {sortField === 'plan' && (sortDirection === 'asc' ? '↑' : '↓')}
+                    </div>
+                  </th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Credits</th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors select-none" onClick={() => handleSort('createdAt')}>
                     <div className="flex items-center gap-1">
