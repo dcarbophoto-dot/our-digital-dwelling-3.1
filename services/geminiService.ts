@@ -1,5 +1,5 @@
 
-import { GoogleGenAI } from "@google/genai";
+// Removed GoogleGenAI client-side import
 import { ALL_STYLES, ROOM_TYPES } from "../constants";
 import { StagingStyle, RoomType } from "../types";
 
@@ -131,11 +131,6 @@ export const stageRoom = async (
   isRefinement: boolean = false,
   imageSize: "1K" | "2K" | "4K" = "1K"
 ): Promise<string> => {
-  // Use Vite environment variable for the API key
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY || '';
-  
-  const ai = new GoogleGenAI({ apiKey });
-  
   const style = ALL_STYLES.find(s => s.id === styleId);
   const roomLabel = ROOM_TYPES.find(r => r.id === roomType)?.label || 'Room';
   
@@ -237,44 +232,31 @@ export const stageRoom = async (
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
-      // Perform image generation using gemini-3.1-flash-image-preview
-      const response = await ai.models.generateContent({
-        model: 'gemini-3.1-flash-image-preview',
-        contents: {
-          parts: [
-            {
-              inlineData: {
-                data: processedBase64.split(',')[1],
-                mimeType: 'image/jpeg',
-              },
-            },
-            { text: prompt },
-          ],
+      // Call the secure Vercel API backend
+      const response = await fetch('/api/generate-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        config: {
-          responseModalities: ["IMAGE"],
-          imageConfig: {
-            aspectRatio: closestAspectRatio,
-            imageSize: imageSize
-          }
-        }
+        body: JSON.stringify({
+          imageBase64: processedBase64,
+          prompt: prompt
+        })
       });
 
-      let imageUrl = '';
-      // Correct extraction logic: iterate through all parts to find the image part
-      const parts = response.candidates?.[0]?.content?.parts || [];
-      for (const part of parts) {
-        if (part.inlineData) {
-          imageUrl = `data:image/jpeg;base64,${part.inlineData.data}`;
-          break;
-        }
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `Server responded with ${response.status}`);
       }
 
-      if (!imageUrl) {
-        throw new Error("No image was generated. Please check your photo and try again.");
+      const data = await response.json();
+      
+      if (!data.base64) {
+        throw new Error("No image data returned from API");
       }
 
-      return imageUrl;
+      const outputData = `data:image/jpeg;base64,${data.base64}`;
+      return outputData;
 
     } catch (error: any) {
       // Prevent circular reference errors by creating a clean error object with only primitive properties
