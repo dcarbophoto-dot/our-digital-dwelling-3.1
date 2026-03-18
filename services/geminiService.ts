@@ -129,7 +129,7 @@ export const stageRoom = async (
   roomType: RoomType,
   refinementPrompt?: string,
   isRefinement: boolean = false,
-  imageSize: "1K" | "2K" | "4K" = "1K"
+  imageSize: "1K" | "2K" | "4K" = "2K"
 ): Promise<string> => {
   const style = ALL_STYLES.find(s => s.id === styleId);
   const roomLabel = ROOM_TYPES.find(r => r.id === roomType)?.label || 'Room';
