@@ -5,6 +5,7 @@ import { StagingStyle, StagedItem, RoomType, HistoryItem, StyleCategory } from '
 import { stageRoom } from './services/geminiService';
 import { subscribeToAuth, login, register, logout, resetPassword, loginWithGoogle, deleteUserAccount, resendVerificationEmail } from './services/authService';
 import { getUserProfile, updateUserProfile, deleteUserProfile, UserProfile, saveFileRecord, getUserFiles, FileRecord, deductCredit, createStripeCheckout, createProject, getUserProjects, ProjectRecord, setupStripeSync, createPortalLink, deleteProject, updateLastLogin } from './services/dbService';
+import { resizeAndFormatImage } from './src/utils/imageExportUtils';
 import { uploadBase64ToStorage } from './services/storageService';
 import { useStorage } from './hooks/useStorage';
 import JSZip from 'jszip';
@@ -1058,27 +1059,15 @@ const App: React.FC = () => {
         const originalBaseName = item.name.substring(0, item.name.lastIndexOf('.')) || item.name;
         const fileName = `${originalBaseName}${isStaged ? '_staged' : ''}.jpg`;
 
-        if (dataUrl.startsWith('http')) {
-          try {
-            const response = await fetch(dataUrl);
-            if (!response.ok) throw new Error("Direct fetch failed");
-            const blob = await response.blob();
-            zip.file(fileName, blob);
-          } catch (e) {
-            try {
-              const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(dataUrl)}`;
-              const response = await fetch(proxyUrl);
-              const blob = await response.blob();
-              zip.file(fileName, blob);
-            } catch (err) {
-              console.error("Failed to fetch image for download:", err);
-            }
-          }
-        } else {
-          const base64Data = dataUrl.split(',')[1];
+        try {
+          const maxDim = downloadResolution === '4K' ? 4096 : 2560;
+          const processedDataUrl = await resizeAndFormatImage(dataUrl, maxDim, 300);
+          const base64Data = processedDataUrl.split(',')[1];
           if (base64Data) {
             zip.file(fileName, base64Data, { base64: true });
           }
+        } catch (err) {
+          console.error("Failed to process image for download:", err);
         }
       }
 
