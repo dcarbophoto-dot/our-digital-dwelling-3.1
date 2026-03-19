@@ -49,7 +49,7 @@ export const INTERIOR_STYLES: StagingOption[] = [
     description: 'Timeless elegance with vintage furniture and historical charm.',
     tips: 'Best for historic homes. Refine with: "Add a vintage Persian rug and a velvet armchair."',
     previewUrl: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Apply an Antique/Vintage staging style. Use period-correct furniture, rich wood textures, velvet or patterned upholstery, and vintage decor items like rugs and oil paintings. Preserve all architectural details like molding and fireplaces.',
+    prompt: 'Apply an Antique/Vintage staging style. Use period-correct furniture, rich wood textures, velvet or patterned upholstery, and vintage decor items like rugs and oil paintings. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are.',
     category: 'interior',
     creditCost: 4
   },
@@ -59,7 +59,7 @@ export const INTERIOR_STYLES: StagingOption[] = [
     description: 'Raw materials, exposed elements, and urban vibes.',
     tips: 'Great for lofts. Enhance the "cool" factor by adding industrial lighting: "Add a floor lamp with an Edison bulb and matte black metal finish."',
     previewUrl: 'https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Apply an Industrial staging style using metal accents, leather seating, and bold urban art. Keep the original windows, cabinetry, floor, and all appliances exactly the same.',
+    prompt: 'Apply an Industrial staging style using metal accents, leather seating, and bold urban art. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are.',
     category: 'interior',
     creditCost: 4
   },
@@ -69,7 +69,7 @@ export const INTERIOR_STYLES: StagingOption[] = [
     description: 'Opulent materials, grand decor, and rich finishes.',
     tips: 'To emphasize value, add metallic accents. Refine with: "Add gold-trimmed decorative trays and marble coasters to the coffee table."',
     previewUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Apply a Luxury staging style with velvet upholstery, marble-top tables, and sophisticated decor. Preserve all architectural details, built-in cabinetry, appliances, and lighting fixtures with zero alterations.',
+    prompt: 'Apply a Luxury staging style with velvet upholstery, marble-top tables, and sophisticated decor. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are.',
     category: 'interior',
     creditCost: 4
   },
@@ -79,7 +79,7 @@ export const INTERIOR_STYLES: StagingOption[] = [
     description: 'Simple, intentional, and clutter-free aesthetic.',
     tips: 'Less is more. This style focuses on open space. If it still feels crowded, refine with: "Remove all small decorative items and keep only the largest furniture piece."',
     previewUrl: 'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Apply a Minimalist staging style. Use a restricted color palette, essential furniture only, and clean unadorned surfaces. Focus on spatial openness and high-quality, simple materials. Preserve all architectural details like windows, flooring, and built-ins perfectly.',
+    prompt: 'Apply a Minimalist staging style. Use a restricted color palette, essential furniture only, and clean unadorned surfaces. Focus on spatial openness and high-quality, simple materials. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are.',
     category: 'interior',
     creditCost: 4
   },
@@ -89,7 +89,7 @@ export const INTERIOR_STYLES: StagingOption[] = [
     description: 'Clean lines, neutral palette, and sleek furniture.',
     tips: 'Modern staging works best in rooms with high ceilings or large windows. Use the refinement tool to add a bold piece of abstract art to create a focal point.',
     previewUrl: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Apply a Modern staging style using low-profile furniture, a monochromatic palette with wood accents, and minimal decor. Preserve all architectural details, built-in cabinetry, appliances, and lighting fixtures with zero alterations.',
+    prompt: 'Apply a Modern staging style using low-profile furniture, a monochromatic palette with wood accents, and minimal decor. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are. Preserve all architectural details, built-in cabinetry, appliances, and lighting fixtures with zero alterations.',
     category: 'interior',
     creditCost: 4
   },
@@ -99,7 +99,7 @@ export const INTERIOR_STYLES: StagingOption[] = [
     description: 'Warm wood, cozy textures, and earthy tones.',
     tips: 'Cozy and nostalgic. If the colors feel too saturated, refine with: "Make the leaf colors more natural and earthy."',
     previewUrl: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Apply a Rustic staging style with reclaimed wood furniture, leather textures, and warm textiles. Ensure all architectural details, kitchen cabinets, appliances, and fixtures are preserved without any changes.',
+    prompt: 'Apply a Rustic staging style with reclaimed wood furniture, leather textures, and warm textiles. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are.Ensure all architectural details, kitchen cabinets, appliances, and fixtures are preserved without any changes.',
     category: 'interior',
     creditCost: 4
   },
@@ -109,7 +109,7 @@ export const INTERIOR_STYLES: StagingOption[] = [
     description: 'Functional, bright, and inspired by Nordic design.',
     tips: 'This style thrives on light. If the room looks dark, use the refinement prompt: "Brighten the overall exposure and add a light oak coffee table."',
     previewUrl: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Apply a Scandinavian staging style with light wood tones, functional furniture, and airy textiles. Ensure all windows, cabinets, appliances, and fixtures remain completely unchanged.',
+    prompt: 'Apply a Scandinavian staging style with light wood tones, functional furniture, and airy textiles. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are. Ensure all windows, cabinets, appliances, and fixtures remain completely unchanged.',
     category: 'interior',
     creditCost: 4
   },
@@ -119,7 +119,7 @@ export const INTERIOR_STYLES: StagingOption[] = [
     description: 'Classic comfort, symmetry, and timeless design elements.',
     tips: 'Great for family homes. If it feels too stiff, refine with: "Add soft throw pillows and a warm area rug to make it inviting."',
     previewUrl: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Apply a Traditional staging style. Use classic furniture silhouettes, symmetrical arrangements, and a warm, rich color palette. Incorporate wood furniture, upholstered seating, and classic decor items like table lamps and vases. Maintain a sense of history and comfort. Preserve all architectural details.',
+    prompt: 'Apply a Traditional staging style. Use classic furniture silhouettes, symmetrical arrangements, and a warm, rich color palette. Incorporate wood furniture, upholstered seating, and classic decor items like table lamps and vases. Maintain a sense of history and comfort.CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are.Preserve all architectural details.',
     category: 'interior',
     creditCost: 4
   }
@@ -130,7 +130,7 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     id: 'add-remove',
     label: 'Add/Remove Objects',
     description: 'Keep image unchanged, apply custom edits only.',
-    tips: 'Perfect for exterior tweaks. Try: "Add a modern fire pit and seating set to the patio" or "Remove the trash can from the side of the house". Use specific descriptions for best results.\n\nThis is a great tool for subtle edits such as "add vase of tulips to table, remove items on mantle or put a fire in the fireplace". It is not a tool to do complex edits that require many steps and generations of the image as this may degrade image quality.',
+    tips: 'Perfect for exterior tweaks. Try: "Add a modern fire pit and seating set to the patio" or "Remove the trash can from the side of the house". Use specific descriptions for best results.\n\nThis is a great tool for subtle edits such as "add patio chairs to the deck, remove the garden hose or add a walkway". It is not a tool to do complex edits that require many steps and generations of the image as this may degrade image quality.',
     previewUrl: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=200&h=150',
     prompt: 'Start with the original image. Only modify specific items as requested by the user. Preserve everything else.',
     category: 'outdoor',
