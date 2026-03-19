@@ -1022,39 +1022,9 @@ const App: React.FC = () => {
         
         if (styleId && item.staged[styleId]) {
           isStaged = true;
-          
-          // Generate high-res version
-          try {
-            const prompt = hIdx >= 0 && history[hIdx] ? history[hIdx].prompt : '';
-            const isRefinement = hIdx >= 0 && history[hIdx] && !!history[hIdx].prompt;
-            
-            // If it's a refinement, we need to apply it to the previously staged image
-            // However, to get a true 4K refinement, we would ideally need a 4K version of the previous step.
-            // Since we don't store 4K intermediate steps to save costs/storage, we apply the refinement 
-            // to the 1K intermediate step and ask the model to output 4K.
-            let sourceImage = item.original;
-            if (isRefinement && hIdx > 0 && history[hIdx - 1]) {
-               sourceImage = history[hIdx - 1].url;
-            }
-
-            const highResUrl = await stageRoom(
-              sourceImage,
-              styleId,
-              item.roomType,
-              prompt,
-              isRefinement,
-              downloadResolution
-            );
-            dataUrl = highResUrl;
-          } catch (err) {
-            console.error(`Failed to generate ${downloadResolution} image for ${item.name}:`, err);
-            // Fallback to existing image
-            if (hIdx >= 0 && history[hIdx]) {
-              dataUrl = history[hIdx].url;
-            } else {
-              dataUrl = item.staged[styleId]!;
-            }
-          }
+          // IMPORTANT: Use the exact preview image the user already approved, 
+          // avoiding redundant, non-deterministic AI generation API costs!
+          dataUrl = (hIdx >= 0 && history[hIdx]) ? history[hIdx].url : item.staged[styleId]!;
         }
 
         const originalBaseName = item.name.substring(0, item.name.lastIndexOf('.')) || item.name;
@@ -1067,8 +1037,9 @@ const App: React.FC = () => {
              console.log("Upscaling 4K staged image via Replicate ESRGAN...");
              try {
                 preProcessedUrl = await upscaleImage(dataUrl);
-             } catch (upscaleErr) {
-                console.error("Super-Resolution Upscale failed, falling back to standard smoothing", upscaleErr);
+             } catch (upscaleErr: any) {
+                console.error("Super-Resolution Upscale failed:", upscaleErr);
+                alert(`4K AI Upscaling failed for ${item.name}: ${upscaleErr.message}. Falling back to standard scaling. Ensure your Replicate API token is valid on your hosting provider.`);
              }
           }
           
