@@ -182,7 +182,7 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     description: 'Fresh blooms, soft greens, and floral accents.',
     tips: 'Spring symbolizes new beginnings. Add more color by refining: "Add pink cherry blossoms to the trees in the foreground."',
     previewUrl: 'https://images.unsplash.com/photo-1557429287-b2e26467fc2b?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Transform the season to Spring. Add blooming flowers to bushes and trees. Use fresh, soft greens for the vegetation. The atmosphere should be fresh and airy. Preserve the house architecture.',
+    prompt: 'Transform the season to Spring. Add blooming flowers to bushes and trees. Use fresh, soft greens for the vegetation. Replace the sky with a clear blue sunny sky. The atmosphere should be fresh and airy. Preserve the house architecture.',
     category: 'outdoor',
     creditCost: 5
   },
@@ -192,7 +192,7 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     description: 'Fall foliage with oranges and reds.',
     tips: 'Cozy and nostalgic. If the colors feel too saturated, refine with: "Make the leaf colors more natural and earthy."',
     previewUrl: 'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Transform the season to Autumn. Change tree foliage to vibrant oranges, reds, and yellows. Add some fallen leaves to the ground. Keep the house structure exactly as is.',
+    prompt: 'Transform the season to Autumn. Change tree foliage to vibrant oranges, reds, and yellows. Add some fallen leaves to the ground. Replace the sky with a clear blue sunny sky. Keep the house structure exactly as is.',
     category: 'outdoor',
     creditCost: 5
   },
@@ -202,7 +202,7 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     description: 'Snowy landscape and cozy winter atmosphere.',
     tips: 'Help buyers imagine a cozy holiday home. Refine with: "Add a light dusting of snow to the window sills for a more realistic touch."',
     previewUrl: 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Transform the season to Winter. Add realistic snow to the ground, roof, and trees. The atmosphere should be cold and crisp. Preserve the underlying architecture perfectly.',
+    prompt: 'Transform the season to Winter. Add realistic snow to the ground, roof, and trees. The atmosphere should be cold and crisp. Replace the sky with a clear blue sunny sky. Preserve the underlying architecture perfectly.',
     category: 'outdoor',
     creditCost: 5
   },
