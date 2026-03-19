@@ -112,6 +112,10 @@ export const resizeAndFormatImage = async (
         return resolve(sourceUrl); // Fallback
       }
       
+      // Maximize canvas scaling algorithms
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      
       ctx.drawImage(img, 0, 0, width, height);
       
       // Get highest quality JPEG base64
