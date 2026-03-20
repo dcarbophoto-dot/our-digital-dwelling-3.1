@@ -8,6 +8,7 @@ import { getUserProfile, updateUserProfile, deleteUserProfile, UserProfile, save
 import { resizeAndFormatImage } from './src/utils/imageExportUtils';
 import { upscaleImage } from './services/upscaleService';
 import { uploadBase64ToStorage } from './services/storageService';
+import heroBg from './src/assets/hero-bg.jpg';
 import { useStorage } from './hooks/useStorage';
 import JSZip from 'jszip';
 import TermsOfService from './TermsOfService';
@@ -1782,19 +1783,23 @@ const App: React.FC = () => {
       ) : (
       <main className="flex-1 flex flex-col overflow-hidden bg-slate-100 dark:bg-slate-950 transition-colors">
         {items.length === 0 ? (
-          <div className="max-w-2xl mx-auto mt-24 text-center px-6">
-            <h1 className="text-5xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">Virtual Staging <br/><span className="text-indigo-600 dark:text-indigo-400">Simplified.</span></h1>
-            <div 
-              onClick={() => fileInputRef.current?.click()} 
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-              className={`group cursor-pointer border-3 border-dashed rounded-[3rem] p-16 bg-white dark:bg-slate-900 transition-all shadow-2xl ${isDragging ? 'border-indigo-600 bg-indigo-50/50 dark:bg-indigo-900/20 scale-[1.02]' : 'border-slate-300 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-400'}`}
-            >
+          <div className="flex-1 w-full flex flex-col items-center justify-center relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${heroBg})` }}>
+            <div className="absolute inset-0 bg-white/75 dark:bg-slate-950/80 backdrop-blur-[2px]"></div>
+            
+            <div className="max-w-3xl mx-auto text-center px-6 relative z-10 w-full transform -translate-y-8">
+              <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 dark:text-white mb-8 tracking-tight drop-shadow-sm">Virtual Staging <br/><span className="text-indigo-600 dark:text-indigo-400">Simplified.</span></h1>
+              <div 
+                onClick={() => fileInputRef.current?.click()} 
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                className={`group cursor-pointer border-3 border-dashed rounded-[3rem] p-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md transition-all shadow-2xl ${isDragging ? 'border-indigo-600 bg-indigo-50/90 dark:bg-indigo-900/60 scale-[1.02]' : 'border-slate-300/80 dark:border-slate-700/80 hover:border-indigo-500 dark:hover:border-indigo-400 hover:bg-white dark:hover:bg-slate-900'}`}
+              >
               <div className="flex flex-col items-center pointer-events-none">
                 <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-6 transition-transform ${isDragging ? 'scale-110 bg-indigo-100 dark:bg-indigo-900/50' : 'bg-indigo-50 dark:bg-slate-800 group-hover:scale-110'}`}><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-indigo-600 dark:text-indigo-400"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg></div>
                 <p className="text-2xl font-bold text-slate-900 dark:text-white">{isDragging ? 'Drop Photos Now' : 'Upload or Drag and Drop photos'}</p>
                 <p className="text-slate-400 dark:text-slate-500 mt-2 font-medium">Professional grade Virtual Staging</p>
+              </div>
               </div>
             </div>
           </div>
