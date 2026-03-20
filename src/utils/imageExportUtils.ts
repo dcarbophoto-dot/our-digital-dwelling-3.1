@@ -65,6 +65,7 @@ export const resizeAndFormatImage = async (
   return new Promise(async (resolve, reject) => {
     let src = sourceUrl;
     let isHttp = src.startsWith('http');
+    let isBlob = false;
     
     if (isHttp) {
       try {
@@ -72,6 +73,7 @@ export const resizeAndFormatImage = async (
         if (!response.ok) throw new Error(`HTTP fetch failed: ${response.status}`);
         const blob = await response.blob();
         src = URL.createObjectURL(blob);
+        isBlob = true;
       } catch (err) {
         // Fallback to CORS proxy
         try {
@@ -79,6 +81,7 @@ export const resizeAndFormatImage = async (
           const response = await fetch(proxyUrl);
           const blob = await response.blob();
           src = URL.createObjectURL(blob);
+          isBlob = true;
         } catch (proxyErr) {
           return reject(proxyErr);
         }
@@ -86,7 +89,11 @@ export const resizeAndFormatImage = async (
     }
 
     const img = new Image();
-    if (isHttp) img.crossOrigin = "anonymous";
+    // Only apply crossOrigin if it's a raw HTTP URL that we are directly hot-loading
+    // Never apply crossOrigin to a synthetic Blob URL, as it throws browser security errors!
+    if (isHttp && !isBlob) {
+      img.crossOrigin = "anonymous";
+    }
     
     img.onload = () => {
       if (isHttp && src.startsWith('blob:')) {

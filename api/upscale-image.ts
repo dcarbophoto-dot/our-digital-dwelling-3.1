@@ -28,7 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // Execute Real-ESRGAN
-    const output = await replicate.run(
+    const output: any = await replicate.run(
       "nightmareai/real-esrgan:42fed1c4974146d4d2414e2be2c5277c7fcf05fcc3a73abf41610695738c1d7b",
       {
         input: {
@@ -38,8 +38,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
       }
     );
+    
+    // Specifically parse the output into a URI string regardless of Replicate NPM version data structures
+    let finalUrl = "";
+    if (Array.isArray(output)) {
+      finalUrl = output[0];
+    } else if (output && typeof output === 'object') {
+      finalUrl = output.url ? (typeof output.url === 'function' ? output.url() : output.url) : String(output);
+    } else {
+      finalUrl = String(output);
+    }
 
-    return res.status(200).json({ url: output });
+    return res.status(200).json({ url: finalUrl });
   } catch (error: any) {
     console.error('Error during upscaling:', error);
     return res.status(500).json({ error: error.message || 'Internal Server Error' });
