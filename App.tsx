@@ -6,6 +6,7 @@ import { stageRoom } from './services/geminiService';
 import { subscribeToAuth, login, register, logout, resetPassword, loginWithGoogle, deleteUserAccount, resendVerificationEmail } from './services/authService';
 import { getUserProfile, updateUserProfile, deleteUserProfile, UserProfile, saveFileRecord, getUserFiles, FileRecord, deductCredit, createStripeCheckout, createProject, getUserProjects, ProjectRecord, setupStripeSync, createPortalLink, deleteProject, updateLastLogin } from './services/dbService';
 import { resizeAndFormatImage } from './src/utils/imageExportUtils';
+import { upscaleImage } from './services/upscaleService';
 import { uploadBase64ToStorage } from './services/storageService';
 import { useStorage } from './hooks/useStorage';
 import JSZip from 'jszip';
@@ -1030,8 +1031,20 @@ const App: React.FC = () => {
         const fileName = `${originalBaseName}${isStaged ? '_staged' : ''}.jpg`;
 
         try {
+          let preProcessedUrl = dataUrl;
+          
+          if (downloadResolution === '4K' && isStaged) {
+             console.log("Upscaling 4K staged image via Replicate ESRGAN...");
+             try {
+                preProcessedUrl = await upscaleImage(dataUrl);
+             } catch (upscaleErr: any) {
+                console.error("Super-Resolution Upscale failed:", upscaleErr);
+                alert(`4K AI Upscaling failed for ${item.name}: ${upscaleErr.message}. Falling back to standard scaling. Ensure your Replicate API token is valid on your hosting provider.`);
+             }
+          }
+          
           const maxDim = downloadResolution === '4K' ? 4096 : 2560;
-          const processedDataUrl = await resizeAndFormatImage(dataUrl, maxDim, 300);
+          const processedDataUrl = await resizeAndFormatImage(preProcessedUrl, maxDim, 300);
           const base64Data = processedDataUrl.split(',')[1];
           if (base64Data) {
             zip.file(fileName, base64Data, { base64: true });

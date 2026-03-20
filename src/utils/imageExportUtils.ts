@@ -118,28 +118,6 @@ export const resizeAndFormatImage = async (
       
       ctx.drawImage(img, 0, 0, width, height);
       
-      // Apply a fast unsharp mask convolution for crispness
-      const sharpenAmount = 0.25; // slight edge sharpen
-      const imgData = ctx.getImageData(0, 0, width, height);
-      const data = imgData.data;
-      const buf = new Uint8ClampedArray(data);
-
-      for (let y = 1; y < height - 1; y++) {
-          for (let x = 1; x < width - 1; x++) {
-              const idx = (y * width + x) * 4;
-              for (let c = 0; c < 3; c++) {
-                  const top = buf[((y - 1) * width + x) * 4 + c];
-                  const bottom = buf[((y + 1) * width + x) * 4 + c];
-                  const left = buf[(y * width + x - 1) * 4 + c];
-                  const right = buf[(y * width + x + 1) * 4 + c];
-                  const center = buf[idx + c];
-                  
-                  data[idx + c] = center + sharpenAmount * (center * 4 - top - bottom - left - right);
-              }
-          }
-      }
-      ctx.putImageData(imgData, 0, 0);
-      
       // Get highest quality JPEG base64
       const base64Jpeg = canvas.toDataURL('image/jpeg', 1.0);
       
