@@ -1796,10 +1796,19 @@ const App: React.FC = () => {
             >
                 {/* ... existing sidebar ... */}
               <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest truncate">{activeProject?.name || "No Project"}</p>
-                {activeProject && (
-                  <button onClick={() => setCurrentProjectId(null)} className="text-[8px] font-black text-indigo-600 dark:text-indigo-400 hover:underline uppercase tracking-tighter">Exit</button>
-                )}
+                <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest truncate pr-2">{activeProject?.name || "No Project"}</p>
+                <button 
+                  onClick={() => {
+                    setCurrentProjectId(null);
+                    setItems([]);
+                    setActiveId(null);
+                    setSelectedIds(new Set());
+                  }} 
+                  className="text-[8px] font-black text-white bg-slate-900 dark:bg-slate-700 px-3 py-1.5 rounded-full hover:bg-red-500 dark:hover:bg-red-500 uppercase tracking-widest shadow-sm transition-all flex items-center gap-1 shrink-0"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                  Exit
+                </button>
               </div>
               <div className="flex-1 overflow-x-auto xl:overflow-y-auto p-4 space-y-3 flex flex-row xl:flex-col gap-3 xl:gap-0 relative">
                 {isDragging && (
