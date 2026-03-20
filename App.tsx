@@ -1413,7 +1413,7 @@ const App: React.FC = () => {
               <div className="relative w-full">
                 <div className="absolute -inset-4 bg-indigo-600/5 dark:bg-indigo-400/5 blur-3xl rounded-[3rem]"></div>
                 <div className="relative bg-slate-100 dark:bg-slate-800 rounded-[3rem] overflow-hidden shadow-2xl aspect-[4/3] lg:aspect-[3/4] xl:aspect-[4/3]">
-                  <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000" className="w-full h-full object-cover" alt="Modern Home Interior" />
+                  <img src={heroBg} className="w-full h-full object-cover" alt="Modern Home Interior" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                 <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                   <div className="text-white">
