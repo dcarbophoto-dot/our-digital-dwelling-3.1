@@ -154,6 +154,14 @@ export const stageRoom = async (
     - All built-in features like kitchen cabinetry, islands, and fireplaces must remain exactly as they appear in the original.
   `;
 
+  const qualityInstruction = `
+    QUALITY AND PHOTOREALISM TARGETS:
+    - ALL generated content MUST be hyper-realistic and completely indistinguishable from real life.
+    - Generate ultra-high resolution, razor-sharp textures for all added furniture, fabric, plants, and decor.
+    - Aggressively prevent any 'AI-smoothed', blurry, soft, or pixelated artifacts on new objects.
+    - Match professional 8k real-estate photography standards with perfect focal sharpness and cinematic lighting.
+  `;
+
   let prompt = '';
 
   // Special handling for Add/Remove Objects style
@@ -167,6 +175,7 @@ export const stageRoom = async (
         CONTEXT: You are editing a photo of a ${roomLabel}.
         INSTRUCTION: "${refinementPrompt}"
         ${architecturalPreservationInstruction}
+        ${qualityInstruction}
         STRICT RULES:
         1. EXECUTE the instruction precisely (add, remove, or change specific items).
         2. FREEZE all other parts of the image.
@@ -180,6 +189,7 @@ export const stageRoom = async (
         OBJECTIVE: ${style.prompt}
         ${refinementPrompt ? `USER REFINEMENT INSTRUCTIONS: ${refinementPrompt}` : ''}
         ${architecturalPreservationInstruction}
+        ${qualityInstruction}
         STRICT RULES:
         1. DELETE all loose furniture and clutter.
         2. MAINTAIN all architectural details with 100% fidelity.
@@ -193,6 +203,7 @@ export const stageRoom = async (
         CONTEXT: You are editing a photo of a ${roomLabel}.
         INSTRUCTION: "${refinementPrompt}"
         ${architecturalPreservationInstruction}
+        ${qualityInstruction}
         STRICT RULES:
         1. EXECUTE the instruction precisely.
         2. FREEZE all other parts of the image.
@@ -207,6 +218,7 @@ export const stageRoom = async (
           STYLE TO APPLY: ${style.label} - ${style.prompt}
           ${refinementPrompt ? `USER REFINEMENT INSTRUCTIONS: ${refinementPrompt}` : ''}
           ${architecturalPreservationInstruction}
+          ${qualityInstruction}
           STRICT RULES:
           1. Add high-end, realistic furniture appropriate for a ${roomLabel}.
           2. Only add or replace "loose" items.
@@ -219,6 +231,7 @@ export const stageRoom = async (
           STYLE TO APPLY: ${style.label} - ${style.prompt}
           ${refinementPrompt ? `USER REFINEMENT INSTRUCTIONS: ${refinementPrompt}` : ''}
           ${architecturalPreservationInstruction}
+          ${qualityInstruction}
           STRICT RULES:
           1. Preserve the house architecture perfectly.
           2. Focus on environment, landscaping, and sky.
