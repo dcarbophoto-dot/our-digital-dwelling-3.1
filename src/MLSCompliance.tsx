@@ -97,9 +97,9 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
               </ul>
             </div>
 
-            <h3>How Lift My Place Keeps You Compliant</h3>
+            <h3>How Our Digital Dwelling Keeps You Compliant</h3>
             <p>
-              Lift My Place was structurally engineered inside the US legal framework. Through the <strong>Business Plan</strong>, our comprehensive export suite allows you to visually lock MLS-compliant custom <em>"Virtually Staged"</em> typography natively over all downloads. 
+              Our Digital Dwelling was structurally engineered inside the US legal framework. Through the <strong>Business Plan</strong>, our comprehensive export suite allows you to visually lock MLS-compliant custom <em>"Virtually Staged"</em> typography natively over all downloads. 
             </p>
             <p>
               We natively generate original side-by-sides, ensuring you easily maintain access to the unmodified physical layout and drastically slashing the multi-thousand dollar liabilities associated with modern digital real estate rendering.
