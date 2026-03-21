@@ -42,34 +42,34 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
 
             <h3 className="text-2xl font-black mt-12 mb-6">Watermarks Are Required in the US</h3>
             <p>
-              A watermark reading "Virtually Staged" or "Digitally Staged" is the single most important compliance measure you can take when using AI-enhanced real estate photos. It serves three critical purposes:
+              Applying a clear label like "Virtually Staged" or "Digitally Enhanced" is the most vital step in safely marketing AI-altered property photography. Doing so provides three essential safeguards:
             </p>
             <ol>
               <li>
-                <strong>1. Legal Protection Under Federal Law</strong><br />
-                The Federal Trade Commission (FTC) enforces Truth in Advertising rules that prohibit any representation likely to mislead consumers. A virtually staged photo without disclosure could be considered deceptive advertising. Adding a visible watermark is the clearest way to avoid this risk.
+                <strong>1. Federal Liability Defense</strong><br />
+                The Federal Trade Commission (FTC) actively polices Truth in Advertising standards, forbidding any marketing that misrepresents reality. Presenting manipulated photography without a disclaimer is technically deceptive. A prominent watermark instantly neutralizes this liability.
               </li>
               <li>
-                <strong>2. NAR Code of Ethics Compliance</strong><br />
-                Article 12 of the National Association of Realtors (NAR) Code of Ethics requires REALTORS to present a "true picture" in all advertising. The NAR has explicitly stated that digitally modified images must be disclosed. Failure to comply can result in ethics complaints filed with your state real estate commission.
+                <strong>2. Fulfilling the NAR Standard of Practice</strong><br />
+                Section 12 of the National Association of Realtors (NAR) ethical code mandates that agents offer an authentic visual representation in all promotional materials. NAR guidelines strictly dictate that any artificial modifications must be explicitly disclosed. Ignoring this rule triggers severe ethics violations at the state level.
               </li>
               <li>
-                <strong>3. MLS Rules Enforcement</strong><br />
-                Nearly every MLS in the country has specific rules about virtual staging. The vast majority require:
+                <strong>3. Staying Active on the MLS</strong><br />
+                Virtually every regional MLS enforces strict regulations concerning digital editing. The standard criteria demand:
                 <ul className="mt-2 list-disc list-inside marker:text-indigo-500">
-                  <li>A visible watermark on each staged image</li>
-                  <li>A mention in the photo caption</li>
-                  <li>A note in both public and agent remarks</li>
-                  <li>That only cosmetic changes are made (furniture, decor) with no structural alterations</li>
-                  <li>Violating MLS rules can result in fines, temporary suspension from the platform, or permanent removal.</li>
+                  <li>A prominent overlay text on all altered graphics</li>
+                  <li>Detailed disclosures within the image caption</li>
+                  <li>Public marketing remarks verifying the staging</li>
+                  <li>Changes limited strictly to superficial cosmetics (furniture, lighting) with zero structural transformations</li>
+                  <li>Ignoring these bylaws immediately risks heavy financial penalties, listing removal, or outright account bans.</li>
                 </ul>
               </li>
             </ol>
 
-            <h3 className="font-bold">4. What the Law Actually Says: Federal, State, and Local Requirements</h3>
+            <h3 className="font-bold">4. Breakdown of the Law: Federal, State, and Local Mandates</h3>
 
-            <h4>Federal Level: FTC Truth in Advertising</h4>
-            <p>The FTC does not have a specific virtual staging law, but its general prohibition on deceptive advertising applies. Any image that could mislead a consumer about the condition of a property falls under FTC jurisdiction. A clear "Virtually Staged" watermark is the simplest defense.</p>
+            <h4>Federal Baseline: FTC Advertising Guidelines</h4>
+            <p>While the FTC hasn't written a dedicated statute exclusively governing pixel manipulation in real estate, its overarching ban on deceptive commerce holds total jurisdiction. Any property graphic capable of deceiving a homebuyer breaches this standard. An unambiguous visual watermark remains the absolute best safeguard.</p>
 
 
 
