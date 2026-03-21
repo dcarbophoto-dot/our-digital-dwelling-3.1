@@ -150,7 +150,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
 
             <hr className="my-10 border-slate-200 dark:border-slate-800" />
             
-            <h3>Conclusion</h3>
+            <h3 className="text-2xl font-black mt-12 mb-6">Conclusion</h3>
             <p>
               Virtual staging is a game-changer for real estate marketing, reducing costs by up to 97% compared to traditional staging while accelerating sales. But the power of this tool comes with a responsibility: transparency. Adding a "Virtually Staged" watermark is not just a legal requirement. It is a mark of professionalism that builds buyer trust and protects your business. With regulations evolving rapidly, especially with California leading the way, the standard is only going to get stricter.
             </p>
