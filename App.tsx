@@ -17,6 +17,7 @@ import ContactUs from './ContactUs';
 import UserGuide from './UserGuide';
 import { AdminDashboard } from './src/components/AdminDashboard';
 import { Tutorials } from './src/components/Tutorials';
+import MLSCompliance from './src/MLSCompliance';
 
 const App: React.FC = () => {
   // Auth State
@@ -51,6 +52,7 @@ const App: React.FC = () => {
   const [showManageSubscription, setShowManageSubscription] = useState(false);
   const [showAdminDashboard, setShowAdminDashboard] = useState(false);
   const [showTutorials, setShowTutorials] = useState(false);
+  const [showCompliance, setShowCompliance] = useState(false);
 
   // Admin Validation
   const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').map((e: string) => e.trim().toLowerCase());
@@ -1742,6 +1744,7 @@ const App: React.FC = () => {
                     </button>
                   )}
                   <button onClick={() => { setShowMyProjects(true); setShowProfileMenu(false); }} className="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>My Projects</button>
+                  <button onClick={() => { setShowCompliance(true); setShowProfileMenu(false); }} className="w-full text-left px-4 py-3 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>NAR/MLS Compliance</button>
                   <button onClick={() => { setShowTutorials(true); setShowProfileMenu(false); }} className="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/><path d="m5 21 0-18"/></svg>Watch Tutorials</button>
                   <button onClick={() => { setShowUserGuide(true); setShowProfileMenu(false); }} className="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>User Guide</button>
                   <button onClick={handleDeleteAccount} className="w-full text-left px-4 py-3 text-xs font-bold text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-2xl flex items-center gap-2 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>Delete Account</button>
@@ -1780,6 +1783,8 @@ const App: React.FC = () => {
         <AdminDashboard onBack={() => setShowAdminDashboard(false)} />
       ) : showTutorials ? (
         <Tutorials onBack={() => setShowTutorials(false)} />
+      ) : showCompliance ? (
+        <MLSCompliance onBack={() => setShowCompliance(false)} />
       ) : (
       <main className="flex-1 flex flex-col overflow-hidden bg-slate-100 dark:bg-slate-950 transition-colors">
         {items.length === 0 ? (
