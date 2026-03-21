@@ -155,7 +155,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
               Digital staging has revolutionized property marketing, enabling agents to cut staging expenses drastically while closing deals faster. However, this innovative capability demands strict transparency. Applying a compliance watermark isn't merely about satisfying state laws—it demonstrates your professional integrity, fosters immediate trust with prospective buyers, and shields your brand from liability. As legislative standards continue to tighten across the country, proactive disclosure is essential.
             </p>
             <p>
-              Our platform removes the friction from these requirements. Simply upload your property images, apply your chosen staging style, select an appropriate watermark, and export your files securely. You maintain striking, high-end listings while ensuring your clients are fully informed and your business remains completely compliant.
+              Our Digital Dwelling removes the friction from these requirements. Simply upload your property images, apply your chosen staging style, select an appropriate watermark, and export your files securely. You maintain striking, high-end listings while ensuring your clients are fully informed and your business remains completely compliant.
             </p>
 
           </div>
