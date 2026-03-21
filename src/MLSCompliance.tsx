@@ -98,8 +98,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
 
 
 
-            <h3>How Our Digital Dwelling Helps You Stay Compliant</h3>
-            <p>Our Digital Dwelling is built with US compliance in mind:</p>
+            <h3 className="text-2xl font-black mt-12 mb-6">How Our Digital Dwelling Helps You Stay Compliant</h3>
             <ul>
               <li><strong>Built-In Watermark Tools:</strong> Our export editor lets you add a "Virtually Staged" text watermark directly onto your images before downloading. You can customize the position, size, font, and opacity to maintain a professional look while meeting disclosure requirements.</li>
               <li><strong>Compliance Notices for US Users:</strong> When you access Our Digital Dwelling from the US, you will see compliance reminders on your design pages.</li>
