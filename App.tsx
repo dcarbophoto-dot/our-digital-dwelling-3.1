@@ -86,6 +86,7 @@ const App: React.FC = () => {
   const [downloadResolution, setDownloadResolution] = useState<'2K' | '4K'>('2K');
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadType, setDownloadType] = useState<'staged' | 'original'>('staged');
+  const [showWatermarkMenu, setShowWatermarkMenu] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem('theme');
     return saved ? saved === 'dark' : true;
@@ -1036,29 +1037,29 @@ const App: React.FC = () => {
            alert("No original images found."); setIsDownloading(false); return;
         }
       } else {
-        const exportQueue: { name: string, url: string, watermark: boolean, is4kAI: boolean }[] = [];
+        const exportQueue: { name: string, url: string, watermarkText?: string, is4kAI: boolean }[] = [];
         
         for (const item of items) {
             const originalBaseName = item.name.substring(0, item.name.lastIndexOf('.')) || item.name;
             const uniqueUrls = new Set<string>();
-            const addUrl = (url: string, suffix: string, forceWatermark: boolean) => {
+            const addUrl = (url: string, suffix: string, watermarkText?: string) => {
                 if (uniqueUrls.has(url)) return;
                 uniqueUrls.add(url);
                 exportQueue.push({
                    name: `${originalBaseName}_${suffix}.jpg`,
                    url: url,
-                   watermark: forceWatermark,
+                   watermarkText: watermarkText,
                    is4kAI: true 
                 });
             };
             
             for (const [styleId, url] of Object.entries(item.staged)) {
-               if (url) addUrl(url, `staged_${styleId}`, !!item.watermarkEnabled);
+               if (url) addUrl(url, `staged_${styleId}`, item.watermarkText);
             }
             
             for (const [styleId, historyArray] of Object.entries(item.styleHistory)) {
                historyArray.forEach((histItem, idx) => {
-                  addUrl(histItem.url, `staged_${styleId}_v${idx+1}`, !!item.watermarkEnabled);
+                  addUrl(histItem.url, `staged_${styleId}_v${idx+1}`, item.watermarkText);
                });
             }
         }
@@ -1081,7 +1082,7 @@ const App: React.FC = () => {
                   preProcessedUrl, 
                   maxDim, 
                   300, 
-                  queued.watermark ? "Virtually Staged" : undefined
+                  queued.watermarkText || undefined
                 );
                 const base64Data = processedDataUrl.split(',')[1];
                 if (base64Data) {
@@ -1907,9 +1908,31 @@ const App: React.FC = () => {
                     <div className="aspect-[3/2] bg-slate-900 relative">
                       <img src={currentImage} className="w-full h-full object-contain" alt="" />
                       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 w-full px-4"><div className="bg-black/30 backdrop-blur-md p-1.5 rounded-2xl flex gap-1 opacity-100 shadow-xl border border-white/10"><button onClick={() => setViewMode('original')} className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'original' ? 'bg-white text-slate-900 shadow-lg' : 'text-white hover:bg-white/10'}`}>Before</button><button disabled={!activeItem.currentStyle || !activeItem.staged[activeItem.currentStyle!]} onClick={() => setViewMode('staged')} className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'staged' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20' : 'text-white/40 hover:text-white/60'}`}>After</button></div></div>
-                      {activeItem.watermarkEnabled && viewMode === 'staged' && (
-                        <div className="absolute bottom-6 right-6 bg-white/30 backdrop-blur-md text-black/70 px-3 py-1.5 rounded-full pointer-events-none z-10 flex items-center justify-center border border-white/10 shadow-sm">
-                          <span className="text-[9px] font-black uppercase tracking-widest opacity-80">Virtually Staged</span>
+                      {activeItem.watermarkText && viewMode === 'staged' && !showWatermarkMenu && (
+                        <div className="absolute bottom-6 right-6 bg-white/30 backdrop-blur-md text-black/70 px-3 py-1.5 rounded-full pointer-events-none z-10 flex items-center justify-center border border-white/10 shadow-sm transition-all duration-300">
+                          <span className="text-[9px] font-black uppercase tracking-widest opacity-80">{activeItem.watermarkText}</span>
+                        </div>
+                      )}
+                      {showWatermarkMenu && viewMode === 'staged' && (
+                        <div className="absolute bottom-6 right-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl w-48 overflow-hidden z-20 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                          <div className="p-3 bg-slate-50/80 dark:bg-slate-800/80 border-b border-slate-100 dark:border-slate-700">
+                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Select Style</p>
+                          </div>
+                          <div className="flex flex-col p-2 gap-1">
+                            {['Virtually Staged', 'Digitally Staged', 'Enhanced Image'].map(style => (
+                              <button key={style} onClick={() => {
+                                 const newItems = [...items];
+                                 const idx = newItems.findIndex(i => i.id === activeItem.id);
+                                 if (idx !== -1) { newItems[idx] = { ...newItems[idx], watermarkText: style }; setItems(newItems); }
+                                 setShowWatermarkMenu(false);
+                              }} className="text-[10px] font-bold text-slate-700 dark:text-slate-300 py-2.5 px-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors text-left uppercase tracking-wider">
+                                {style}
+                              </button>
+                            ))}
+                            <button onClick={() => setShowWatermarkMenu(false)} className="text-[10px] font-bold text-slate-400 py-2 px-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors text-center uppercase tracking-wider mt-1 border border-transparent">
+                              Cancel
+                            </button>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -1924,7 +1947,7 @@ const App: React.FC = () => {
                     )}
 
                     <div className="p-6 space-y-4">
-                      <div className="grid grid-cols-3 items-center border-b border-slate-100 dark:border-slate-800 pb-3"><div className="min-w-0 pr-4"><p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Source File</p><h2 className="text-base font-bold text-slate-900 dark:text-white truncate" title={activeItem.name}>{activeItem.name}</h2></div><div className="flex justify-center flex-wrap gap-2">{viewMode === 'staged' && activeItem.staged[activeItem.currentStyle!] && (<><button onClick={() => { const newItems = [...items]; const idx = newItems.findIndex(i => i.id === activeItem.id); if (idx !== -1) { newItems[idx] = { ...newItems[idx], watermarkEnabled: !newItems[idx].watermarkEnabled }; setItems(newItems); } }} className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm border ${activeItem.watermarkEnabled ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-slate-800 text-slate-600 border-slate-200 dark:border-slate-700 hover:bg-slate-50'}`}>{activeItem.watermarkEnabled ? 'Remove Watermark' : 'Add MLS Watermark'}</button><button onClick={handleSaveVersion} className="bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 px-5 py-2 rounded-xl text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-all flex items-center gap-2 shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save Version</button></>)}</div><div className="flex justify-end"><button onClick={handleGenerateSelection} disabled={activeItem.isProcessing || !activeItem.currentStyle} className={`px-5 py-2 rounded-xl text-sm font-bold shadow-lg transition-all shrink-0 disabled:opacity-50 disabled:cursor-not-allowed ${hasInsufficientCredits || isOutOfCredits ? 'bg-amber-500 text-white shadow-amber-500/20 hover:bg-amber-600' : 'bg-indigo-600 text-white shadow-indigo-600/20 hover:bg-indigo-500'}`}>{hasInsufficientCredits || isOutOfCredits ? 'Get Credits' : activeItem.isProcessing ? 'Generating...' : 'Generate'}</button></div></div>
+                      <div className="grid grid-cols-3 items-center border-b border-slate-100 dark:border-slate-800 pb-3"><div className="min-w-0 pr-4"><p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Source File</p><h2 className="text-base font-bold text-slate-900 dark:text-white truncate" title={activeItem.name}>{activeItem.name}</h2></div><div className="flex justify-center flex-wrap gap-2">{viewMode === 'staged' && activeItem.staged[activeItem.currentStyle!] && (<><button onClick={() => { if (activeItem.watermarkText) { const newItems = [...items]; const idx = newItems.findIndex(i => i.id === activeItem.id); if (idx !== -1) { newItems[idx] = { ...newItems[idx], watermarkText: undefined }; setItems(newItems); } } else { setShowWatermarkMenu(true); } }} className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm border ${activeItem.watermarkText ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-slate-800 text-slate-600 border-slate-200 dark:border-slate-700 hover:bg-slate-50'}`}>{activeItem.watermarkText ? 'Remove Watermark' : 'Add MLS Watermark'}</button><button onClick={handleSaveVersion} className="bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 px-5 py-2 rounded-xl text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-all flex items-center gap-2 shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save Version</button></>)}</div><div className="flex justify-end"><button onClick={handleGenerateSelection} disabled={activeItem.isProcessing || !activeItem.currentStyle} className={`px-5 py-2 rounded-xl text-sm font-bold shadow-lg transition-all shrink-0 disabled:opacity-50 disabled:cursor-not-allowed ${hasInsufficientCredits || isOutOfCredits ? 'bg-amber-500 text-white shadow-amber-500/20 hover:bg-amber-600' : 'bg-indigo-600 text-white shadow-indigo-600/20 hover:bg-indigo-500'}`}>{hasInsufficientCredits || isOutOfCredits ? 'Get Credits' : activeItem.isProcessing ? 'Generating...' : 'Generate'}</button></div></div>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end"><div className="space-y-2"><label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Image Type</label><div className="bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl flex gap-1"><button onClick={() => handleCategorySwitch('interior')} className={`flex-1 py-[10px] text-xs font-black uppercase rounded-xl transition-all ${activeItem.styleCategory === 'interior' ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm' : 'text-slate-400 dark:text-slate-500'}`}>Interior</button><button onClick={() => handleCategorySwitch('outdoor')} className={`flex-1 py-[10px] text-xs font-black uppercase rounded-xl transition-all ${activeItem.styleCategory === 'outdoor' ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm' : 'text-slate-400 dark:text-slate-500'}`}>Exterior</button></div></div><div className="space-y-2"><label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Staging Style</label><select value={activeItem.currentStyle || ''} onChange={(e) => handleSetStyleForSelection(e.target.value as StagingStyle)} className="w-full bg-slate-50 dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm font-bold text-slate-700 dark:text-slate-200 outline-none appearance-none cursor-pointer"><option value="" disabled>Select a style...</option>{(activeItem.styleCategory === 'interior' ? INTERIOR_STYLES : OUTDOOR_STYLES).map(style => (<option key={style.id} value={style.id}>{style.label}</option>))}</select></div><div className="space-y-2"><label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest block">{activeItem.styleCategory === 'interior' ? 'Room Type' : 'Scene Type'}</label><select value={activeItem.roomType || ''} onChange={(e) => { const newItems = [...items]; const idx = newItems.findIndex(i => i.id === activeId); if (idx !== -1) { newItems[idx] = { ...newItems[idx], roomType: e.target.value as RoomType }; setItems(newItems); } }} className="w-full bg-slate-50 dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm font-bold text-slate-700 dark:text-slate-200 outline-none appearance-none cursor-pointer"><option value="" disabled>Select a type...</option>{(activeItem.styleCategory === 'interior' ? INTERIOR_ROOM_TYPES : EXTERIOR_SCENE_TYPES).map(type => (<option key={type.id} value={type.id}>{type.label}</option>))}</select></div></div>
                       <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-700 space-y-4"><div className="flex justify-between items-center"><label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Custom Refinement <span className="ml-1 normal-case opacity-70">(1 credit)</span></label><div className="flex gap-2"><button onClick={handleUndo} disabled={activeHistoryIdx <= 0} className="p-2 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl disabled:opacity-30 transition-colors" title="Undo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v.5a2 2 0 0 1-2 2H12"/></svg></button><button onClick={handleRedo} disabled={activeHistoryIdx >= activeStyleHistory.length - 1} className="p-2 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl disabled:opacity-30 transition-colors" title="Redo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v.5a2 2 0 0 0 2 2h6"/></svg></button></div></div><div className="flex gap-2"><input type="text" value={activeItem.refinementPrompt} onChange={(e) => { const newItems = [...items]; const idx = newItems.findIndex(i => i.id === activeId); if (idx !== -1) { newItems[idx] = { ...newItems[idx], refinementPrompt: e.target.value }; setItems(newItems); } }} placeholder="e.g., 'Add a white sectional sofa...'" className="flex-1 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-2xl px-5 py-3 text-sm outline-none dark:text-white" /><button onClick={handleGenerateSelection} disabled={activeItem.isProcessing || !activeItem.currentStyle} className={`px-6 rounded-2xl font-bold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed ${hasInsufficientCredits || isOutOfCredits ? 'bg-amber-500 text-white hover:bg-amber-600' : 'bg-slate-900 dark:bg-slate-700 text-white hover:bg-slate-800 dark:hover:bg-slate-600'}`}>Apply</button></div>{activeStyleHistory.length > 0 && (<div className="pt-2 border-t border-slate-200 dark:border-slate-700"><div className="space-y-1 max-h-48 overflow-y-auto pr-1 custom-scrollbar">{activeStyleHistory.map((h, i) => (<div key={h.id} onClick={() => handleJumpToHistory(i)} className={`group relative flex items-center gap-4 px-4 py-2.5 rounded-xl cursor-pointer transition-all border ${activeHistoryIdx === i ? 'bg-white dark:bg-slate-800 border-indigo-600 dark:border-indigo-500 shadow-lg' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-400'}`}><div className={`w-2.5 h-2.5 rounded-full shrink-0 border-2 ${activeHistoryIdx === i ? 'bg-indigo-600 dark:bg-indigo-500' : 'bg-slate-200 dark:bg-slate-600'}`} /><div className="flex-1 min-w-0"><p className="text-[11px] font-bold truncate">{h.prompt}</p><p className="text-[9px] text-slate-400 dark:text-slate-500">{new Date(h.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p></div>{activeHistoryIdx === i && <div className="bg-indigo-600 dark:bg-indigo-500 text-white px-2 py-0.5 rounded-md text-[8px] font-black uppercase">Current</div>}<button onClick={(e) => { e.stopPropagation(); handleDeleteRefinement(i); }} className="opacity-0 group-hover:opacity-100 p-1.5 hover:text-red-500 dark:hover:text-red-400 transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button></div>))}</div></div>)}</div>
                     </div>
