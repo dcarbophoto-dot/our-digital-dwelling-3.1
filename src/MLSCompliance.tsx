@@ -28,9 +28,9 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
           
           <div className="mb-10 text-center">
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-4 leading-tight">
-              Why <span className="text-indigo-600 dark:text-indigo-400">Watermarks</span> Matter
+              NAR/MLS <span className="text-indigo-600 dark:text-indigo-400">Compliance</span>
             </h2>
-            <p className="text-xl text-slate-500 dark:text-slate-400 font-medium">A Complete Guide to US Virtual Staging Compliance</p>
+            <p className="text-xl text-slate-500 dark:text-slate-400 font-medium">A guide to using Virtually Staged and Retouched images in your listings while staying compliant with NAR/MLS Regulations</p>
           </div>
 
           <div className="prose prose-slate dark:prose-invert prose-indigo max-w-none prose-headings:font-black prose-h3:text-indigo-600 dark:prose-h3:text-indigo-400 prose-img:rounded-3xl prose-a:font-bold">
