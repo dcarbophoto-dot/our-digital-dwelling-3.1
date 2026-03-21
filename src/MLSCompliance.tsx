@@ -154,22 +154,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
               </ul>
             </div>
 
-            <h3>How Watermarks Build Buyer Trust and Improve Your Reputation</h3>
-            <ul>
-              <li><strong>Transparency Sells:</strong> Buyers today are informed and skeptical. When they see a watermark, they appreciate the honesty. Studies show transparent listings receive more inquiries.</li>
-              <li><strong>Differentiation from Competitors:</strong> Visible compliance differentiates you as a professional who takes ethics seriously.</li>
-              <li><strong>Protecting Your Brand:</strong> A single ethics complaint or lawsuit can follow you for years through online reviews and public records. Prevention via watermarking is far cheaper than reputation repair.</li>
-              <li><strong>Buyer Expectations Are Changing:</strong> An unmarked staged photo creates suspicion as savvy buyers wonder what else might be undisclosed.</li>
-            </ul>
 
-            <h3>The Future of Virtual Staging Regulation</h3>
-            <p>The regulatory landscape is rapidly evolving:</p>
-            <ul>
-              <li><strong>More States Will Follow California:</strong> Legislative proposals modeled on AB 723 have been introduced in NY, FL, TX, IL, and WA. Within 2-3 years, explicit virtual staging disclosure laws will become the norm.</li>
-              <li><strong>NAR May Strengthen National Standards:</strong> The NAR is reviewing its guidance. Updated standards could be adopted as soon as 2027 requiring specific watermark formats and minimum font sizes.</li>
-              <li><strong>AI Detection Tools Are Coming:</strong> MLS systems are deploying AI tools that flag virtually staged images even without watermarks. Agents skipping watermarks will face automated enforcement.</li>
-              <li><strong>Consumer Lawsuits Will Increase:</strong> Class action attorneys are actively monitoring systematic non-disclosure of virtual staging by brokerages.</li>
-            </ul>
 
             <h3>How Our Digital Dwelling Helps You Stay Compliant</h3>
             <p>Our Digital Dwelling is built with US compliance in mind:</p>
