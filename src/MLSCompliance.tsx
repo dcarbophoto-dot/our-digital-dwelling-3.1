@@ -66,7 +66,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
               </li>
             </ol>
 
-            <h3>4. What the Law Actually Says: Federal, State, and Local Requirements</h3>
+            <h3 className="font-bold">4. What the Law Actually Says: Federal, State, and Local Requirements</h3>
 
             <h4>Federal Level: FTC Truth in Advertising</h4>
             <p>The FTC does not have a specific virtual staging law, but its general prohibition on deceptive advertising applies. Any image that could mislead a consumer about the condition of a property falls under FTC jurisdiction. A clear "Virtually Staged" watermark is the simplest defense.</p>
