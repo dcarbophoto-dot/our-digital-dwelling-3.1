@@ -138,13 +138,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
               <p className="mb-0 text-sm">The gold standard is to include both the virtually staged version and the original, unmodified photo. This eliminates any ambiguity and builds buyer trust. California's AB 723 makes this mandatory with a link or QR code.</p>
             </div>
 
-            <h3>Real Enforcement Cases: What Happens When Agents Skip Watermarks</h3>
-            <ul>
-              <li><strong>Case 1: MLS Fine and Listing Suspension.</strong> A real estate agent in Southern California uploaded 12 virtually staged photos to CRMLS without watermarks. The listing was flagged within 24 hours. The agent received a $1,500 fine and a 30-day listing suspension. The seller lost three weeks of market exposure during peak selling season.</li>
-              <li><strong>Case 2: Ethics Complaint and License Review.</strong> An agent in Texas used virtually staged images that removed visible water damage on a ceiling. A buyer purchased the property and discovered the damage during move-in resulting in an ethics complaint. The agent faced a formal license review and ultimately paid $15,000 in settlement costs.</li>
-              <li><strong>Case 3: Buyer Lawsuit for Misrepresentation.</strong> In Florida, a buyer sued both the listing agent and the brokerage after purchasing a condo where virtually staged photos made a small bedroom appear significantly larger by digitally removing a built-in closet. The case settled for $45,000 in damages plus legal fees. The brokerage also lost its E&O insurance renewal.</li>
-              <li><strong>Case 4: Multiple Violations Leading to MLS Removal.</strong> An agent in the Chicago area received three separate violations for using unstaged photos across different listings over six months. After the third violation, MRED permanently revoked the agent's MLS access.</li>
-            </ul>
+
 
             <h3>What You Must NOT Do</h3>
             <div className="p-6 bg-red-50 dark:bg-red-900/10 rounded-2xl border border-red-100 dark:border-red-800/30 text-red-900 dark:text-red-300 text-sm font-medium not-prose mb-10">
