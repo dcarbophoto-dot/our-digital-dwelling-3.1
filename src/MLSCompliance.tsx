@@ -56,13 +56,13 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
               <li>
                 <strong>3. MLS Rules Enforcement</strong><br/>
                 Nearly every MLS in the country (there are several hundred) now has specific rules about virtual staging. The vast majority require:
-                <ul className="mt-2">
+                <ul className="mt-2 list-disc list-inside marker:text-indigo-500">
                   <li>A visible watermark on each staged image</li>
                   <li>A mention in the photo caption</li>
                   <li>A note in both public and agent remarks</li>
                   <li>That only cosmetic changes are made (furniture, decor) with no structural alterations</li>
+                  <li>Violating MLS rules can result in fines, temporary suspension from the platform, or permanent removal.</li>
                 </ul>
-                Violating MLS rules can result in fines, temporary suspension from the platform, or permanent removal.
               </li>
             </ol>
 
