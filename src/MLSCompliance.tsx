@@ -102,7 +102,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
             <ul>
               <li><strong>Built-In Watermark Tools:</strong> Our editor lets you add a text watermark directly onto your images before downloading. You can choose from several to maintain a professional look while meeting disclosure requirements.</li>
 
-              <li><strong>Unaltered Source Retention:</strong> We automatically retain your raw source photos right alongside your newly enhanced designs. You have the ability to retrieve both files whenever necessary, streamlining your workflow when MLS boards mandate access to the original, unedited property shots.</li>
+              <li><strong>Original Image Retention:</strong> We automatically retain your original source photos right alongside your newly enhanced designs. You have the ability to retrieve both files whenever necessary, streamlining your workflow when MLS boards mandate access to your original, property shots.</li>
             </ul>
 
             <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 my-8">
