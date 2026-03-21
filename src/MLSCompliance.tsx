@@ -13,11 +13,11 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
     <div className="flex flex-col h-full bg-slate-50 dark:bg-slate-950 overflow-y-auto relative animate-in fade-in duration-300">
       <div className="sticky top-0 z-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <button 
-            onClick={onBack} 
+          <button
+            onClick={onBack}
             className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><polyline points="12 19 5 12 12 5" /></svg>
           </button>
           <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Virtual Staging and NAR/MLS Compliance</h1>
         </div>
@@ -25,7 +25,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
 
       <div className="max-w-4xl mx-auto px-6 lg:px-12 py-12 w-full">
         <div className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 p-8 lg:p-12">
-          
+
           <div className="mb-10 text-center">
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-4 leading-tight">
               NAR/MLS <span className="text-indigo-600 dark:text-indigo-400">Compliance</span>
@@ -40,22 +40,22 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
 
             <hr className="my-10 border-slate-200 dark:border-slate-800" />
 
-            <h3>Why Watermarks Are Not Optional in the US</h3>
+            <h3>Watermarks Are Required in the US</h3>
             <p>
               A watermark reading "Virtually Staged" or "Digitally Staged" is the single most important compliance measure you can take when using AI-enhanced real estate photos. It serves three critical purposes:
             </p>
             <ol>
               <li>
-                <strong>1. Legal Protection Under Federal Law</strong><br/>
+                <strong>1. Legal Protection Under Federal Law</strong><br />
                 The Federal Trade Commission (FTC) enforces Truth in Advertising rules that prohibit any representation likely to mislead consumers. A virtually staged photo without disclosure could be considered deceptive advertising. Adding a visible watermark is the clearest way to avoid this risk.
               </li>
               <li>
-                <strong>2. NAR Code of Ethics Compliance</strong><br/>
+                <strong>2. NAR Code of Ethics Compliance</strong><br />
                 Article 12 of the National Association of Realtors (NAR) Code of Ethics requires REALTORS to present a "true picture" in all advertising. The NAR has explicitly stated that digitally modified images must be disclosed. Failure to comply can result in ethics complaints filed with your state real estate commission.
               </li>
               <li>
-                <strong>3. MLS Rules Enforcement</strong><br/>
-                Nearly every MLS in the country (there are several hundred) now has specific rules about virtual staging. The vast majority require:
+                <strong>3. MLS Rules Enforcement</strong><br />
+                Nearly every MLS in the country has specific rules about virtual staging. The vast majority require:
                 <ul className="mt-2 list-disc list-inside marker:text-indigo-500">
                   <li>A visible watermark on each staged image</li>
                   <li>A mention in the photo caption</li>
@@ -67,7 +67,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
             </ol>
 
             <h3>What the Law Actually Says: Federal, State, and Local Requirements</h3>
-            
+
             <h4>Federal Level: FTC Truth in Advertising</h4>
             <p>The FTC does not have a specific virtual staging law, but its general prohibition on deceptive advertising applies. Any image that could mislead a consumer about the condition of a property falls under FTC jurisdiction. A clear "Virtually Staged" watermark is the simplest defense.</p>
 
@@ -149,7 +149,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
             </div>
 
             <hr className="my-10 border-slate-200 dark:border-slate-800" />
-            
+
             <h3 className="text-2xl font-black mt-12 mb-6">Conclusion</h3>
             <p>
               Virtual staging is a game-changer for real estate marketing, reducing costs by up to 97% compared to traditional staging while accelerating sales. But the power of this tool comes with a responsibility: transparency. Adding a "Virtually Staged" watermark is not just a legal requirement. It is a mark of professionalism that builds buyer trust and protects your business. With regulations evolving rapidly, especially with California leading the way, the standard is only going to get stricter.
