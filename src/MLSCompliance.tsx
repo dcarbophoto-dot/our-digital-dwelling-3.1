@@ -135,19 +135,6 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
               <li><strong>Built-In Watermark Tools:</strong> Our export editor lets you add a "Virtually Staged" text watermark directly onto your images before downloading. You can customize the position, size, font, and opacity to maintain a professional look while meeting disclosure requirements.</li>
               <li><strong>Compliance Notices for US Users:</strong> When you access Our Digital Dwelling from the US, you will see compliance reminders on your design pages.</li>
               <li><strong>Original Photo Preservation:</strong> We always preserve your original uploaded photos alongside the staged versions. You can download both at any time, making it easy to comply with requirements to provide unmodified images.</li>
-              <li><strong>MLS-Ready Exports with the Business Plan:</strong> Our Business plan includes the complete export editor with customized typography. With 600 transformations per month, 4K resolution, priority support, and custom branding, it is the all-in-one compliance solution.</li>
-            </ul>
-
-            <h3>The Real Cost of Non-Compliance</h3>
-            <p>Ignoring disclosure requirements involves calculating extreme risks:</p>
-            <ul>
-              <li><strong>MLS fines:</strong> Typically $500 to $5,000 per violation, plus temporary listing suspension.</li>
-              <li><strong>Ethics complaints:</strong> Filed with your state real estate commission, affecting your license.</li>
-              <li><strong>Lawsuits:</strong> Buyers who feel misled can sue for damages under deceptive advertising laws.</li>
-              <li><strong>Reputation damage:</strong> One complaint can cost you years of referral business.</li>
-              <li><strong>Criminal penalties:</strong> Under California's AB 723, non-compliance can result in criminal charges.</li>
-              <li><strong>Brokerage liability:</strong> Brokerages can be held liable for agents' non-compliant listings.</li>
-              <li><strong>Insurance impact:</strong> E&O insurance claims can exponentially increase premiums or lead to coverage denial.</li>
             </ul>
 
             <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 my-8">
