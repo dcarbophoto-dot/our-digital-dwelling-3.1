@@ -62,6 +62,7 @@ export interface StagedItem {
   refinementHistory: string[]; 
   isProcessing: boolean;
   error: string | null;
+  watermarkEnabled?: boolean;
 }
 
 export interface StagingState {

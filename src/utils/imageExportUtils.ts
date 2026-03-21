@@ -128,7 +128,7 @@ export const resizeAndFormatImage = async (
       
       if (watermarkText) {
         ctx.save();
-        const baseFontSize = Math.max(24, Math.floor(width * 0.015)); 
+        const baseFontSize = Math.max(16, Math.floor(width * 0.012)); 
         ctx.font = `900 ${baseFontSize}px sans-serif`;
         
         const textMetrics = ctx.measureText(watermarkText);
@@ -143,7 +143,7 @@ export const resizeAndFormatImage = async (
         const x = width - buttonWidth - margin;
         const y = height - buttonHeight - margin;
         
-        ctx.globalAlpha = 0.4;
+        ctx.globalAlpha = 0.3;
         ctx.fillStyle = "#ffffff";
         
         const radius = buttonHeight / 2;
@@ -160,7 +160,7 @@ export const resizeAndFormatImage = async (
         ctx.closePath();
         ctx.fill();
         
-        ctx.globalAlpha = 0.85;
+        ctx.globalAlpha = 0.7;
         ctx.fillStyle = "#000000";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
