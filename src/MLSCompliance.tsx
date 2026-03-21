@@ -35,7 +35,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
 
           <div className="prose prose-slate dark:prose-invert prose-indigo max-w-none prose-headings:font-black prose-h3:text-indigo-600 dark:prose-h3:text-indigo-400 prose-img:rounded-3xl prose-a:font-bold">
             <p className="text-lg leading-relaxed">
-              Virtual staging is one of the most powerful tools in modern real estate marketing. However, in the United States, using virtually staged photos without proper disclosure can lead to severe MLS sanctions, ethics complaints, and expensive lawsuits. Learn exactly why "Virtually Staged" watermarks are legally required and how to protect your business.
+              Virtual staging is one of the most powerful tools in modern real estate marketing. But in the United States, using virtually staged photos without proper disclosure can lead to MLS sanctions, ethics complaints, and even lawsuits. This guide explains exactly what you need to know about watermarks and compliance.
             </p>
 
             <hr className="my-10 border-slate-200 dark:border-slate-800" />
@@ -46,63 +46,209 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
             </p>
             <ol>
               <li>
-                <strong>Legal Protection Under Federal Law (FTC):</strong> The exact Truth in Advertising rules prevent any representations that are likely to mislead consumers. A virtually staged photo without disclosure can be considered deceptive advertising. 
+                <strong>1. Legal Protection Under Federal Law</strong><br/>
+                The Federal Trade Commission (FTC) enforces Truth in Advertising rules that prohibit any representation likely to mislead consumers. A virtually staged photo without disclosure could be considered deceptive advertising. Adding a visible watermark is the clearest way to avoid this risk.
               </li>
               <li>
-                <strong>NAR Code of Ethics Compliance:</strong> Article 12 of the National Association of Realtors (NAR) Code of Ethics requires REALTORS to present a "true picture" in all advertising. Digitally modified images must be overtly disclosed.
+                <strong>2. NAR Code of Ethics Compliance</strong><br/>
+                Article 12 of the National Association of Realtors (NAR) Code of Ethics requires REALTORS to present a "true picture" in all advertising. The NAR has explicitly stated that digitally modified images must be disclosed. Failure to comply can result in ethics complaints filed with your state real estate commission.
               </li>
               <li>
-                <strong>MLS Rules Enforcement:</strong> Nearly every MLS strictly enforces virtual staging rules requiring visible image watermarks, note disclosures in all public/agent remarks, and explicitly dictates that only superficial cosmetic changes (furniture, decor) are allowed—no structural changes.
+                <strong>3. MLS Rules Enforcement</strong><br/>
+                Nearly every MLS in the country (there are several hundred) now has specific rules about virtual staging. The vast majority require:
+                <ul className="mt-2">
+                  <li>A visible watermark on each staged image</li>
+                  <li>A mention in the photo caption</li>
+                  <li>A note in both public and agent remarks</li>
+                  <li>That only cosmetic changes are made (furniture, decor) with no structural alterations</li>
+                </ul>
+                Violating MLS rules can result in fines, temporary suspension from the platform, or permanent removal.
               </li>
             </ol>
 
-            <h3>What the Law Actually Says</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 mb-10 not-prose">
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Federal (FTC)</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">The FTC strictly prohibits deceptive advertising. An image that misleads a consumer about the condition of a property naturally falls under FTC jurisdiction.</p>
-              </div>
+            <h3>What the Law Actually Says: Federal, State, and Local Requirements</h3>
+            
+            <h4>Federal Level: FTC Truth in Advertising</h4>
+            <p>The FTC does not have a specific virtual staging law, but its general prohibition on deceptive advertising applies. Any image that could mislead a consumer about the condition of a property falls under FTC jurisdiction. A clear "Virtually Staged" watermark is the simplest defense.</p>
+
+            <h4>State-Level Regulations (2026 Update)</h4>
+            <div className="space-y-6 mt-6 mb-10 not-prose">
               <div className="bg-indigo-50 dark:bg-indigo-900/20 p-6 rounded-2xl border border-indigo-100 dark:border-indigo-800">
-                <h4 className="font-black text-lg text-indigo-700 dark:text-indigo-300 mb-2">California (AB 723)</h4>
-                <p className="text-sm text-indigo-900/70 dark:text-indigo-200">Effective Jan 1, 2026. The most comprehensive law in the country requires mandatory disclosure for any AI-modified image. Non-compliance risks major criminal penalties.</p>
+                <h4 className="font-black text-lg text-indigo-700 dark:text-indigo-300 mb-2">California (AB 723 - Effective January 1, 2026)</h4>
+                <p className="text-sm text-indigo-900/70 dark:text-indigo-200">California has passed the most comprehensive virtual staging disclosure law in the country. AB 723 requires mandatory disclosure for any AI-modified or digitally retouched real estate image, alongside a link or QR code allowing viewers to access the original, unmodified versions. Non-compliance can result in criminal penalties. This law sets a precedent expected to follow nationwide.</p>
               </div>
               <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Wisconsin (Act 69)</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">Effective 2027. Act 69 mandates the explicit disclosure of any technological modification to property photos across platforms.</p>
+                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Wisconsin (Act 69 - Effective 2027)</h4>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Wisconsin has passed legislation requiring disclosure of any technological modification to property photos. Until the law takes effect, existing MLS rules and the state's deceptive advertising statute already provide enforcement.</p>
               </div>
               <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Texas & Florida</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">TREC and the Florida Division of Real Estate severely risk-manage deceptive staging. Major MLS networks (HAR, Stellar MLS, Miami MLS) enforce watermarks.</p>
+                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">New York</h4>
+                <p className="text-sm text-slate-600 dark:text-slate-400">The NY Department of State requires that modified real estate images not be misleading under existing consumer protection paradigms.</p>
               </div>
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Texas</h4>
+                <p className="text-sm text-slate-600 dark:text-slate-400">The Texas Real Estate Commission (TREC) requires that all marketing materials be truthful. Texas MLS boards, including HAR (Houston Association of Realtors) and NTREIS (North Texas), explicitly mandate watermarks on virtually staged photos.</p>
+              </div>
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Florida</h4>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Florida's Division of Real Estate enforces disclosure requirements. The Florida Realtors association recommends prominent watermarks on all virtually staged images, enforced by major networks like Stellar MLS and Miami MLS.</p>
+              </div>
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Illinois</h4>
+                <p className="text-sm text-slate-600 dark:text-slate-400">The Midwest Real Estate Data (MRED) MLS covering the Chicago metropolitan area has explicit rules requiring watermarks on digitally staged images and disclosure in listing remarks.</p>
+              </div>
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
+                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Colorado</h4>
+                <p className="text-sm text-slate-600 dark:text-slate-400">REcolorado, the state's largest MLS, requires a "Virtually Staged" watermark and a notation in listing remarks for any AI-enhanced photo.</p>
+              </div>
+              <p className="text-sm text-slate-500 italic px-2">Other States: Most states rely on a combination of NAR Code of Ethics enforcement, local MLS rules, and general advertising statutes. States including Arizona, Virginia, Massachusetts, and Oregon have all seen increased enforcement activity recently.</p>
             </div>
 
-            <h3>Real Enforcement Cases: The Risk of Skipping Watermarks</h3>
-            <p>
-              The cost of non-compliance widely eclipses the minor effort of adding a customized transparent watermark. Take these real-world enforcement scenarios:
-            </p>
+            <h3>A Closer Look: How Major MLS Systems Enforce Watermark Rules</h3>
             <ul>
-              <li><strong>MLS Fine and Listing Suspension:</strong> An agent in Southern California posted 12 virtually staged photos to CRMLS stripped of watermarks. Result: $1,500 fine and a 30-day listing suspension.</li>
-              <li><strong>Ethics Settlement & License Review:</strong> An agent in Texas removed visible water damage from a ceiling via staging. Factoring in formal complaints filed to TREC, the agent paid $15,000 in settlement costs.</li>
-              <li><strong>Buyer Lawsuit ($45,000):</strong> A buyer sued an agent in Florida after purchasing a condo where a closet was digitally removed to enlarge a bedroom visually. The settlement cost $45,000, and the brokerage lost its E&O insurance policies.</li>
+              <li><strong>Bright MLS (Mid-Atlantic):</strong> Serving over 100,000 agents, requires all virtually staged images to carry a clearly visible watermark. Violations can result in fines starting at $500 for first offenses up to $2,500 for repeats, along with listing suspension.</li>
+              <li><strong>CRMLS (California):</strong> The nation's largest MLS. All digitally enhanced images must include watermarks and listings must include a link to original unmodified photos. Non-compliant listings are flagged for removal within 48 hours.</li>
+              <li><strong>Stellar MLS (Florida):</strong> Requires a watermark on every virtually staged image and a disclosure statement in remarks. Escalating fines and potential suspension apply.</li>
+              <li><strong>MRED (Illinois):</strong> Rules require clear watermarks and disclosure in remarks. They explicitly prohibit any structural modifications like removing walls or adding windows.</li>
+              <li><strong>HAR (Houston):</strong> Ensures a strict watermark policy. Non-compliant images are subject to immediate correction requests, resolving in fines if not fixed within 72 hours.</li>
+            </ul>
+
+            <h3>What Constitutes a Proper Disclosure?</h3>
+            <p>A compliant disclosure must be clear, visible, and unambiguous. Here is what best practices look like:</p>
+            
+            <h4>On the Image Itself:</h4>
+            <ul>
+              <li>A visible watermark reading "Virtually Staged", "Digitally Staged", or "Virtual Staging"</li>
+              <li>The watermark should be legible but not obstruct the essential image details.</li>
+              <li>Position it in a corner or along the bottom edge.</li>
+              <li>Use semi-transparent text for a professional look.</li>
+              <li>Font size should be large enough to read when the image is displayed at typical listing dimensions.</li>
+              <li>White or light text with a subtle shadow works well for visibility on most backgrounds.</li>
+            </ul>
+
+            <h4>In the Listing:</h4>
+            <ul>
+              <li><strong>Photo caption:</strong> "This image has been virtually staged"</li>
+              <li><strong>Public remarks:</strong> "Some photos in this listing have been virtually staged to show the property's potential"</li>
+              <li><strong>Agent remarks:</strong> "Virtual staging by [provider]. Original photos available on request"</li>
+            </ul>
+
+            <div className="bg-slate-100 dark:bg-slate-800 p-6 rounded-2xl my-6">
+              <h4 className="mt-0 text-slate-900 dark:text-white">Best Practice: Provide Original Photos</h4>
+              <p className="mb-0 text-sm">The gold standard is to include both the virtually staged version and the original, unmodified photo. This eliminates any ambiguity and builds buyer trust. California's AB 723 makes this mandatory with a link or QR code.</p>
+            </div>
+
+            <h3>Real Enforcement Cases: What Happens When Agents Skip Watermarks</h3>
+            <ul>
+              <li><strong>Case 1: MLS Fine and Listing Suspension.</strong> A real estate agent in Southern California uploaded 12 virtually staged photos to CRMLS without watermarks. The listing was flagged within 24 hours. The agent received a $1,500 fine and a 30-day listing suspension. The seller lost three weeks of market exposure during peak selling season.</li>
+              <li><strong>Case 2: Ethics Complaint and License Review.</strong> An agent in Texas used virtually staged images that removed visible water damage on a ceiling. A buyer purchased the property and discovered the damage during move-in resulting in an ethics complaint. The agent faced a formal license review and ultimately paid $15,000 in settlement costs.</li>
+              <li><strong>Case 3: Buyer Lawsuit for Misrepresentation.</strong> In Florida, a buyer sued both the listing agent and the brokerage after purchasing a condo where virtually staged photos made a small bedroom appear significantly larger by digitally removing a built-in closet. The case settled for $45,000 in damages plus legal fees. The brokerage also lost its E&O insurance renewal.</li>
+              <li><strong>Case 4: Multiple Violations Leading to MLS Removal.</strong> An agent in the Chicago area received three separate violations for using unstaged photos across different listings over six months. After the third violation, MRED permanently revoked the agent's MLS access.</li>
             </ul>
 
             <h3>What You Must NOT Do</h3>
             <div className="p-6 bg-red-50 dark:bg-red-900/10 rounded-2xl border border-red-100 dark:border-red-800/30 text-red-900 dark:text-red-300 text-sm font-medium not-prose mb-10">
+              <p className="mb-2 text-base font-bold text-red-950 dark:text-red-200">Virtual staging should only involve cosmetic modifications. The following are prohibited:</p>
               <ul className="space-y-2 list-disc pl-5">
-                <li><strong>No Structural Alterations:</strong> Never add, remove, or modify walls, windows, ceilings, or floors.</li>
-                <li><strong>Do Not Hide Defects:</strong> Never cover cracks, mold, or existing water damage.</li>
-                <li><strong>Do Not Manipulate Dimensions:</strong> Avoid warping or artificially widening rooms.</li>
-                <li><strong>Do Not Add People:</strong> Adding specific demographics natively raises Fair Housing Act lawsuits.</li>
-                <li><strong>Preserve Fixtures:</strong> Do not erase items structurally attached to the real estate viewings.</li>
+                <li><strong>Altering structural elements:</strong> Do not add, remove, or modify walls, windows, doors, ceilings, or floors.</li>
+                <li><strong>Hiding defects:</strong> Do not cover up water damage, cracks, mold, or other property issues.</li>
+                <li><strong>Changing dimensions:</strong> Do not make rooms appear larger or smaller than they are.</li>
+                <li><strong>Adding people:</strong> Avoid inserting people into images, which can raise Fair Housing Act concerns if it suggests a preference for certain demographics.</li>
+                <li><strong>Removing permanent fixtures:</strong> Do not digitally remove elements that are part of the property.</li>
+                <li><strong>Altering the view:</strong> Do not modify what is visible through windows, such as removing neighboring buildings or adding landscaping that does not exist.</li>
+                <li><strong>Changing flooring or materials:</strong> Do not replace hardwood with tile or paint over wallpaper digitally unless clearly disclosed as a renovation visualization.</li>
               </ul>
             </div>
 
-            <h3>How Our Digital Dwelling Keeps You Compliant</h3>
+            <h3>How Watermarks Build Buyer Trust and Improve Your Reputation</h3>
+            <ul>
+              <li><strong>Transparency Sells:</strong> Buyers today are informed and skeptical. When they see a watermark, they appreciate the honesty. Studies show transparent listings receive more inquiries.</li>
+              <li><strong>Differentiation from Competitors:</strong> Visible compliance differentiates you as a professional who takes ethics seriously.</li>
+              <li><strong>Protecting Your Brand:</strong> A single ethics complaint or lawsuit can follow you for years through online reviews and public records. Prevention via watermarking is far cheaper than reputation repair.</li>
+              <li><strong>Buyer Expectations Are Changing:</strong> An unmarked staged photo creates suspicion as savvy buyers wonder what else might be undisclosed.</li>
+            </ul>
+
+            <h3>The Future of Virtual Staging Regulation</h3>
+            <p>The regulatory landscape is rapidly evolving:</p>
+            <ul>
+              <li><strong>More States Will Follow California:</strong> Legislative proposals modeled on AB 723 have been introduced in NY, FL, TX, IL, and WA. Within 2-3 years, explicit virtual staging disclosure laws will become the norm.</li>
+              <li><strong>NAR May Strengthen National Standards:</strong> The NAR is reviewing its guidance. Updated standards could be adopted as soon as 2027 requiring specific watermark formats and minimum font sizes.</li>
+              <li><strong>AI Detection Tools Are Coming:</strong> MLS systems are deploying AI tools that flag virtually staged images even without watermarks. Agents skipping watermarks will face automated enforcement.</li>
+              <li><strong>Consumer Lawsuits Will Increase:</strong> Class action attorneys are actively monitoring systematic non-disclosure of virtual staging by brokerages.</li>
+            </ul>
+
+            <h3>How Our Digital Dwelling Helps You Stay Compliant</h3>
+            <p>Our Digital Dwelling is built with US compliance in mind:</p>
+            <ul>
+              <li><strong>Built-In Watermark Tools:</strong> Our export editor lets you add a "Virtually Staged" text watermark directly onto your images before downloading. You can customize the position, size, font, and opacity to maintain a professional look while meeting disclosure requirements.</li>
+              <li><strong>Compliance Notices for US Users:</strong> When you access Our Digital Dwelling from the US, you will see compliance reminders on your design pages.</li>
+              <li><strong>Original Photo Preservation:</strong> We always preserve your original uploaded photos alongside the staged versions. You can download both at any time, making it easy to comply with requirements to provide unmodified images.</li>
+              <li><strong>MLS-Ready Exports with the Business Plan:</strong> Our Business plan includes the complete export editor with customized typography. With 600 transformations per month, 4K resolution, priority support, and custom branding, it is the all-in-one compliance solution.</li>
+            </ul>
+
+            <h3>The Real Cost of Non-Compliance</h3>
+            <p>Ignoring disclosure requirements involves calculating extreme risks:</p>
+            <ul>
+              <li><strong>MLS fines:</strong> Typically $500 to $5,000 per violation, plus temporary listing suspension.</li>
+              <li><strong>Ethics complaints:</strong> Filed with your state real estate commission, affecting your license.</li>
+              <li><strong>Lawsuits:</strong> Buyers who feel misled can sue for damages under deceptive advertising laws.</li>
+              <li><strong>Reputation damage:</strong> One complaint can cost you years of referral business.</li>
+              <li><strong>Criminal penalties:</strong> Under California's AB 723, non-compliance can result in criminal charges.</li>
+              <li><strong>Brokerage liability:</strong> Brokerages can be held liable for agents' non-compliant listings.</li>
+              <li><strong>Insurance impact:</strong> E&O insurance claims can exponentially increase premiums or lead to coverage denial.</li>
+            </ul>
+
+            <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 my-8">
+              <h3 className="mt-0">A Simple Compliance Checklist</h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">Before publishing any virtually staged photo, run through this checklist:</p>
+              <ul className="list-none pl-0 space-y-2 text-sm font-medium">
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Watermark added ("Virtually Staged" visible on the image)</li>
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Watermark is legible at the image size used in the listing</li>
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Photo caption mentions virtual staging</li>
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Public remarks include virtual staging disclosure</li>
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Agent remarks include virtual staging disclosure</li>
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Original photos are available (ideally published alongside staged versions)</li>
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Only cosmetic changes were made (no structural alterations)</li>
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> No property defects were hidden or obscured</li>
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Views through windows have not been altered</li>
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Local MLS rules have been checked and followed</li>
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> State-specific requirements have been verified</li>
+                <li className="flex items-center gap-2"><svg className="text-indigo-500 w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Brokerage compliance officer has reviewed (if applicable)</li>
+              </ul>
+            </div>
+
+            <h3>Frequently Asked Questions</h3>
+            <div className="space-y-4">
+              <div>
+                <strong>Can I use a small, barely visible watermark to keep photos looking clean?</strong>
+                <p>No. The watermark must be clearly legible when the image is displayed at standard listing size. A watermark that is too small to read does not constitute proper disclosure.</p>
+              </div>
+              <div>
+                <strong>Do I need to watermark every single staged photo in a listing?</strong>
+                <p>Yes. Each individually staged image needs its own watermark. A note in the listing remarks alone is not sufficient for most MLS systems.</p>
+              </div>
+              <div>
+                <strong>What if I use virtual staging for social media but not the MLS listing?</strong>
+                <p>FTC Truth in Advertising rules apply to all marketing channels, including social media, websites, and email campaigns. Watermarks are required regardless.</p>
+              </div>
+              <div>
+                <strong>Does virtual staging count as material misrepresentation?</strong>
+                <p>It can, if not properly disclosed. Undisclosed staging, or staging that hides defects or alters structural elements, constitutes material misrepresentation.</p>
+              </div>
+              <div>
+                <strong>How should I handle virtual staging for international listings?</strong>
+                <p>If your listing targets US buyers (published on US MLS systems or US-facing platforms), US disclosure rules apply regardless of the property's location.</p>
+              </div>
+            </div>
+
+            <hr className="my-10 border-slate-200 dark:border-slate-800" />
+            
+            <h3>Conclusion</h3>
             <p>
-              Our Digital Dwelling was structurally engineered inside the US legal framework. Through the <strong>Business Plan</strong>, our comprehensive export suite allows you to visually lock MLS-compliant custom <em>"Virtually Staged"</em> typography natively over all downloads. 
+              Virtual staging is a game-changer for real estate marketing, reducing costs by up to 97% compared to traditional staging while accelerating sales. But the power of this tool comes with a responsibility: transparency. Adding a "Virtually Staged" watermark is not just a legal requirement. It is a mark of professionalism that builds buyer trust and protects your business. With regulations evolving rapidly, especially with California leading the way, the standard is only going to get stricter.
             </p>
             <p>
-              We natively generate original side-by-sides, ensuring you easily maintain access to the unmodified physical layout and drastically slashing the multi-thousand dollar liabilities associated with modern digital real estate rendering.
+              Our Digital Dwelling makes compliance simple. Upload your photo, generate your design, add your watermark, and publish with confidence. Your listings stay professional, your clients stay informed, and your business stays protected.
             </p>
 
           </div>
