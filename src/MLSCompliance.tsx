@@ -40,7 +40,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
 
             <hr className="my-10 border-slate-200 dark:border-slate-800" />
 
-            <h3>Watermarks Are Required in the US</h3>
+            <h3 className="text-2xl font-black mt-12 mb-6">Watermarks Are Required in the US</h3>
             <p>
               A watermark reading "Virtually Staged" or "Digitally Staged" is the single most important compliance measure you can take when using AI-enhanced real estate photos. It serves three critical purposes:
             </p>
