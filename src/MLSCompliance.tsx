@@ -71,38 +71,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
             <h4>Federal Level: FTC Truth in Advertising</h4>
             <p>The FTC does not have a specific virtual staging law, but its general prohibition on deceptive advertising applies. Any image that could mislead a consumer about the condition of a property falls under FTC jurisdiction. A clear "Virtually Staged" watermark is the simplest defense.</p>
 
-            <h4>State-Level Regulations (2026 Update)</h4>
-            <div className="space-y-6 mt-6 mb-10 not-prose">
-              <div className="bg-indigo-50 dark:bg-indigo-900/20 p-6 rounded-2xl border border-indigo-100 dark:border-indigo-800">
-                <h4 className="font-black text-lg text-indigo-700 dark:text-indigo-300 mb-2">California (AB 723 - Effective January 1, 2026)</h4>
-                <p className="text-sm text-indigo-900/70 dark:text-indigo-200">California has passed the most comprehensive virtual staging disclosure law in the country. AB 723 requires mandatory disclosure for any AI-modified or digitally retouched real estate image, alongside a link or QR code allowing viewers to access the original, unmodified versions. Non-compliance can result in criminal penalties. This law sets a precedent expected to follow nationwide.</p>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Wisconsin (Act 69 - Effective 2027)</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">Wisconsin has passed legislation requiring disclosure of any technological modification to property photos. Until the law takes effect, existing MLS rules and the state's deceptive advertising statute already provide enforcement.</p>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">New York</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">The NY Department of State requires that modified real estate images not be misleading under existing consumer protection paradigms.</p>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Texas</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">The Texas Real Estate Commission (TREC) requires that all marketing materials be truthful. Texas MLS boards, including HAR (Houston Association of Realtors) and NTREIS (North Texas), explicitly mandate watermarks on virtually staged photos.</p>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Florida</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">Florida's Division of Real Estate enforces disclosure requirements. The Florida Realtors association recommends prominent watermarks on all virtually staged images, enforced by major networks like Stellar MLS and Miami MLS.</p>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Illinois</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">The Midwest Real Estate Data (MRED) MLS covering the Chicago metropolitan area has explicit rules requiring watermarks on digitally staged images and disclosure in listing remarks.</p>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-                <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Colorado</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">REcolorado, the state's largest MLS, requires a "Virtually Staged" watermark and a notation in listing remarks for any AI-enhanced photo.</p>
-              </div>
-              <p className="text-sm text-slate-500 italic px-2">Other States: Most states rely on a combination of NAR Code of Ethics enforcement, local MLS rules, and general advertising statutes. States including Arizona, Virginia, Massachusetts, and Oregon have all seen increased enforcement activity recently.</p>
-            </div>
+
 
 
 
