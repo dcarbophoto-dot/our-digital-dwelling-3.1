@@ -145,7 +145,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                       {sortField === 'lastLoginAt' && (sortDirection === 'asc' ? '↑' : '↓')}
                     </div>
                   </th>
-                  <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -181,14 +181,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleString() : 'Never'}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button
-                        onClick={() => handleToggleStatus(user.uid as string, user.isDisabled)}
-                        className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${user.isDisabled ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-800/50' : 'bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-800/50'}`}
-                      >
-                        {user.isDisabled ? 'Enable Profile' : 'Disable Profile'}
-                      </button>
-                    </td>
+
                   </tr>
                 ))}
               </tbody>
