@@ -6,8 +6,8 @@ interface UserGuideProps {
 
 const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
   return (
-    <div className="fixed inset-0 z-[200] bg-white dark:bg-slate-950 overflow-y-auto custom-scrollbar">
-      <div className="max-w-6xl mx-auto px-6 py-16">
+    <div className="fixed inset-0 z-[200] bg-white dark:bg-slate-950 overflow-y-auto print:overflow-visible print:relative custom-scrollbar">
+      <div className="max-w-6xl mx-auto px-6 py-16 print:max-w-none print:py-0">
         {/* Header */}
         <div className="flex justify-between items-start mb-16">
           <div className="max-w-2xl">
@@ -18,13 +18,24 @@ const UserGuide: React.FC<UserGuideProps> = ({ onClose }) => {
             <h1 className="text-5xl font-black tracking-tighter text-slate-900 dark:text-white mb-4">The Complete Guide to <br/>Virtual Staging</h1>
             <p className="text-xl text-slate-500 dark:text-slate-400 leading-relaxed">Everything you need to know to transform empty listings into sold properties using Our Digital Dwelling.</p>
           </div>
-          <button 
-            onClick={onClose}
-            className="group p-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-all"
-            aria-label="Close User Guide"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-600 dark:text-slate-400 group-hover:scale-110 transition-transform"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          </button>
+          <div className="flex gap-3 print:hidden">
+            <button 
+              onClick={() => window.print()}
+              className="flex items-center gap-2 px-5 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold shadow-lg shadow-indigo-600/20 transition-all"
+              aria-label="Save as PDF"
+              title="Save as PDF"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              Save as PDF
+            </button>
+            <button 
+              onClick={onClose}
+              className="group p-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-all"
+              aria-label="Close User Guide"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-600 dark:text-slate-400 group-hover:scale-110 transition-transform"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
         </div>
 
         {/* Quick Links / Table of Contents equivalent visually */}
