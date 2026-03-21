@@ -60,7 +60,8 @@ export const changeDpiDataUrl = (base64: string, dpi: number): string => {
 export const resizeAndFormatImage = async (
   sourceUrl: string,
   maxDimension: number,
-  dpi: number = 300
+  dpi: number = 300,
+  watermarkText?: string
 ): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     let src = sourceUrl;
@@ -124,6 +125,49 @@ export const resizeAndFormatImage = async (
       ctx.imageSmoothingQuality = 'high';
       
       ctx.drawImage(img, 0, 0, width, height);
+      
+      if (watermarkText) {
+        ctx.save();
+        const baseFontSize = Math.max(24, Math.floor(width * 0.015)); 
+        ctx.font = `900 ${baseFontSize}px sans-serif`;
+        
+        const textMetrics = ctx.measureText(watermarkText);
+        const textWidth = textMetrics.width;
+        
+        const paddingX = baseFontSize * 1.5;
+        const paddingY = baseFontSize * 0.8;
+        const buttonWidth = textWidth + paddingX * 2;
+        const buttonHeight = baseFontSize + paddingY * 2;
+        
+        const margin = width * 0.02; // 2% margin from edges
+        const x = width - buttonWidth - margin;
+        const y = height - buttonHeight - margin;
+        
+        ctx.globalAlpha = 0.4;
+        ctx.fillStyle = "#ffffff";
+        
+        const radius = buttonHeight / 2;
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + buttonWidth - radius, y);
+        ctx.quadraticCurveTo(x + buttonWidth, y, x + buttonWidth, y + radius);
+        ctx.lineTo(x + buttonWidth, y + buttonHeight - radius);
+        ctx.quadraticCurveTo(x + buttonWidth, y + buttonHeight, x + buttonWidth - radius, y + buttonHeight);
+        ctx.lineTo(x + radius, y + buttonHeight);
+        ctx.quadraticCurveTo(x, y + buttonHeight, x, y + buttonHeight - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+        ctx.fill();
+        
+        ctx.globalAlpha = 0.85;
+        ctx.fillStyle = "#000000";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(watermarkText, x + buttonWidth / 2, y + buttonHeight / 2);
+        
+        ctx.restore();
+      }
       
       // Get highest quality JPEG base64
       const base64Jpeg = canvas.toDataURL('image/jpeg', 1.0);
