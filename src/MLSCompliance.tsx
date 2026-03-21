@@ -104,34 +104,7 @@ const MLSCompliance: React.FC<MLSComplianceProps> = ({ onBack }) => {
               <p className="text-sm text-slate-500 italic px-2">Other States: Most states rely on a combination of NAR Code of Ethics enforcement, local MLS rules, and general advertising statutes. States including Arizona, Virginia, Massachusetts, and Oregon have all seen increased enforcement activity recently.</p>
             </div>
 
-            <h3>A Closer Look: How Major MLS Systems Enforce Watermark Rules</h3>
-            <ul>
-              <li><strong>Bright MLS (Mid-Atlantic):</strong> Serving over 100,000 agents, requires all virtually staged images to carry a clearly visible watermark. Violations can result in fines starting at $500 for first offenses up to $2,500 for repeats, along with listing suspension.</li>
-              <li><strong>CRMLS (California):</strong> The nation's largest MLS. All digitally enhanced images must include watermarks and listings must include a link to original unmodified photos. Non-compliant listings are flagged for removal within 48 hours.</li>
-              <li><strong>Stellar MLS (Florida):</strong> Requires a watermark on every virtually staged image and a disclosure statement in remarks. Escalating fines and potential suspension apply.</li>
-              <li><strong>MRED (Illinois):</strong> Rules require clear watermarks and disclosure in remarks. They explicitly prohibit any structural modifications like removing walls or adding windows.</li>
-              <li><strong>HAR (Houston):</strong> Ensures a strict watermark policy. Non-compliant images are subject to immediate correction requests, resolving in fines if not fixed within 72 hours.</li>
-            </ul>
 
-            <h3>What Constitutes a Proper Disclosure?</h3>
-            <p>A compliant disclosure must be clear, visible, and unambiguous. Here is what best practices look like:</p>
-            
-            <h4>On the Image Itself:</h4>
-            <ul>
-              <li>A visible watermark reading "Virtually Staged", "Digitally Staged", or "Virtual Staging"</li>
-              <li>The watermark should be legible but not obstruct the essential image details.</li>
-              <li>Position it in a corner or along the bottom edge.</li>
-              <li>Use semi-transparent text for a professional look.</li>
-              <li>Font size should be large enough to read when the image is displayed at typical listing dimensions.</li>
-              <li>White or light text with a subtle shadow works well for visibility on most backgrounds.</li>
-            </ul>
-
-            <h4>In the Listing:</h4>
-            <ul>
-              <li><strong>Photo caption:</strong> "This image has been virtually staged"</li>
-              <li><strong>Public remarks:</strong> "Some photos in this listing have been virtually staged to show the property's potential"</li>
-              <li><strong>Agent remarks:</strong> "Virtual staging by [provider]. Original photos available on request"</li>
-            </ul>
 
             <div className="bg-slate-100 dark:bg-slate-800 p-6 rounded-2xl my-6">
               <h4 className="mt-0 text-slate-900 dark:text-white">Best Practice: Provide Original Photos</h4>
