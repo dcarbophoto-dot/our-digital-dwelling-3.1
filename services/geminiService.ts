@@ -162,7 +162,7 @@ export const stageRoom = async (
     - Generate ultra-high resolution, razor-sharp textures for all added furniture, fabric, plants, and decor.
     - CRITICAL: Aggressively PREVENT any 'AI-smoothed', blurry, plastic, painted, or pixelated artifacts on new objects and environment.
     - CRITICAL EXTERIOR DETAIL: Foliage, grass blades, trees, and landscaping MUST be rendered with explicit micro-contrast, showing individual leaves and photographic crispness. Do NOT generate smeared or blobby green masses.
-    - Match professional 8k real-estate photography standards with perfect focal sharpness, heavy realism, natural film grain, and cinematic lighting.
+    - Match professional 8k real-estate photography standards with perfect focal sharpness, heavy realism, clean noise-free digital sensor output, and cinematic lighting.
   `;
 
   let prompt = '';
