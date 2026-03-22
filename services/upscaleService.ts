@@ -7,7 +7,7 @@ const RETRY_DELAY_MS = 2000;
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const upscaleImage = async (base64Image: string): Promise<string> => {
+export const upscaleImage = async (base64Image: string, prompt?: string): Promise<string> => {
   let lastError: Error | unknown;
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
@@ -18,7 +18,8 @@ export const upscaleImage = async (base64Image: string): Promise<string> => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          imageBase64: base64Image
+          imageBase64: base64Image,
+          prompt: prompt
         })
       });
 

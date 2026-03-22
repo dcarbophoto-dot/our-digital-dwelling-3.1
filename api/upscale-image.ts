@@ -21,34 +21,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       auth: apiToken,
     });
 
-    const { imageBase64 } = req.body;
-
+    const { imageBase64, prompt } = req.body;
+    
     if (!imageBase64) {
       return res.status(400).json({ error: 'Image data is required' });
     }
 
-    // Execute SwinIR for high-frequency detail preservation on organic materials
+    // Default macro-texture prompt safety net if UI prompt injection fails
+    const finalPrompt = prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, highly detailed exterior and interior styling, sharp crisp foliage and landscaping";
+
+    // 1. Fetch latest model dynamically to bypass static version hash dependencies
+    const model = await replicate.models.get("stability-ai", "stable-diffusion-x4-upscaler");
+    
+    // 2. Execute Stable Diffusion 4x Upscaler for true texture hallucination and detail addition
     const output: any = await replicate.run(
-      "jingyunliang/swinir:660d922d33153019e8c263a3bba265de882e7f4f70396546b6c9c8f9d47a021a",
+      `stability-ai/stable-diffusion-x4-upscaler:${model.latest_version.id}`,
       {
         input: {
           image: imageBase64,
-          task_type: "Real-World Image Super-Resolution-Large"
+          prompt: finalPrompt
         }
       }
     );
-    
-    // Specifically parse the output into a URI string regardless of Replicate NPM version data structures
-    let finalUrl = "";
-    if (Array.isArray(output)) {
-      finalUrl = output[0];
-    } else if (output && typeof output === 'object') {
-      finalUrl = output.url ? (typeof output.url === 'function' ? output.url() : output.url) : String(output);
-    } else {
-      finalUrl = String(output);
+    // Stable Diffusion upscalers usually output arrays of image URIs natively
+    const imageUrl = Array.isArray(output) ? output[0] : output;
+
+    if (!imageUrl) {
+      throw new Error("Failed to extract valid image URL from Stable Diffusion Replicate response.");
     }
 
-    return res.status(200).json({ url: finalUrl });
+    return res.status(200).json({ url: imageUrl });
   } catch (error: any) {
     console.error('Error during upscaling:', error);
     return res.status(500).json({ error: error.message || 'Internal Server Error' });

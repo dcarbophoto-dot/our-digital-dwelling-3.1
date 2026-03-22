@@ -1057,7 +1057,8 @@ const App: React.FC = () => {
         
         let preProcessedUrl = url;
         if (downloadResolution === '4K') {
-           preProcessedUrl = await upscaleImage(url);
+           const upscalePrompt = item.prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect landscaping";
+           preProcessedUrl = await upscaleImage(url, upscalePrompt);
         }
         const maxDim = downloadResolution === '4K' ? 4096 : 2560;
         const processedDataUrl = await resizeAndFormatImage(
@@ -1104,7 +1105,7 @@ const App: React.FC = () => {
            alert("No original images found."); setIsDownloading(false); return;
         }
       } else {
-        const exportQueue: { name: string, url: string, watermarkText?: string, is4kAI: boolean }[] = [];
+        const exportQueue: { name: string, url: string, watermarkText?: string, is4kAI: boolean, prompt?: string }[] = [];
         
         for (const item of items) {
             const originalBaseName = item.name.substring(0, item.name.lastIndexOf('.')) || item.name;
@@ -1116,7 +1117,8 @@ const App: React.FC = () => {
                    name: `${originalBaseName}_${suffix}.jpg`,
                    url: url,
                    watermarkText: watermarkText,
-                   is4kAI: true 
+                   is4kAI: true,
+                   prompt: item.prompt
                 });
             };
             
@@ -1142,7 +1144,8 @@ const App: React.FC = () => {
             try {
                 let preProcessedUrl = queued.url;
                 if (downloadResolution === '4K' && queued.is4kAI) {
-                   preProcessedUrl = await upscaleImage(queued.url);
+                   const upscalePrompt = queued.prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect landscaping";
+                   preProcessedUrl = await upscaleImage(queued.url, upscalePrompt);
                 }
                 const maxDim = downloadResolution === '4K' ? 4096 : 2560;
                 const processedDataUrl = await resizeAndFormatImage(

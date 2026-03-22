@@ -52,12 +52,14 @@ export interface StagedItem {
   name: string;
   original: string;
   originalUrlStorage?: string;
-  roomType: RoomType;
+  roomType?: RoomType;
   styleCategory: StyleCategory;
   staged: Partial<Record<StagingStyle, string>>;
-  styleHistory: Record<string, HistoryItem[]>; // History of images per style
+  styleHistory: Partial<Record<StagingStyle, HistoryItem[]>>; // History of images per style
   historyIndex: Record<string, number>; // Current viewing index per style
-  currentStyle: StagingStyle | null;
+  currentStyle?: StagingStyle;
+  sceneType?: string;
+  prompt?: string;
   refinementPrompt: string; 
   refinementHistory: string[]; 
   isProcessing: boolean;
