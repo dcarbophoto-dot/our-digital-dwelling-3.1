@@ -30,15 +30,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Default macro-texture prompt safety net if UI prompt injection fails
     const finalPrompt = prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, highly detailed exterior and interior styling, sharp crisp foliage and landscaping";
 
-    // Execute Real-ESRGAN for extreme high-frequency architectural detail hallucination (fixes blurred shingles/grass)
-    const model = await replicate.models.get("nightmareai", "real-esrgan");
+    // Execute Stable Diffusion XL Image-to-Image as an architectural reconstruction pass.
+    // At a low prompt_strength (0.2), SDXL mathematically redraws the edges of shingles and grass 
+    // natively, completely avoiding the painted/melted look of generic ESRGAN/SwinIR upscalers.
+    const model = await replicate.models.get("stability-ai", "sdxl");
     const output: any = await replicate.run(
-      `nightmareai/real-esrgan:${model.latest_version.id}`,
+      `stability-ai/sdxl:${model.latest_version.id}`,
       {
         input: {
           image: imageBase64,
-          scale: 4,
-          face_enhance: false
+          prompt: finalPrompt,
+          negative_prompt: "oil painting, smoothed, blurry, painted, illustration, deformed, distorted, weird grass, weird trees, smeared",
+          prompt_strength: 0.25, 
+          num_inference_steps: 30
         }
       }
     );
