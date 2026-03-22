@@ -69,6 +69,8 @@ const App: React.FC = () => {
   const [newProjectName, setNewProjectName] = useState('');
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [isCreatingProject, setIsCreatingProject] = useState(false);
+  const [loadingProjectId, setLoadingProjectId] = useState<string | null>(null);
+  const [loadingProjectProgress, setLoadingProjectProgress] = useState<number>(0);
 
   // UI Selection State
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -618,6 +620,8 @@ const App: React.FC = () => {
 
   const handleLoadProject = async (projectId: string) => {
     setIsImporting(true);
+    setLoadingProjectId(projectId);
+    setLoadingProjectProgress(0);
     try {
       if (!user) {
         alert("You must be logged in to load a project.");
@@ -656,8 +660,13 @@ const App: React.FC = () => {
         }
         groupedFiles.get(file.originalUrl)!.push(file);
       }
+      let processedCount = 0;
+      const totalGroups = groupedFiles.size;
 
       for (const [originalUrl, files] of groupedFiles.entries()) {
+        processedCount++;
+        setLoadingProjectProgress(Math.round((processedCount / totalGroups) * 100));
+        
         const baseFile = files[0];
         
         let originalBase64 = originalUrl;
@@ -730,6 +739,8 @@ const App: React.FC = () => {
       alert("Failed to load project.");
     } finally {
       setIsImporting(false);
+      setLoadingProjectId(null);
+      setLoadingProjectProgress(0);
     }
   };
 
@@ -2096,9 +2107,21 @@ const App: React.FC = () => {
                             {project.createdAt?.toDate ? new Date(project.createdAt.toDate()).toLocaleDateString() : 'Recently'}
                           </p>
                         </div>
-                        <div className="mt-4 flex items-center text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-widest group-hover:translate-x-1 transition-transform">
-                          Open Project <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="ml-1"><path d="m9 18 6-6-6-6"/></svg>
-                        </div>
+                        {loadingProjectId === project.id ? (
+                          <div className="mt-4">
+                            <div className="flex justify-between items-center mb-1">
+                              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Loading...</span>
+                              <span className="text-xs font-bold text-slate-500">{loadingProjectProgress}%</span>
+                            </div>
+                            <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                              <div className="bg-indigo-600 dark:bg-indigo-500 h-1.5 rounded-full transition-all duration-300 ease-out" style={{ width: `${loadingProjectProgress}%` }}></div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="mt-4 flex items-center text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-widest group-hover:translate-x-1 transition-transform">
+                            Open Project <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="ml-1"><path d="m9 18 6-6-6-6"/></svg>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
