@@ -1125,8 +1125,8 @@ const App: React.FC = () => {
                 });
             };
             
-            for (const [styleId, url] of Object.entries(item.staged)) {
-               if (url) addUrl(url, `staged_${styleId}`, item.watermarkText);
+            if (item.currentStyle && item.staged[item.currentStyle]) {
+               addUrl(item.staged[item.currentStyle]!, `staged_${item.currentStyle}`, item.watermarkText);
             }
         }
         
