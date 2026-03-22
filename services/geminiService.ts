@@ -234,14 +234,25 @@ export const stageRoom = async (
           TASK: Professional Real Estate Photo Editing - Outdoor/Exterior Enhancement.
           STYLE TO APPLY: ${style.label} - ${style.prompt}
           ${refinementPrompt ? `USER REFINEMENT INSTRUCTIONS: ${refinementPrompt}` : ''}
-          ${architecturalPreservationInstruction}
-          ${qualityInstruction}
-          STRICT EXTERIOR RULES:
-          1. Preserve the house architecture perfectly.
-          2. Focus on environment, landscaping, and sky.
-          3. Landscaping (grass, trees, plants) MUST be photorealistic, raw, and razor-sharp. Avoid any soft 'oil-painting' look on foliage at all costs.
-          4. Maintain photorealistic outdoor lighting.
-          5. PRESERVE the exact dimensions and aspect ratio.
+          
+          STRICT PRESERVATION RULES (DO NOT ALTER):
+          - Do not modify the structure, proportions, materials, or colors of the house.
+          - Do not alter rooflines, windows, doors, trim, driveway, walkways, or stonework.
+          - Do not change camera angle, perspective, composition, or lens characteristics.
+          - Do not introduce or remove objects (no furniture, cars, decor, or landscape redesign).
+          - Maintain original shadows, lighting direction, and realism.
+
+          OUTPUT REQUIREMENTS & REALISM:
+          - Ultra-clean detail with no artifacts, halos, or texture smearing.
+          - Professional real estate photography finish—crisp, natural, and believable.
+          - No painterly effects, no stylization, no AI artifacts.
+          - Ensure botanical realism (no generic or plastic-looking foliage).
+
+          FAIL CONDITIONS (ABSOLUTELY DO NOT DO):
+          - Do not alter driveway tone or texture.
+          - Do not change brick color or siding.
+          - Do not reshape landscaping beds.
+          - Do not blur or simplify fine details.
         `;
       }
   }
