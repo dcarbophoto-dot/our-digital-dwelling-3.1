@@ -117,8 +117,10 @@ export const deleteProject = async (uid: string, projectId: string): Promise<boo
     
     await Promise.all(deletePromises);
 
-    const projectRef = doc(db, USERS_COLLECTION, uid, "projects", projectId);
-    await deleteDoc(projectRef);
+    if (projectId !== 'unfiled') {
+      const projectRef = doc(db, USERS_COLLECTION, uid, "projects", projectId);
+      await deleteDoc(projectRef);
+    }
 
     return true;
   } catch (error) {
@@ -370,7 +372,7 @@ export const saveFileRecord = async (uid: string, fileData: {
 
     await addDoc(filesCollectionRef, data);
 
-    if (fileData.projectId) {
+    if (fileData.projectId && fileData.projectId !== 'unfiled') {
       const projectRef = doc(db, USERS_COLLECTION, uid, "projects", fileData.projectId);
       const updateData: any = {
         updatedAt: serverTimestamp()
@@ -380,8 +382,6 @@ export const saveFileRecord = async (uid: string, fileData: {
         updateData.thumbnailUrl = fileData.stagedUrl;
       } else if (fileData.originalUrl) {
         // Also ensure a project gets a thumbnail when a new file is uploaded
-        // Check if the project already has a thumbnail by fetching it first? 
-        // We'll just overwrite it for now since the newest photo is a good thumbnail.
         updateData.thumbnailUrl = fileData.originalUrl;
       }
       await updateDoc(projectRef, updateData);

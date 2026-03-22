@@ -156,7 +156,10 @@ const App: React.FC = () => {
 
   // Memoized current active item
   const activeItem = useMemo(() => items.find(i => i.id === activeId) || items[0] || null, [items, activeId]);
-  const activeProject = useMemo(() => userProjects.find(p => p.id === currentProjectId), [userProjects, currentProjectId]);
+  const activeProject = useMemo(() => {
+    if (currentProjectId === 'unfiled') return { id: 'unfiled', name: 'Unfiled Photos' } as any;
+    return userProjects.find(p => p.id === currentProjectId);
+  }, [userProjects, currentProjectId]);
 
   // Reactive check for insufficient credits based on selected style
   const hasInsufficientCredits = useMemo(() => {
@@ -526,8 +529,8 @@ const App: React.FC = () => {
     }
   };
 
-  const handleConfirmProject = async (create: boolean) => {
-    let pId = currentProjectId;
+  const handleConfirmProject = async (create: boolean, isUnfiled: boolean = false) => {
+    let pId = isUnfiled ? 'unfiled' : currentProjectId;
     let createdProjectName: string | undefined = undefined;
     let updatedProjects = [...userProjects]; // Track the latest array for processFiles
     if (create && newProjectName.trim()) {
@@ -2132,33 +2135,41 @@ const App: React.FC = () => {
             <div className="overflow-y-auto flex-1 custom-scrollbar pr-2">
               {userProjects.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                  {userProjects.map(project => (
+                  {[{ id: 'unfiled', name: 'Unfiled Photos', isVirtual: true } as any, ...userProjects].map(project => (
                     <div 
                       key={project.id} 
                       onClick={() => handleLoadProject(project.id)}
                       className="group cursor-pointer bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:border-indigo-500 dark:hover:border-indigo-500 transition-all hover:shadow-xl hover:shadow-indigo-500/10 flex flex-col"
                     >
                       <div className="aspect-[4/3] bg-slate-200 dark:bg-slate-800 relative overflow-hidden">
-                        <button 
-                          onClick={(e) => handleDeleteProject(project.id, e)}
-                          className="absolute top-2 right-2 p-1.5 bg-red-500/80 hover:bg-red-600 text-white rounded-lg z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                          title="Delete Project"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-                        </button>
-                        {project.thumbnailUrl ? (
-                          <img src={project.thumbnailUrl} alt={project.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        ) : (
-                          <div className="absolute inset-0 flex items-center justify-center text-slate-400 dark:text-slate-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                        {project.id === 'unfiled' ? (
+                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-indigo-50 dark:bg-indigo-900/30 text-indigo-400 dark:text-indigo-500">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mb-2 opacity-80"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/><path d="M12 10v6"/><path d="m9 13 3 3 3-3"/></svg>
                           </div>
+                        ) : (
+                          <>
+                            <button 
+                              onClick={(e) => handleDeleteProject(project.id, e)}
+                              className="absolute top-2 right-2 p-1.5 bg-red-500/80 hover:bg-red-600 text-white rounded-lg z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                              title="Delete Project"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                            </button>
+                            {project.thumbnailUrl ? (
+                              <img src={project.thumbnailUrl} alt={project.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            ) : (
+                              <div className="absolute inset-0 flex items-center justify-center text-slate-400 dark:text-slate-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                              </div>
+                            )}
+                          </>
                         )}
                       </div>
                       <div className="p-5 flex-1 flex flex-col justify-between">
                         <div>
                           <h3 className="font-bold text-slate-900 dark:text-white text-lg line-clamp-1">{project.name}</h3>
                           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                            {project.createdAt?.toDate ? new Date(project.createdAt.toDate()).toLocaleDateString() : 'Recently'}
+                            {project.isVirtual ? 'Permanent Folder' : project.createdAt?.toDate ? new Date(project.createdAt.toDate()).toLocaleDateString() : 'Recently'}
                           </p>
                         </div>
                         {loadingProjectId === project.id ? (
@@ -2222,7 +2233,7 @@ const App: React.FC = () => {
                 >
                   {isCreatingProject ? 'Creating...' : 'Create & Upload'}
                 </button>
-                {currentProjectId && (
+                {currentProjectId && currentProjectId !== 'unfiled' && (
                    <button 
                     onClick={() => handleConfirmProject(false)} 
                     className="w-full bg-slate-900 dark:bg-slate-800 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-600/20 hover:bg-slate-800 dark:hover:bg-slate-700 transition-all"
@@ -2231,10 +2242,10 @@ const App: React.FC = () => {
                   </button>
                 )}
                 <button 
-                  onClick={() => handleConfirmProject(false)} 
+                  onClick={() => handleConfirmProject(false, true)} 
                   className="w-full text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors py-2"
                 >
-                  Just Upload (No Project)
+                  Just Upload (Unfiled Photos)
                 </button>
               </div>
             </div>
