@@ -33,7 +33,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       {
         input: {
           image: imageBase64,
-          task: "Real-World Image Super-Resolution-Large"
+          task_type: "Real-World Image Super-Resolution-Large"
         }
       }
     );
