@@ -1500,13 +1500,13 @@ const App: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-indigo-600 p-10 rounded-[2.5rem] shadow-xl text-white flex flex-col justify-between">
+              <div className="bg-slate-900 p-10 rounded-[2.5rem] shadow-xl text-white flex flex-col justify-between">
                 <div className="space-y-4">
-                  <div className="bg-white/20 w-12 h-12 rounded-2xl flex items-center justify-center">
+                  <div className="bg-white/10 w-12 h-12 rounded-2xl flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19a3.5 3.5 0 0 0 0-7c-.3 0-.6 0-.9.1a5 5 0 0 0-9.8 1.4c0 .5.1 1 .2 1.5a3.5 3.5 0 0 0 0 7z"/></svg>
                   </div>
                   <h3 className="text-2xl font-black">Sky & Lawn Retouching</h3>
-                  <p className="text-indigo-100 text-sm leading-relaxed">Turn gray skies into blue, and brown lawns into lush green manicured landscapes. Instant curb appeal for any weather.</p>
+                  <p className="text-slate-400 text-sm leading-relaxed">Turn gray skies into blue, and brown lawns into lush green manicured landscapes. Instant curb appeal for any weather.</p>
                 </div>
                 <div className="mt-8 pt-8 border-t border-white/10">
                   <p className="text-xs font-black uppercase tracking-widest">Exterior Excellence</p>
