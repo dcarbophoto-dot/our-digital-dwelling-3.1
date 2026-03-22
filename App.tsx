@@ -1495,7 +1495,7 @@ const App: React.FC = () => {
                     ))}
                   </ul>
                 </div>
-                <div className="w-full md:w-1/2 aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl shrink-0 group/img">
+                <div className="w-full md:w-1/2 aspect-square rounded-3xl overflow-hidden shadow-2xl shrink-0 group/img">
                   <img src={interiorStagingImg} className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" alt="Interior Staging Before and After" />
                 </div>
               </div>
