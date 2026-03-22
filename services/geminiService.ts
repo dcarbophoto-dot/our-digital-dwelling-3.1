@@ -2,6 +2,8 @@
 // Removed GoogleGenAI client-side import
 import { ALL_STYLES, ROOM_TYPES } from "../constants";
 import { StagingStyle, RoomType } from "../types";
+import { httpsCallable } from "firebase/functions";
+import { functions } from "./firebase";
 
 const MAX_RETRIES = 3;
 const BASE_DELAY = 2000; // Start with 2 seconds
@@ -245,27 +247,17 @@ export const stageRoom = async (
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
-      // Call the secure Vercel API backend
-      const response = await fetch('/api/generate-image', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          imageBase64: processedBase64,
-          prompt: prompt
-        })
+      // Call the secure Firebase function
+      const generateImage = httpsCallable<{imageBase64: string, prompt: string}, {base64: string}>(functions, 'generateImage');
+      const result = await generateImage({
+        imageBase64: processedBase64,
+        prompt: prompt
       });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `Server responded with ${response.status}`);
-      }
-
-      const data = await response.json();
+      const data = result.data;
       
       if (!data.base64) {
-        throw new Error("No image data returned from API");
+        throw new Error("No image data returned from Firebase API");
       }
 
       const outputData = `data:image/jpeg;base64,${data.base64}`;
