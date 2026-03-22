@@ -1827,7 +1827,15 @@ const App: React.FC = () => {
       ) : (
       <main className="flex-1 flex flex-col overflow-hidden bg-slate-100 dark:bg-slate-950 transition-colors">
         {items.length === 0 ? (
-          <div className="flex-1 w-full flex flex-col items-center justify-center relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${heroBg})` }}>
+          <div className="flex-1 w-full flex flex-col items-center justify-center relative overflow-hidden">
+            <video 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
+              src="/chronomorph_part_5.mp4" 
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            />
             <div className="absolute inset-0 bg-white/75 dark:bg-slate-950/80 backdrop-blur-[1px]"></div>
             
             <div className="max-w-3xl mx-auto text-center px-6 relative z-10 w-full transform -translate-y-8">
