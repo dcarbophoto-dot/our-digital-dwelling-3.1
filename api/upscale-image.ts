@@ -30,13 +30,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Default macro-texture prompt safety net if UI prompt injection fails
     const finalPrompt = prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, highly detailed exterior and interior styling, sharp crisp foliage and landscaping";
 
-    // Execute SwinIR for high-frequency detail preservation on organic materials
+    // Execute Real-ESRGAN for extreme high-frequency architectural detail hallucination (fixes blurred shingles/grass)
+    const model = await replicate.models.get("nightmareai", "real-esrgan");
     const output: any = await replicate.run(
-      "jingyunliang/swinir:660d922d33153019e8c263a3bba265de882e7f4f70396546b6c9c8f9d47a021a",
+      `nightmareai/real-esrgan:${model.latest_version.id}`,
       {
         input: {
           image: imageBase64,
-          task_type: "Real-World Image Super-Resolution-Large"
+          scale: 4,
+          face_enhance: false
         }
       }
     );
