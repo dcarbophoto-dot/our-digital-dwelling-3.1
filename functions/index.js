@@ -51,7 +51,7 @@ exports.generateImage = onCall(
       const base64Data = imageBase64.includes(',') ? imageBase64.split(',')[1] : imageBase64;
 
       const response = await ai.models.generateContent({
-        model: 'gemini_pro_preview',
+        model: 'gemini-1.5-pro-preview',
         contents: {
           parts: [
             {
