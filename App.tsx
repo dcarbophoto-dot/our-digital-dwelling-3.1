@@ -8,7 +8,7 @@ import { getUserProfile, updateUserProfile, deleteUserProfile, UserProfile, save
 import { resizeAndFormatImage } from './src/utils/imageExportUtils';
 import { upscaleImage } from './services/upscaleService';
 import { uploadBase64ToStorage } from './services/storageService';
-import heroBg from './src/assets/hero-bg.jpg';
+
 import { useStorage } from './hooks/useStorage';
 import JSZip from 'jszip';
 import TermsOfService from './TermsOfService';
