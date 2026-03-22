@@ -1070,6 +1070,9 @@ const App: React.FC = () => {
         
         if (downloadResolution === '4K' && user) {
           await deductCredit(user.uid, 1);
+          if (userProfile) {
+              setUserProfile(prev => prev ? { ...prev, credits: prev.credits - 1 } : null);
+          }
         }
         
         const link = document.createElement('a');
