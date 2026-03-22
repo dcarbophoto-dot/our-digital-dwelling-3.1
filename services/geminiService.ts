@@ -160,6 +160,7 @@ export const stageRoom = async (
     QUALITY AND PHOTOREALISM TARGETS:
     - ALL generated content MUST be hyper-realistic and completely indistinguishable from real life.
     - Generate ultra-high resolution, razor-sharp textures for all added furniture, fabric, plants, and decor.
+    - CRITICAL MATERIAL DETAIL: Absolutely DO NOT smudge, warp, or paint over external brickwork, masonry, stone facades, or siding. These must be perfectly physically preserved.
     - CRITICAL: Aggressively PREVENT any 'AI-smoothed', blurry, plastic, painted, or pixelated artifacts on new objects and environment.
     - CRITICAL EXTERIOR DETAIL: Foliage, grass blades, trees, and landscaping MUST be rendered with explicit micro-contrast, showing individual leaves and photographic crispness. Do NOT generate smeared or blobby green masses.
     - Match professional 8k real-estate photography standards with perfect focal sharpness, heavy realism, clean noise-free digital sensor output, and cinematic lighting.

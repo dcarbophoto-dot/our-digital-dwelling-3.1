@@ -30,27 +30,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Default macro-texture prompt safety net if UI prompt injection fails
     const finalPrompt = prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, highly detailed exterior and interior styling, sharp crisp foliage and landscaping";
 
-    // 1. Fetch latest model dynamically to bypass static version hash dependencies
-    const model = await replicate.models.get("stability-ai", "stable-diffusion-x4-upscaler");
-    
-    // 2. Execute Stable Diffusion 4x Upscaler for true texture hallucination and detail addition
+    // Execute SwinIR for high-frequency detail preservation on organic materials
     const output: any = await replicate.run(
-      `stability-ai/stable-diffusion-x4-upscaler:${model.latest_version.id}`,
+      "jingyunliang/swinir:660d922d33153019e8c263a3bba265de882e7f4f70396546b6c9c8f9d47a021a",
       {
         input: {
           image: imageBase64,
-          prompt: finalPrompt
+          task_type: "Real-World Image Super-Resolution-Large"
         }
       }
     );
-    // Stable Diffusion upscalers usually output arrays of image URIs natively
-    const imageUrl = Array.isArray(output) ? output[0] : output;
 
-    if (!imageUrl) {
-      throw new Error("Failed to extract valid image URL from Stable Diffusion Replicate response.");
-    }
+    const finalUrl = String(output);
 
-    return res.status(200).json({ url: imageUrl });
+    return res.status(200).json({ url: finalUrl });
   } catch (error: any) {
     console.error('Error during upscaling:', error);
     return res.status(500).json({ error: error.message || 'Internal Server Error' });
