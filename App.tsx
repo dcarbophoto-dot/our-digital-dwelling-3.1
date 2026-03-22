@@ -9,6 +9,7 @@ import { resizeAndFormatImage } from './src/utils/imageExportUtils';
 import { upscaleImage } from './services/upscaleService';
 import { uploadBase64ToStorage } from './services/storageService';
 
+import landingTwilight from './src/assets/landing-twilight.jpg';
 import { useStorage } from './hooks/useStorage';
 import JSZip from 'jszip';
 import TermsOfService from './TermsOfService';
@@ -1454,11 +1455,11 @@ const App: React.FC = () => {
               <div className="relative w-full">
                 <div className="absolute -inset-4 bg-indigo-600/5 dark:bg-indigo-400/5 blur-3xl rounded-[3rem]"></div>
                 <div className="relative bg-slate-100 dark:bg-slate-800 rounded-[3rem] overflow-hidden shadow-2xl aspect-[4/3] lg:aspect-[3/4] xl:aspect-[4/3]">
-                  <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000" className="w-full h-full object-cover" alt="Modern Home Interior" />
+                  <img src={landingTwilight} className="w-full h-full object-cover" alt="Twilight Exterior Conversion" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                 <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                   <div className="text-white">
-                    <p className="text-xs font-black uppercase tracking-widest opacity-80 mb-1">Modern Luxury</p>
+                    <p className="text-xs font-black uppercase tracking-widest opacity-80 mb-1">Twilight Conversion</p>
                     <p className="text-xl font-bold">Virtual Staging Applied</p>
                   </div>
                   <div className="bg-white/20 backdrop-blur-xl px-4 py-2 rounded-2xl border border-white/30 text-white text-xs font-bold">Generated in 4s</div>
