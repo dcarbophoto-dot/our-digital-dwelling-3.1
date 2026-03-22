@@ -261,20 +261,35 @@ export const stageRoom = async (
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
-      // Call the secure Firebase function
-      const generateImage = httpsCallable<{imageBase64: string, prompt: string}, {base64: string}>(functions, 'generateImage');
-      const result = await generateImage({
-        imageBase64: processedBase64,
-        prompt: prompt
-      });
-
-      const data = result.data;
+      let data;
       
-      if (!data.base64) {
-        throw new Error("No image data returned from Firebase API");
+      if (style.category === 'outdoor') {
+        // Bypass Firebase Gemini limits entirely and hit the dedicated SDXL edge-mapper API
+        const extRes = await fetch('/api/generate-exterior', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ imageBase64: processedBase64, prompt: prompt })
+        });
+        if (!extRes.ok) {
+           const errData = await extRes.json().catch(() => ({}));
+           throw new Error(errData.error || `ControlNet API Server responded with ${extRes.status}`);
+        }
+        data = await extRes.json();
+      } else {
+        // Call the standard secure Firebase Gemini function for Interior scenes
+        const generateImage = httpsCallable<{imageBase64: string, prompt: string}, {base64: string}>(functions, 'generateImage');
+        const result = await generateImage({
+          imageBase64: processedBase64,
+          prompt: prompt
+        });
+        data = result.data;
       }
 
-      const outputData = `data:image/jpeg;base64,${data.base64}`;
+      if (!data.base64) {
+        throw new Error("No image data returned from generator APIs");
+      }
+
+      const outputData = data.mimeType ? `data:${data.mimeType};base64,${data.base64}` : `data:image/jpeg;base64,${data.base64}`;
       return outputData;
 
     } catch (error: any) {

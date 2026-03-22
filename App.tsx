@@ -1125,12 +1125,6 @@ const App: React.FC = () => {
             for (const [styleId, url] of Object.entries(item.staged)) {
                if (url) addUrl(url, `staged_${styleId}`, item.watermarkText);
             }
-            
-            for (const [styleId, historyArray] of Object.entries(item.styleHistory)) {
-               historyArray.forEach((histItem, idx) => {
-                  addUrl(histItem.url, `staged_${styleId}_v${idx+1}`, item.watermarkText);
-               });
-            }
         }
         
         const totalCost = downloadResolution === '4K' ? exportQueue.length : 0;
