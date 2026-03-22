@@ -8,8 +8,8 @@ import { getUserProfile, updateUserProfile, deleteUserProfile, UserProfile, save
 import { resizeAndFormatImage } from './src/utils/imageExportUtils';
 import { upscaleImage } from './services/upscaleService';
 import { uploadBase64ToStorage } from './services/storageService';
-
 import landingTwilight from './src/assets/landing-twilight.jpg';
+import interiorStagingImg from './src/assets/interior-staging.png';
 import { useStorage } from './hooks/useStorage';
 import JSZip from 'jszip';
 import TermsOfService from './TermsOfService';
@@ -1496,7 +1496,7 @@ const App: React.FC = () => {
                   </ul>
                 </div>
                 <div className="w-full md:w-1/2 aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl shrink-0 group/img">
-                  <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&q=80&w=1200" className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" alt="Staged Living Room" />
+                  <img src={interiorStagingImg} className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" alt="Interior Staging Before and After" />
                 </div>
               </div>
 
