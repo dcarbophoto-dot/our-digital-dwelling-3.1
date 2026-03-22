@@ -160,8 +160,9 @@ export const stageRoom = async (
     QUALITY AND PHOTOREALISM TARGETS:
     - ALL generated content MUST be hyper-realistic and completely indistinguishable from real life.
     - Generate ultra-high resolution, razor-sharp textures for all added furniture, fabric, plants, and decor.
-    - Aggressively prevent any 'AI-smoothed', blurry, soft, or pixelated artifacts on new objects.
-    - Match professional 8k real-estate photography standards with perfect focal sharpness and cinematic lighting.
+    - CRITICAL: Aggressively PREVENT any 'AI-smoothed', blurry, plastic, painted, or pixelated artifacts on new objects and environment.
+    - CRITICAL EXTERIOR DETAIL: Foliage, grass blades, trees, and landscaping MUST be rendered with explicit micro-contrast, showing individual leaves and photographic crispness. Do NOT generate smeared or blobby green masses.
+    - Match professional 8k real-estate photography standards with perfect focal sharpness, heavy realism, natural film grain, and cinematic lighting.
   `;
 
   let prompt = '';
@@ -234,11 +235,12 @@ export const stageRoom = async (
           ${refinementPrompt ? `USER REFINEMENT INSTRUCTIONS: ${refinementPrompt}` : ''}
           ${architecturalPreservationInstruction}
           ${qualityInstruction}
-          STRICT RULES:
+          STRICT EXTERIOR RULES:
           1. Preserve the house architecture perfectly.
           2. Focus on environment, landscaping, and sky.
-          3. Maintain photorealistic lighting.
-          4. PRESERVE the exact dimensions and aspect ratio.
+          3. Landscaping (grass, trees, plants) MUST be photorealistic, raw, and razor-sharp. Avoid any soft 'oil-painting' look on foliage at all costs.
+          4. Maintain photorealistic outdoor lighting.
+          5. PRESERVE the exact dimensions and aspect ratio.
         `;
       }
   }

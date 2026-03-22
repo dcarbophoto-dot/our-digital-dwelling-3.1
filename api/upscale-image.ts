@@ -27,14 +27,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Image data is required' });
     }
 
-    // Execute Real-ESRGAN
+    // Execute SwinIR for high-frequency detail preservation on organic materials
     const output: any = await replicate.run(
-      "nightmareai/real-esrgan:42fed1c4974146d4d2414e2be2c5277c7fcf05fcc3a73abf41610695738c1d7b",
+      "jingyunliang/swinir:660d922d33153019e8c263a3bba265de882e7f4f70396546b6c9c8f9d47a021a",
       {
         input: {
           image: imageBase64,
-          scale: 4,
-          face_enhance: false
+          task: "Real-World Image Super-Resolution-Large"
         }
       }
     );
