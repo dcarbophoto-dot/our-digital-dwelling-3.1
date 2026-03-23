@@ -1056,10 +1056,16 @@ const App: React.FC = () => {
         }
         
         let preProcessedUrl = url;
+        const styleDef = ALL_STYLES.find(s => s.id === item.currentStyle);
+        
         if (downloadResolution === '4K') {
-           // We bypass third-party AI upscalers to completely prevent VAE Moiré grid and generic 'oil painting' artifacts on nature and shingles.
-           // The ultra-fast browser Canvas mathematical interpolation handles the exact Nano Banana native quality scaling cleanly.
-           preProcessedUrl = url;
+           if (styleDef?.category === 'interior') {
+              const upscalePrompt = item.prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect staging";
+              preProcessedUrl = await upscaleImage(url, upscalePrompt);
+           } else {
+              // Bypassing AI upscalers for exteriors to prevent moiré/oil painting on dense shingles and foliage natively.
+              preProcessedUrl = url;
+           }
         }
         const maxDim = downloadResolution === '4K' ? 4096 : 2560;
         const processedDataUrl = await resizeAndFormatImage(
@@ -1109,12 +1115,12 @@ const App: React.FC = () => {
            alert("No original images found."); setIsDownloading(false); return;
         }
       } else {
-        const exportQueue: { name: string, url: string, watermarkText?: string, is4kAI: boolean, prompt?: string }[] = [];
+        const exportQueue: { name: string, url: string, watermarkText?: string, is4kAI: boolean, prompt?: string, styleId?: string }[] = [];
         
         for (const item of items) {
             const originalBaseName = item.name.substring(0, item.name.lastIndexOf('.')) || item.name;
             const uniqueUrls = new Set<string>();
-            const addUrl = (url: string, suffix: string, watermarkText?: string) => {
+            const addUrl = (url: string, suffix: string, watermarkText?: string, styleId?: string) => {
                 if (uniqueUrls.has(url)) return;
                 uniqueUrls.add(url);
                 exportQueue.push({
@@ -1122,12 +1128,13 @@ const App: React.FC = () => {
                    url: url,
                    watermarkText: watermarkText,
                    is4kAI: true,
-                   prompt: item.prompt
+                   prompt: item.prompt,
+                   styleId: styleId
                 });
             };
             
             if (item.currentStyle && item.staged[item.currentStyle]) {
-               addUrl(item.staged[item.currentStyle]!, `staged_${item.currentStyle}`, item.watermarkText);
+               addUrl(item.staged[item.currentStyle]!, `staged_${item.currentStyle}`, item.watermarkText, item.currentStyle);
             }
         }
         
@@ -1141,9 +1148,16 @@ const App: React.FC = () => {
         for (const queued of exportQueue) {
             try {
                 let preProcessedUrl = queued.url;
+                const styleDef = ALL_STYLES.find(s => s.id === queued.styleId);
+                
                 if (downloadResolution === '4K' && queued.is4kAI) {
-                   // Bypassing Replicate neural upscaler to protect architectural shingle grids and foliage structures mathematically.
-                   preProcessedUrl = queued.url;
+                   if (styleDef?.category === 'interior') {
+                       const upscalePrompt = queued.prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect staging";
+                       preProcessedUrl = await upscaleImage(queued.url, upscalePrompt);
+                   } else {
+                       // Bypassing Replicate neural upscaler to protect exterior architectural grids and foliage structures mathematically.
+                       preProcessedUrl = queued.url;
+                   }
                 }
                 const maxDim = downloadResolution === '4K' ? 4096 : 2560;
                 const processedDataUrl = await resizeAndFormatImage(
