@@ -1057,8 +1057,9 @@ const App: React.FC = () => {
         
         let preProcessedUrl = url;
         if (downloadResolution === '4K') {
-           const upscalePrompt = item.prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect landscaping";
-           preProcessedUrl = await upscaleImage(url, upscalePrompt);
+           // We bypass third-party AI upscalers to completely prevent VAE Moiré grid and generic 'oil painting' artifacts on nature and shingles.
+           // The ultra-fast browser Canvas mathematical interpolation handles the exact Nano Banana native quality scaling cleanly.
+           preProcessedUrl = url;
         }
         const maxDim = downloadResolution === '4K' ? 4096 : 2560;
         const processedDataUrl = await resizeAndFormatImage(
@@ -1141,8 +1142,8 @@ const App: React.FC = () => {
             try {
                 let preProcessedUrl = queued.url;
                 if (downloadResolution === '4K' && queued.is4kAI) {
-                   const upscalePrompt = queued.prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect landscaping";
-                   preProcessedUrl = await upscaleImage(queued.url, upscalePrompt);
+                   // Bypassing Replicate neural upscaler to protect architectural shingle grids and foliage structures mathematically.
+                   preProcessedUrl = queued.url;
                 }
                 const maxDim = downloadResolution === '4K' ? 4096 : 2560;
                 const processedDataUrl = await resizeAndFormatImage(
