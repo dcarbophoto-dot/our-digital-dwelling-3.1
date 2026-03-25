@@ -1766,7 +1766,7 @@ const App: React.FC = () => {
   // Removed API Key Required screen
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 flex flex-col h-screen overflow-hidden transition-colors">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 flex flex-col md:h-screen overflow-x-hidden md:overflow-hidden transition-colors">
       <nav className="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 xl:px-6 py-3 flex items-center justify-between shadow-sm shrink-0 relative transition-colors">
         <div className="flex items-center gap-2">
           <div className="bg-indigo-600 p-2 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
@@ -1916,7 +1916,7 @@ const App: React.FC = () => {
       ) : showCompliance ? (
         <MLSCompliance onBack={() => setShowCompliance(false)} />
       ) : (
-      <main className="flex-1 flex flex-col overflow-hidden bg-slate-100 dark:bg-slate-950 transition-colors">
+      <main className="flex-1 flex flex-col md:overflow-hidden bg-slate-100 dark:bg-slate-950 transition-colors">
         {items.length === 0 ? (
           <div className="flex-1 w-full flex flex-col items-center justify-center relative overflow-hidden">
             <video 
@@ -1947,7 +1947,7 @@ const App: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col xl:flex-row h-full overflow-hidden">
+          <div className="flex flex-col xl:flex-row h-full md:overflow-hidden">
             {/* ... (Sidebar and Image Area) ... */}
             <div 
               className={`w-full xl:w-64 bg-white dark:bg-slate-900 border-b xl:border-b-0 xl:border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 overflow-hidden order-1 transition-colors ${isDragging ? 'bg-indigo-50 dark:bg-indigo-900/20' : ''}`}
