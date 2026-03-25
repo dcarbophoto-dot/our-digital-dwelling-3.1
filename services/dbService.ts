@@ -72,12 +72,12 @@ export const ensureUserProfile = async (uid: string, email: string | null, displ
       const updates: Partial<UserProfile> = {};
       if (existingData.plan === undefined) updates.plan = "free";
       if (existingData.credits === undefined) updates.credits = 10;
-      updates.lastLoginAt = lastSignInTime ? new Date(lastSignInTime).getTime() : Date.now();
+      updates.lastLoginAt = Date.now();
       await updateDoc(docRef, updates);
       return { ...existingData, ...updates } as UserProfile;
     }
-    // Just update login time on regular fetching
-    await updateDoc(docRef, { lastLoginAt: lastSignInTime ? new Date(lastSignInTime).getTime() : Date.now() });
+    // Just update login time on regular fetching using actual time
+    await updateDoc(docRef, { lastLoginAt: Date.now() });
   }
   return docSnap.data() as UserProfile;
 };
@@ -429,7 +429,7 @@ export const getAllUsers = async (): Promise<UserProfile[]> => {
 export const updateLastLogin = async (uid: string, lastSignInTime?: string) => {
   try {
     const docRef = doc(db, USERS_COLLECTION, uid);
-    const loginTime = lastSignInTime ? new Date(lastSignInTime).getTime() : Date.now();
+    const loginTime = Date.now(); // Always log ACTUAL current open time, not the Firebase auth cache time
     await updateDoc(docRef, { lastLoginAt: loginTime });
   } catch (error) {
     console.error("Failed to update last login:", error);
