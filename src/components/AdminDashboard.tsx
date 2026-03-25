@@ -168,7 +168,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.plan === 'Pay as You Go' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'}`}>
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${(user.plan || '').trim().toLowerCase() === 'pay as you go' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'}`}>
                         {user.plan}
                       </span>
                     </td>
