@@ -1947,10 +1947,10 @@ const App: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col xl:flex-row h-full md:overflow-hidden">
+          <div className="flex flex-col landscape:flex-row h-full md:overflow-hidden">
             {/* ... (Sidebar and Image Area) ... */}
             <div 
-              className={`w-full xl:w-64 bg-white dark:bg-slate-900 border-b xl:border-b-0 xl:border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 md:overflow-hidden order-1 transition-colors ${isDragging ? 'bg-indigo-50 dark:bg-indigo-900/20' : ''}`}
+              className={`w-full landscape:w-32 md:landscape:w-64 bg-white dark:bg-slate-900 border-b landscape:border-b-0 landscape:border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 md:overflow-hidden order-1 transition-colors ${isDragging ? 'bg-indigo-50 dark:bg-indigo-900/20' : ''}`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
@@ -1971,7 +1971,7 @@ const App: React.FC = () => {
                   Exit
                 </button>
               </div>
-              <div className="flex-1 overflow-x-auto xl:overflow-y-auto p-4 space-y-3 flex flex-row xl:flex-col gap-3 xl:gap-0 relative">
+              <div className="flex-1 overflow-x-auto landscape:overflow-x-hidden landscape:overflow-y-auto p-4 space-y-3 flex flex-row landscape:flex-col gap-3 landscape:gap-0 relative">
                 {isDragging && (
                   <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-indigo-600/5 dark:bg-indigo-400/10 backdrop-blur-[2px] pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-indigo-600 dark:text-indigo-400 animate-bounce mb-2"><path d="M12 2v10"/><path d="m16 8-4 4-4-4"/></svg>
@@ -1982,7 +1982,7 @@ const App: React.FC = () => {
                   const selectedStyle = ALL_STYLES.find(s => s.id === item.currentStyle);
                   const isReady = item.currentStyle && item.staged[item.currentStyle];
                   return (
-                    <div key={item.id} className={`relative group rounded-2xl border-2 transition-all cursor-pointer overflow-hidden shrink-0 w-24 h-24 xl:w-full xl:h-auto xl:aspect-[3/2] ${activeId === item.id ? 'border-indigo-600 dark:border-indigo-500 shadow-xl scale-[1.02]' : 'border-transparent'}`} onClick={() => setActiveId(item.id)}>
+                    <div key={item.id} className={`relative group rounded-2xl border-2 transition-all cursor-pointer overflow-hidden shrink-0 w-24 h-24 landscape:w-full landscape:h-auto landscape:aspect-[3/2] ${activeId === item.id ? 'border-indigo-600 dark:border-indigo-500 shadow-xl scale-[1.02]' : 'border-transparent'}`} onClick={() => setActiveId(item.id)}>
                       <div className="absolute top-2 left-2 z-10 cursor-pointer" onClick={(e) => toggleSelection(item.id, e)}>
                         <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all ${selectedIds.has(item.id) ? 'bg-indigo-600 border-indigo-600 shadow-md' : 'bg-white/90 dark:bg-slate-800/90 border-slate-300 dark:border-slate-600'}`}>{selectedIds.has(item.id) && <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}</div>
                       </div>
@@ -1995,7 +1995,7 @@ const App: React.FC = () => {
                   );
                 })}
               </div>
-              <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden xl:flex flex-col gap-2">
+              <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden landscape:flex flex-col gap-2">
                 <button onClick={handleDownloadStaged} disabled={items.length === 0} className="w-full bg-slate-900 dark:bg-slate-800 text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 dark:hover:bg-slate-700 disabled:opacity-50 transition-colors shadow-md">Download Staged Images</button>
                 <button onClick={handleDownloadOriginals} disabled={items.length === 0} className="w-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-300 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 transition-colors shadow-sm">Download Original Images</button>
               </div>
