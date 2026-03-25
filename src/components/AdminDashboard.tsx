@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { UserProfile, getAllUsers, toggleUserStatus } from '../../services/dbService';
+import { UserProfile, getAllUsers, toggleUserStatus, updateUserProfile } from '../../services/dbService';
 
 interface AdminDashboardProps {
   onBack: () => void;
@@ -173,7 +173,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-medium">
-                      {user.credits} credits
+                      <div className="flex items-center gap-2">
+                        <span>{user.credits} credits</span>
+                        <button 
+                          onClick={async () => {
+                            const amt = prompt(`Enter new total credits for ${user.name} (or type e.g. +50 to add):`);
+                            if (!amt) return;
+                            const isAdd = amt.trim().startsWith('+');
+                            const num = parseInt(amt.replace('+', '').trim(), 10);
+                            if (isNaN(num)) return;
+                            const newCredits = isAdd ? (user.credits || 0) + num : num;
+                            const planStr = newCredits > 0 && user.plan === 'free' ? 'Pay as You Go' : user.plan;
+                            try {
+                              await updateUserProfile(user.uid as string, { credits: newCredits, plan: planStr });
+                              setUsers(prev => prev.map(u => u.uid === user.uid ? { ...u, credits: newCredits, plan: planStr } : u));
+                            } catch(e) { alert("Failed to update user credits."); }
+                          }}
+                          className="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-md text-[10px] font-bold transition-colors border border-indigo-200 dark:border-indigo-800"
+                        >
+                          Edit
+                        </button>
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {new Date(user.createdAt).toLocaleDateString()}
