@@ -215,13 +215,15 @@ export const setupStripeSync = (uid: string, onUpdate: (profile: UserProfile) =>
     if (type === 'subscriptions') {
       priceId = stripeData.items?.[0]?.price?.id || stripeData.price?.id;
     } else {
-      priceId = stripeData.items?.[0]?.price?.id || stripeData.prices?.[0]?.id;
+      let firstPrice = stripeData.prices?.[0];
+      priceId = stripeData.items?.[0]?.price?.id || (typeof firstPrice === 'string' ? firstPrice : firstPrice?.id);
       
+      const amount = stripeData.amount || stripeData.amount_received;
       // Fallback to inferring from amount if priceId is missing
-      if (!priceId && stripeData.amount) {
-        if (stripeData.amount === 3999) priceId = 'price_1T2dYXIY2wu1OpEHx43rE2WD';
-        else if (stripeData.amount === 6999) priceId = 'price_1T2dYdIY2wu1OpEHxhSwJWYO';
-        else if (stripeData.amount === 11999) priceId = 'price_1T2dYiIY2wu1OpEHxCsp12Cx';
+      if (!priceId && amount) {
+        if (amount === 3999) priceId = 'price_1T2dYXIY2wu1OpEHx43rE2WD';
+        else if (amount === 6999) priceId = 'price_1T2dYdIY2wu1OpEHxhSwJWYO';
+        else if (amount === 11999) priceId = 'price_1T2dYiIY2wu1OpEHxCsp12Cx';
       }
     }
 
