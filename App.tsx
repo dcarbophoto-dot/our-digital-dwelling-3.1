@@ -1918,7 +1918,7 @@ const App: React.FC = () => {
       ) : (
       <main className="flex-1 flex flex-col md:overflow-hidden bg-slate-100 dark:bg-slate-950 transition-colors">
         {items.length === 0 ? (
-          <div className="flex-1 w-full flex flex-col items-center justify-center relative overflow-hidden">
+          <div className="flex-1 w-full flex flex-col items-center justify-center relative md:overflow-hidden">
             <video 
               autoPlay 
               loop 
@@ -1950,7 +1950,7 @@ const App: React.FC = () => {
           <div className="flex flex-col xl:flex-row h-full md:overflow-hidden">
             {/* ... (Sidebar and Image Area) ... */}
             <div 
-              className={`w-full xl:w-64 bg-white dark:bg-slate-900 border-b xl:border-b-0 xl:border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 overflow-hidden order-1 transition-colors ${isDragging ? 'bg-indigo-50 dark:bg-indigo-900/20' : ''}`}
+              className={`w-full xl:w-64 bg-white dark:bg-slate-900 border-b xl:border-b-0 xl:border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 md:overflow-hidden order-1 transition-colors ${isDragging ? 'bg-indigo-50 dark:bg-indigo-900/20' : ''}`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
