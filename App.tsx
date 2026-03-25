@@ -1995,9 +1995,9 @@ const App: React.FC = () => {
                   );
                 })}
               </div>
-              <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden landscape:flex flex-col gap-2">
-                <button onClick={handleDownloadStaged} disabled={items.length === 0} className="w-full bg-slate-900 dark:bg-slate-800 text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 dark:hover:bg-slate-700 disabled:opacity-50 transition-colors shadow-md">Download Staged Images</button>
-                <button onClick={handleDownloadOriginals} disabled={items.length === 0} className="w-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-300 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 transition-colors shadow-sm">Download Original Images</button>
+              <div className="p-2 xl:p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden landscape:flex flex-col gap-1 xl:gap-2">
+                <button onClick={handleDownloadStaged} disabled={items.length === 0} className="w-full bg-slate-900 dark:bg-slate-800 text-white py-1.5 xl:py-3 rounded-lg xl:rounded-xl text-[8px] xl:text-[10px] font-black uppercase tracking-wider xl:tracking-widest hover:bg-slate-800 dark:hover:bg-slate-700 disabled:opacity-50 transition-colors shadow-md">Download Staged Images</button>
+                <button onClick={handleDownloadOriginals} disabled={items.length === 0} className="w-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-300 py-1.5 xl:py-3 rounded-lg xl:rounded-xl text-[8px] xl:text-[10px] font-black uppercase tracking-wider xl:tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 transition-colors shadow-sm">Download Original Images</button>
               </div>
             </div>
 
