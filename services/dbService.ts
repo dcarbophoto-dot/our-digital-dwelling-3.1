@@ -71,7 +71,7 @@ export const ensureUserProfile = async (uid: string, email: string | null, displ
     if (existingData.plan === undefined || existingData.credits === undefined || existingData.lastLoginAt === undefined) {
       const updates: Partial<UserProfile> = {};
       if (existingData.plan === undefined) updates.plan = "free";
-      if (existingData.credits === undefined) updates.credits = 10;
+      if (existingData.credits === undefined) updates.credits = 7;
       updates.lastLoginAt = Date.now();
       await updateDoc(docRef, updates);
       return { ...existingData, ...updates } as UserProfile;

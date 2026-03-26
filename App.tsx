@@ -1391,7 +1391,7 @@ const App: React.FC = () => {
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full border border-emerald-100 mb-2">
                 <span className="text-xs font-black text-emerald-600 uppercase tracking-widest">Limited Time Offer</span>
               </div>
-              <h1 className="text-4xl lg:text-6xl font-black tracking-tighter leading-[1.1] text-slate-900 dark:text-white">Start Your <span className="text-indigo-600 dark:text-indigo-400">10-Credit</span> <br/>Free Trial Today.</h1>
+              <h1 className="text-4xl lg:text-6xl font-black tracking-tighter leading-[1.1] text-slate-900 dark:text-white">Start Your <span className="text-indigo-600 dark:text-indigo-400">7-Credit</span> <br/>Free Trial Today.</h1>
               <p className="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">Experience the full power of professional virtual staging. No credit card required to start your first project.</p>
               <div className="pt-4 flex flex-col items-center">
                  <p className="text-sm font-bold text-slate-600 dark:text-slate-400 mb-6 text-center max-w-2xl px-6">
@@ -1458,7 +1458,7 @@ const App: React.FC = () => {
                 <h2 className="text-2xl font-black">Ready to elevate your listings?</h2>
                 <p className="text-slate-400 text-sm">Join over 2,000 agents already using Our Digital Dwelling.</p>
               </div>
-              <button onClick={() => { setShowAuth(true); setIsLoginView(false); setShowFreeTrialPromo(false); }} className="bg-indigo-600 dark:bg-[#4adb17] text-white px-8 py-4 rounded-2xl text-base font-black shadow-xl shadow-indigo-600/30 dark:shadow-[#4adb17]/30 hover:bg-indigo-500 dark:hover:bg-[#3cae12] transition-all shrink-0">Claim 10 Credits Free</button>
+              <button onClick={() => { setShowAuth(true); setIsLoginView(false); setShowFreeTrialPromo(false); }} className="bg-indigo-600 dark:bg-[#4adb17] text-white px-8 py-4 rounded-2xl text-base font-black shadow-xl shadow-indigo-600/30 dark:shadow-[#4adb17]/30 hover:bg-indigo-500 dark:hover:bg-[#3cae12] transition-all shrink-0">Claim 7 Credits Free</button>
             </div>
           </div>
         </main>
