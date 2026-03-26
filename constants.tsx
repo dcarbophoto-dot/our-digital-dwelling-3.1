@@ -39,7 +39,7 @@ export const INTERIOR_STYLES: StagingOption[] = [
     description: 'Remove all furniture for a clean unfurnished view.',
     tips: 'Essential for renovation projects. If any shadows remain from old furniture, refine with: "Smooth out shadows on the floor to make the hardwood look pristine."',
     previewUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'DELETE all furniture and objects. ABSOLUTE REMOVAL: Completely strip the room of all loose furniture, chairs, sofas, tables, beds, rugs, decor, wall art, curtains, and clutter. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are.',
+    prompt: 'DELETE all furniture and objects. ABSOLUTE REMOVAL: Completely strip the room of all loose furniture, chairs, sofas, tables, beds, rugs, decor, wall art, curtains, and clutter. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, ceilings, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are. do not change perspective of image or warp in any way.',
     category: 'interior',
     creditCost: 4
   },
