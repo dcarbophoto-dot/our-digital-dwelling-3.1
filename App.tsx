@@ -110,10 +110,12 @@ const App: React.FC = () => {
   }, [isDarkMode]);
 
   useEffect(() => {
-    if (showProfileMenu && window.innerWidth < 768) {
+    if (showProfileMenu) {
+      const isMobile = window.innerWidth < 768;
+      const timeoutDuration = isMobile ? 4000 : 5000;
       const timer = setTimeout(() => {
         setShowProfileMenu(false);
-      }, 4000);
+      }, timeoutDuration);
       return () => clearTimeout(timer);
     }
   }, [showProfileMenu]);
