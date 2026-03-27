@@ -98,6 +98,7 @@ const App: React.FC = () => {
   
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef<any>(null);
+  const [isHoveringProfile, setIsHoveringProfile] = useState(false);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -110,7 +111,7 @@ const App: React.FC = () => {
   }, [isDarkMode]);
 
   useEffect(() => {
-    if (showProfileMenu) {
+    if (showProfileMenu && !isHoveringProfile) {
       const isMobile = window.innerWidth < 768;
       const timeoutDuration = isMobile ? 4000 : 5000;
       const timer = setTimeout(() => {
@@ -118,7 +119,7 @@ const App: React.FC = () => {
       }, timeoutDuration);
       return () => clearTimeout(timer);
     }
-  }, [showProfileMenu]);
+  }, [showProfileMenu, isHoveringProfile]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const stripeUnsubRef = useRef<(() => void) | null>(null);
@@ -1875,7 +1876,11 @@ const App: React.FC = () => {
             )}
           </button>
 
-          <div className="relative">
+          <div 
+            className="relative"
+            onMouseEnter={() => setIsHoveringProfile(true)}
+            onMouseLeave={() => setIsHoveringProfile(false)}
+          >
             <button onClick={() => setShowProfileMenu(!showProfileMenu)} className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700 overflow-hidden">
               {user?.photoURL ? <img src={user.photoURL} className="w-full h-full object-cover" alt="User" /> : <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-600 dark:text-slate-400"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>}
             </button>
