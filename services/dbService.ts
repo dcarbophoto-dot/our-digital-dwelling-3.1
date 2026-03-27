@@ -47,10 +47,6 @@ const CREDIT_MAP: Record<string, { credits: number, plan?: string }> = {
   'price_1T2dYiIY2wu1OpEHxCsp12Cx': { credits: 100, plan: 'Pay as You Go' }
 };
 
-/**
- * Setup and initialize Firebase services
- */
-export const ObjectCache = initializeFirestoreCache();
 
 export const adminUpdateCredits = async (targetUid: string, credits: number, plan: string) => {
   try {
