@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { UserProfile, getAllUsers, toggleUserStatus, updateUserProfile } from '../../services/dbService';
+import { UserProfile, getAllUsers, toggleUserStatus, adminUpdateCredits } from '../../services/dbService';
 
 interface AdminDashboardProps {
   onBack: () => void;
@@ -185,8 +185,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                             const newCredits = isAdd ? (user.credits || 0) + num : num;
                             const planStr = newCredits > 0 && user.plan === 'free' ? 'Pay as You Go' : user.plan;
                             try {
-                              await updateUserProfile(user.uid as string, { credits: newCredits, plan: planStr });
-                              setUsers(prev => prev.map(u => u.uid === user.uid ? { ...u, credits: newCredits, plan: planStr } : u));
+                              const success = await adminUpdateCredits(user.uid as string, newCredits, planStr);
+                              if (success) {
+                                setUsers(prev => prev.map(u => u.uid === user.uid ? { ...u, credits: newCredits, plan: planStr } : u));
+                                alert("Success! Credits updated.");
+                              } else {
+                                alert("Failed to update user credits. Please try again.");
+                              }
                             } catch(e) { alert("Failed to update user credits."); }
                           }}
                           className="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-md text-[10px] font-bold transition-colors border border-indigo-200 dark:border-indigo-800"

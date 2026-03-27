@@ -81,3 +81,27 @@ exports.generateImage = onCall(
     }
   }
 );
+
+const admin = require('firebase-admin');
+admin.initializeApp();
+
+exports.adminUpdateCredits = onCall(async (request) => {
+  const email = request.auth?.token?.email;
+  
+  if (!email || email !== "dcarbophoto@gmail.com") {
+    throw new HttpsError('permission-denied', 'Only the admin can use this function.');
+  }
+  
+  const { targetUid, credits, plan } = request.data;
+  if (!targetUid || credits === undefined || !plan) {
+    throw new HttpsError('invalid-argument', 'Missing required fields.');
+  }
+  
+  try {
+    await admin.firestore().collection('users').doc(targetUid).update({ credits, plan });
+    return { success: true };
+  } catch (error) {
+    logger.error('Error in adminUpdateCredits:', error);
+    throw new HttpsError('internal', 'Unable to update user credits.');
+  }
+});

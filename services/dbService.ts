@@ -48,6 +48,22 @@ const CREDIT_MAP: Record<string, { credits: number, plan?: string }> = {
 };
 
 /**
+ * Setup and initialize Firebase services
+ */
+export const ObjectCache = initializeFirestoreCache();
+
+export const adminUpdateCredits = async (targetUid: string, credits: number, plan: string) => {
+  try {
+    const updateFn = httpsCallable(functions, 'adminUpdateCredits');
+    await updateFn({ targetUid, credits, plan });
+    return true;
+  } catch (error) {
+    console.error("Admin update failed:", error);
+    return false;
+  }
+};
+
+/**
  * Ensures a user document exists in Firestore. 
  */
 export const ensureUserProfile = async (uid: string, email: string | null, displayName: string | null, creationTime?: string, lastSignInTime?: string): Promise<UserProfile> => {
