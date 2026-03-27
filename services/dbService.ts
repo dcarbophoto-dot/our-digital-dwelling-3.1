@@ -14,6 +14,8 @@ export interface UserProfile {
   plan: string;
   lastLoginAt?: number;
   isDisabled?: boolean;
+  isAdmin?: boolean;
+  uid?: string;
 }
 
 export interface FileRecord {
@@ -448,6 +450,16 @@ export const toggleUserStatus = async (uid: string, isDisabled: boolean) => {
     await updateDoc(docRef, { isDisabled });
   } catch (error) {
     console.error("Failed to toggle user status:", error);
+    throw error;
+  }
+};
+
+export const toggleUserAdminStatus = async (uid: string, isAdmin: boolean) => {
+  try {
+    const docRef = doc(db, USERS_COLLECTION, uid);
+    await updateDoc(docRef, { isAdmin });
+  } catch (error) {
+    console.error("Failed to toggle admin status:", error);
     throw error;
   }
 };

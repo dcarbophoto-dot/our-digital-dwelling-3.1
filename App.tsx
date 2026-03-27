@@ -57,7 +57,7 @@ const App: React.FC = () => {
 
   // Admin Validation
   const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').map((e: string) => e.trim().toLowerCase());
-  const isAdmin = userProfile?.email ? adminEmails.includes(userProfile.email.toLowerCase()) : false;
+  const isAdmin = userProfile?.isAdmin || (userProfile?.email ? adminEmails.includes(userProfile.email.toLowerCase()) : false);
 
   // Storage for items using IndexedDB to avoid localStorage quota limits
   const [items, setItems, isStorageReady] = useStorage<StagedItem[]>('our_digital_dwelling_items', []);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { UserProfile, getAllUsers, toggleUserStatus, adminUpdateCredits } from '../../services/dbService';
+import { UserProfile, getAllUsers, toggleUserStatus, adminUpdateCredits, toggleUserAdminStatus, getUserProjects, getUserFiles, deleteProject, ProjectRecord, FileRecord } from '../../services/dbService';
 
 interface AdminDashboardProps {
   onBack: () => void;
@@ -11,6 +11,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
   const [error, setError] = useState('');
   const [sortField, setSortField] = useState<'createdAt' | 'lastLoginAt' | 'plan'>('createdAt');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+
+  const [viewingProjectsForUser, setViewingProjectsForUser] = useState<UserProfile | null>(null);
+  const [userProjects, setUserProjects] = useState<ProjectRecord[]>([]);
+  const [userFiles, setUserFiles] = useState<FileRecord[]>([]);
+  const [loadingProjects, setLoadingProjects] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -36,6 +41,48 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
       setUsers(prev => prev.map(u => u.uid === uid ? { ...u, isDisabled: newStatus } : u));
     } catch (err) {
       alert("Failed to update user status.");
+    }
+  };
+
+  const handleToggleAdminStatus = async (uid: string, currentStatus: boolean | undefined) => {
+    try {
+      const newStatus = !currentStatus;
+      await toggleUserAdminStatus(uid, newStatus);
+      setUsers(prev => prev.map(u => u.uid === uid ? { ...u, isAdmin: newStatus } : u));
+    } catch (err) {
+      alert("Failed to update admin status.");
+    }
+  };
+
+  const openProjectViewer = async (user: UserProfile) => {
+    if (!user.uid) return;
+    setViewingProjectsForUser(user);
+    setLoadingProjects(true);
+    try {
+      const [projects, files] = await Promise.all([
+        getUserProjects(user.uid),
+        getUserFiles(user.uid)
+      ]);
+      setUserProjects(projects);
+      setUserFiles(files);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to load projects.");
+    } finally {
+      setLoadingProjects(false);
+    }
+  };
+
+  const handleAdminDeleteProject = async (projectId: string) => {
+    if (!viewingProjectsForUser || !viewingProjectsForUser.uid) return;
+    if (confirm("Are you sure you want to delete this project and all its associated files? This cannot be undone.")) {
+      const success = await deleteProject(viewingProjectsForUser.uid, projectId);
+      if (success) {
+        setUserProjects(prev => prev.filter(p => p.id !== projectId));
+        setUserFiles(prev => prev.filter(f => f.projectId !== projectId));
+      } else {
+        alert("Failed to delete project.");
+      }
     }
   };
 
@@ -145,6 +192,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                       {sortField === 'lastLoginAt' && (sortDirection === 'asc' ? '↑' : '↓')}
                     </div>
                   </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Actions
+                  </th>
 
                 </tr>
               </thead>
@@ -206,6 +256,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleString() : 'Never'}
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleToggleAdminStatus(user.uid as string, user.isAdmin)}
+                          className={`px-3 py-1 rounded-md text-[10px] font-bold transition-colors border ${user.isAdmin ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/50' : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'}`}
+                        >
+                          {user.isAdmin ? 'Revoke Admin' : 'Make Admin'}
+                        </button>
+                        <button
+                          onClick={() => openProjectViewer(user)}
+                          className="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-md text-[10px] font-bold transition-colors border border-indigo-200 dark:border-indigo-800"
+                        >
+                          View Projects
+                        </button>
+                      </div>
+                    </td>
 
                   </tr>
                 ))}
@@ -214,6 +280,66 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
           )}
         </div>
       </div>
+
+      {/* Project Viewer Modal */}
+      {viewingProjectsForUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden border border-slate-200 dark:border-slate-800">
+            <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
+              <div>
+                <h2 className="text-xl font-bold dark:text-white">Projects: {viewingProjectsForUser.name || 'Unknown User'}</h2>
+                <p className="text-sm text-slate-500">{viewingProjectsForUser.email}</p>
+              </div>
+              <button onClick={() => setViewingProjectsForUser(null)} className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800 rounded-full transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto flex-1 bg-slate-50 dark:bg-slate-900">
+              {loadingProjects ? (
+                <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div></div>
+              ) : userProjects.length === 0 ? (
+                <div className="text-center py-10">
+                  <p className="text-slate-500 dark:text-slate-400">No projects found for this user.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {userProjects.map(project => {
+                    const projectFiles = userFiles.filter(f => f.projectId === project.id);
+                    return (
+                      <div key={project.id} className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-sm flex flex-col group relative">
+                        <div className="aspect-[4/3] bg-slate-100 dark:bg-slate-900 relative">
+                          {project.thumbnailUrl ? (
+                            <img src={project.thumbnailUrl} className="w-full h-full object-cover" alt={project.name} />
+                          ) : projectFiles.length > 0 && (projectFiles[0].stagedUrl || projectFiles[0].originalUrl) ? (
+                            <img src={projectFiles[0].stagedUrl || projectFiles[0].originalUrl} className="w-full h-full object-cover" alt={project.name} />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-slate-400">No Images</div>
+                          )}
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button
+                              onClick={(e) => { e.stopPropagation(); handleAdminDeleteProject(project.id); }}
+                              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs transition-colors shadow-lg flex items-center gap-2"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                              Delete Project
+                            </button>
+                          </div>
+                        </div>
+                        <div className="p-4 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
+                          <div className="min-w-0">
+                            <h3 className="font-bold text-slate-900 dark:text-white truncate">{project.name}</h3>
+                            <p className="text-xs text-slate-500 mt-1">{projectFiles.length} files</p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
