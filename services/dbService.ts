@@ -263,37 +263,31 @@ export const setupStripeSync = (uid: string, onUpdate: (profile: UserProfile) =>
     }
   };
 
-  // 1. Check if user exists in /customers
-  const customerRef = doc(db, "customers", uid);
-  getDoc(customerRef).then((snap) => {
-    if (!snap.exists()) return;
-
-    // 2. Setup listeners for subscriptions
-    const subsRef = collection(db, "customers", uid, "subscriptions");
-    unsubscribes.push(onSnapshot(subsRef, (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        if (change.type === "added" || change.type === "modified") {
-          const data = change.doc.data();
-          if (data.status === 'active' || data.status === 'trialing') {
-            handleSync('subscriptions', change.doc.id, data);
-          }
+  // 1. Setup listeners for subscriptions (No longer waiting for customer doc creation to avoid race conditions for new signups)
+  const subsRef = collection(db, "customers", uid, "subscriptions");
+  unsubscribes.push(onSnapshot(subsRef, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === "added" || change.type === "modified") {
+        const data = change.doc.data();
+        if (data.status === 'active' || data.status === 'trialing') {
+          handleSync('subscriptions', change.doc.id, data);
         }
-      });
-    }));
+      }
+    });
+  }));
 
-    // 3. Setup listeners for payments
-    const paymentsRef = collection(db, "customers", uid, "payments");
-    unsubscribes.push(onSnapshot(paymentsRef, (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        if (change.type === "added" || change.type === "modified") {
-          const data = change.doc.data();
-          if (data.status === 'succeeded') {
-            handleSync('payments', change.doc.id, data);
-          }
+  // 2. Setup listeners for payments
+  const paymentsRef = collection(db, "customers", uid, "payments");
+  unsubscribes.push(onSnapshot(paymentsRef, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === "added" || change.type === "modified") {
+        const data = change.doc.data();
+        if (data.status === 'succeeded') {
+          handleSync('payments', change.doc.id, data);
         }
-      });
-    }));
-  });
+      }
+    });
+  }));
 
   return () => {
     unsubscribes.forEach(unsub => unsub());
