@@ -85,12 +85,24 @@ exports.generateImage = onCall(
 const admin = require('firebase-admin');
 admin.initializeApp();
 
-exports.adminUpdateCredits = onCall(async (request) => {
+async function verifyAdmin(request) {
   const email = request.auth?.token?.email;
+  const uid = request.auth?.uid;
   
-  if (!email || email !== "dcarbophoto@gmail.com") {
-    throw new HttpsError('permission-denied', 'Only the admin can use this function.');
+  if (!uid) {
+    throw new HttpsError('unauthenticated', 'Must be logged in.');
   }
+  
+  if (email === "dcarbophoto@gmail.com") return true;
+
+  const userDoc = await admin.firestore().collection('users').doc(uid).get();
+  if (userDoc.exists && userDoc.data().isAdmin) return true;
+
+  throw new HttpsError('permission-denied', 'Only admins can use this function.');
+}
+
+exports.adminUpdateCredits = onCall(async (request) => {
+  await verifyAdmin(request);
   
   const { targetUid, credits, plan } = request.data;
   if (!targetUid || credits === undefined || !plan) {
@@ -103,5 +115,91 @@ exports.adminUpdateCredits = onCall(async (request) => {
   } catch (error) {
     logger.error('Error in adminUpdateCredits:', error);
     throw new HttpsError('internal', 'Unable to update user credits.');
+  }
+});
+
+exports.adminToggleRole = onCall(async (request) => {
+  await verifyAdmin(request);
+  
+  const { targetUid, isAdmin } = request.data;
+  if (!targetUid) {
+    throw new HttpsError('invalid-argument', 'Missing targetUid.');
+  }
+
+  try {
+    await admin.firestore().collection('users').doc(targetUid).update({ isAdmin });
+    return { success: true };
+  } catch (error) {
+    logger.error('Error in adminToggleRole:', error);
+    throw new HttpsError('internal', 'Unable to toggle role.');
+  }
+});
+
+exports.adminGetUserProjectsAndFiles = onCall(async (request) => {
+  await verifyAdmin(request);
+  
+  const { targetUid } = request.data;
+  if (!targetUid) {
+    throw new HttpsError('invalid-argument', 'Missing targetUid.');
+  }
+
+  try {
+    const projectsSnap = await admin.firestore().collection('users').doc(targetUid).collection('projects').orderBy('createdAt', 'desc').get();
+    const projects = projectsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    const filesSnap = await admin.firestore().collection('users').doc(targetUid).collection('files').orderBy('timestamp', 'desc').get();
+    const files = filesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    return { projects, files };
+  } catch (error) {
+    logger.error('Error fetching admin data:', error);
+    throw new HttpsError('internal', 'Unable to fetch user projects.');
+  }
+});
+
+exports.adminDeleteProject = onCall(async (request) => {
+  await verifyAdmin(request);
+  
+  const { targetUid, projectId } = request.data;
+  if (!targetUid || !projectId) {
+    throw new HttpsError('invalid-argument', 'Missing targetUid or projectId.');
+  }
+
+  try {
+    const filesSnap = await admin.firestore().collection('users').doc(targetUid).collection('files').where('projectId', '==', projectId).get();
+    
+    // We only delete the documents. Storage must be handled by the client or a background trigger, or we can just let Firebase handle file deletion if they use a storage bucket extension.
+    // However, our dbService client handles file storage deletion. We can run storage deletion from here via admin sdk.
+    const bucket = admin.storage().bucket();
+    
+    const deletePromises = filesSnap.docs.map(async (fileDoc) => {
+      const fileData = fileDoc.data();
+      
+      const deleteBlob = async (url) => {
+        if (!url) return;
+        // Parse the gs:// or URL path to get filepath
+        try {
+          const urlObj = new URL(url);
+          const filePath = decodeURIComponent(urlObj.pathname.split('/o/')[1].split('?')[0]);
+          await bucket.file(filePath).delete().catch(e => console.error("Missing file to delete:", e));
+        } catch(e) {}
+      };
+
+      if (fileData.originalUrl) await deleteBlob(fileData.originalUrl);
+      if (fileData.stagedUrl) await deleteBlob(fileData.stagedUrl);
+      
+      return admin.firestore().collection('users').doc(targetUid).collection('files').doc(fileDoc.id).delete();
+    });
+
+    await Promise.all(deletePromises);
+
+    if (projectId !== 'unfiled') {
+      await admin.firestore().collection('users').doc(targetUid).collection('projects').doc(projectId).delete();
+    }
+
+    return { success: true };
+  } catch (error) {
+    logger.error('Error in adminDeleteProject:', error);
+    throw new HttpsError('internal', 'Unable to delete project.');
   }
 });

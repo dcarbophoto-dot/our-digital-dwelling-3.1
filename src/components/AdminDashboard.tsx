@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { UserProfile, getAllUsers, toggleUserStatus, adminUpdateCredits, toggleUserAdminStatus, getUserProjects, getUserFiles, deleteProject, ProjectRecord, FileRecord } from '../../services/dbService';
+import { UserProfile, getAllUsers, toggleUserStatus, adminUpdateCredits, toggleUserAdminStatus, getAdminProjectsAndFiles, adminDeleteProjectFn, ProjectRecord, FileRecord } from '../../services/dbService';
 
 interface AdminDashboardProps {
   onBack: () => void;
@@ -59,12 +59,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
     setViewingProjectsForUser(user);
     setLoadingProjects(true);
     try {
-      const [projects, files] = await Promise.all([
-        getUserProjects(user.uid),
-        getUserFiles(user.uid)
-      ]);
-      setUserProjects(projects);
-      setUserFiles(files);
+      const data = await getAdminProjectsAndFiles(user.uid);
+      setUserProjects(data.projects);
+      setUserFiles(data.files);
     } catch (err) {
       console.error(err);
       alert("Failed to load projects.");
@@ -76,7 +73,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
   const handleAdminDeleteProject = async (projectId: string) => {
     if (!viewingProjectsForUser || !viewingProjectsForUser.uid) return;
     if (confirm("Are you sure you want to delete this project and all its associated files? This cannot be undone.")) {
-      const success = await deleteProject(viewingProjectsForUser.uid, projectId);
+      const success = await adminDeleteProjectFn(viewingProjectsForUser.uid, projectId);
       if (success) {
         setUserProjects(prev => prev.filter(p => p.id !== projectId));
         setUserFiles(prev => prev.filter(f => f.projectId !== projectId));
