@@ -4,7 +4,7 @@ import { INTERIOR_STYLES, OUTDOOR_STYLES, ROOM_TYPES, ALL_STYLES, INTERIOR_ROOM_
 import { StagingStyle, StagedItem, RoomType, HistoryItem, StyleCategory } from './types';
 import { stageRoom } from './services/geminiService';
 import { subscribeToAuth, login, register, logout, resetPassword, loginWithGoogle, deleteUserAccount, resendVerificationEmail } from './services/authService';
-import { getUserProfile, updateUserProfile, deleteUserProfile, UserProfile, saveFileRecord, getUserFiles, FileRecord, deductCredit, createStripeCheckout, createProject, getUserProjects, ProjectRecord, setupStripeSync, createPortalLink, deleteProject, updateLastLogin } from './services/dbService';
+import { getUserProfile, updateUserProfile, deleteUserProfile, UserProfile, saveFileRecord, getUserFiles, FileRecord, deductCredit, createStripeCheckout, createProject, getUserProjects, ProjectRecord, setupStripeSync, createPortalLink, deleteProject, updateLastLogin, getAdminProjectsAndFiles } from './services/dbService';
 import { resizeAndFormatImage } from './src/utils/imageExportUtils';
 import { upscaleImage } from './services/upscaleService';
 import { uploadBase64ToStorage } from './services/storageService';
@@ -638,7 +638,7 @@ const App: React.FC = () => {
     }
   };
 
-  const handleLoadProject = async (projectId: string) => {
+  const handleLoadProject = async (projectId: string, targetUid?: string) => {
     setIsImporting(true);
     setLoadingProjectId(projectId);
     setLoadingProjectProgress(0);
@@ -648,7 +648,7 @@ const App: React.FC = () => {
         return;
       }
       
-      if (projectId === currentProjectId && items.length > 0) {
+      if (!targetUid && projectId === currentProjectId && items.length > 0) {
         // The user clicked the project they are currently viewing!
         // Prevent reloading to avoid wiping their un-saved local base64 files while they upload!
         setShowMyProjects(false);
@@ -657,7 +657,7 @@ const App: React.FC = () => {
       }
       
       // Fetch the latest files for the user to ensure we have the project data
-      const latestFiles = await getUserFiles(user.uid);
+      const latestFiles = targetUid ? await getAdminProjectsAndFiles(targetUid).then(d => d.files) : await getUserFiles(user.uid);
       
       console.log("Loading Project ID:", projectId);
       console.log("Total Files found for user:", latestFiles.length);
@@ -1963,7 +1963,13 @@ const App: React.FC = () => {
 
       {/* ... (Main Content) ... */}
       {showAdminDashboard ? (
-        <AdminDashboard onBack={() => setShowAdminDashboard(false)} />
+        <AdminDashboard 
+          onBack={() => setShowAdminDashboard(false)} 
+          onLoadUserProject={(projectId, targetUid) => {
+            setShowAdminDashboard(false);
+            handleLoadProject(projectId, targetUid);
+          }}
+        />
       ) : showTutorials ? (
         <Tutorials onBack={() => setShowTutorials(false)} />
       ) : showCompliance ? (

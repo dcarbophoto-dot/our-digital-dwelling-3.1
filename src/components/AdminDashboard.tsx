@@ -3,9 +3,10 @@ import { UserProfile, getAllUsers, toggleUserStatus, adminUpdateCredits, toggleU
 
 interface AdminDashboardProps {
   onBack: () => void;
+  onLoadUserProject?: (projectId: string, targetUid: string) => void;
 }
 
-export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
+export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack, onLoadUserProject }) => {
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -304,21 +305,28 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                     const projectFiles = userFiles.filter(f => f.projectId === project.id);
                     return (
                       <div key={project.id} className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-sm flex flex-col group relative">
-                        <div className="aspect-[4/3] bg-slate-100 dark:bg-slate-900 relative">
+                        <div 
+                          className="aspect-[4/3] bg-slate-100 dark:bg-slate-900 relative cursor-pointer group/image"
+                          onClick={() => {
+                            if (onLoadUserProject && viewingProjectsForUser?.uid) {
+                              onLoadUserProject(project.id, viewingProjectsForUser.uid);
+                            }
+                          }}
+                        >
                           {project.thumbnailUrl ? (
-                            <img src={project.thumbnailUrl} className="w-full h-full object-cover" alt={project.name} />
+                            <img src={project.thumbnailUrl} className="w-full h-full object-cover group-hover/image:opacity-80 transition-opacity" alt={project.name} />
                           ) : projectFiles.length > 0 && (projectFiles[0].stagedUrl || projectFiles[0].originalUrl) ? (
-                            <img src={projectFiles[0].stagedUrl || projectFiles[0].originalUrl} className="w-full h-full object-cover" alt={project.name} />
+                            <img src={projectFiles[0].stagedUrl || projectFiles[0].originalUrl} className="w-full h-full object-cover group-hover/image:opacity-80 transition-opacity" alt={project.name} />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-slate-400">No Images</div>
+                            <div className="w-full h-full flex items-center justify-center text-slate-400 group-hover/image:opacity-80 transition-opacity">No Images</div>
                           )}
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <div className="absolute bottom-2 left-2 z-10 transition-transform hover:scale-105">
                             <button
                               onClick={(e) => { e.stopPropagation(); handleAdminDeleteProject(project.id); }}
-                              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs transition-colors shadow-lg flex items-center gap-2"
+                              className="p-2 bg-slate-900/40 hover:bg-red-600 backdrop-blur-sm text-white rounded-lg shadow-sm transition-all border border-white/10 hover:border-red-500/50"
+                              title="Delete Project"
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                              Delete Project
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                             </button>
                           </div>
                         </div>
