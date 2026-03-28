@@ -14,8 +14,6 @@ export interface UserProfile {
   plan: string;
   lastLoginAt?: number;
   isDisabled?: boolean;
-  isAdmin?: boolean;
-  uid?: string;
 }
 
 export interface FileRecord {
@@ -451,37 +449,5 @@ export const toggleUserStatus = async (uid: string, isDisabled: boolean) => {
   } catch (error) {
     console.error("Failed to toggle user status:", error);
     throw error;
-  }
-};
-
-export const toggleUserAdminStatus = async (uid: string, isAdmin: boolean) => {
-  try {
-    const fn = httpsCallable(functions, 'adminToggleRole');
-    await fn({ targetUid: uid, isAdmin });
-  } catch (error) {
-    console.error("Failed to toggle admin status:", error);
-    throw error;
-  }
-};
-
-export const getAdminProjectsAndFiles = async (uid: string) => {
-  try {
-    const fn = httpsCallable(functions, 'adminGetUserProjectsAndFiles');
-    const result = await fn({ targetUid: uid });
-    return result.data as { projects: ProjectRecord[], files: FileRecord[] };
-  } catch (error) {
-    console.error("Failed to fetch admin projects:", error);
-    throw error;
-  }
-};
-
-export const adminDeleteProjectFn = async (uid: string, projectId: string) => {
-  try {
-    const fn = httpsCallable(functions, 'adminDeleteProject');
-    await fn({ targetUid: uid, projectId });
-    return true;
-  } catch (error) {
-    console.error("Failed to admin delete project:", error);
-    return false;
   }
 };
