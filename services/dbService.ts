@@ -72,7 +72,7 @@ export const ensureUserProfile = async (uid: string, email: string | null, displ
       email: email || "",
       photoFileName: "",
       createdAt: creationTime ? new Date(creationTime).getTime() : Date.now(),
-      credits: 10, // Default for free plan
+      credits: 7, // Default for free plan
       plan: "free",
       lastLoginAt: lastSignInTime ? new Date(lastSignInTime).getTime() : Date.now()
     };
