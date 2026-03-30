@@ -142,7 +142,7 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     description: 'Perfect, lush green grass replacement.',
     tips: 'This tool is magical for curb appeal. If the edges look fuzzy, use refinement: "Sharpen the edges where the lawn meets the driveway."',
     previewUrl: 'https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Replace the existing lawn or ground cover with a perfect, lush, manicured green lawn. Fix any brown spots or patches. CRITICAL: You MUST preserve all original shadows cast on the lawn from trees, the house, or other objects. The new grass must sit under the existing shadow pattern. Do NOT alter the house structure, driveway, or walkway. Keep the sky and other trees as they are.',
+    prompt: 'Replace the existing lawn or ground cover with realistic, natural green grass. Introduce subtle natural imperfections and slight color variations (mix of light and dark greens, slightly favoring cooler tones for a richer look but keeping natural warmth). Keep the colors vibrant but naturally balanced so it does not look overly saturated, neon, or like artificial turf. Fix major brown spots, but keep organic, slightly uneven growth patterns so it looks like a real residential lawn. CRITICAL: You MUST preserve all original shadows cast on the lawn from trees, the house, or other objects. The new grass must sit under the existing shadow pattern. Do NOT alter the house structure, driveway, or walkway. Keep the sky and other trees as they are.',
     category: 'outdoor',
     creditCost: 2
   },
