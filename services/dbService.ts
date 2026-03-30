@@ -36,7 +36,16 @@ export interface ProjectRecord {
   thumbnailUrl?: string;
 }
 
-// CREDIT_MAP was moved to the Firebase backend functions to prevent race conditions during sync.
+const CREDIT_MAP: Record<string, { credits: number, plan?: string }> = {
+  // Subscriptions
+  'price_1T1OzEIY2wu1OpEHADGXvsXV': { credits: 20, plan: 'Basic' },
+  'price_1T1OzVIY2wu1OpEHvMGvtAmL': { credits: 45, plan: 'Standard' },
+  'price_1T1OzcIY2wu1OpEHcjoWtrdt': { credits: 100, plan: 'Premium' },
+  // Payments (Top-up)
+  'price_1T2dYXIY2wu1OpEHx43rE2WD': { credits: 25, plan: 'Pay as You Go' },
+  'price_1T2dYdIY2wu1OpEHxhSwJWYO': { credits: 50, plan: 'Pay as You Go' },
+  'price_1T2dYiIY2wu1OpEHxCsp12Cx': { credits: 100, plan: 'Pay as You Go' }
+};
 
 
 export const adminUpdateCredits = async (targetUid: string, credits: number, plan: string) => {
@@ -206,17 +215,64 @@ export const setupStripeSync = (uid: string, onUpdate: (profile: UserProfile) =>
   const unsubscribes: (() => void)[] = [];
 
   const handleSync = async (type: 'subscriptions' | 'payments', stripeDocId: string, stripeData: any) => {
-    // The actual credit assignment logic has been migrated to the Firebase Cloud Functions backend 
-    // to prevent dropped payments if a user closes the tab mid-transaction.
-    // This frontend listener simply waits a moment to give the backend time to process, then triggers a UI refresh.
-    setTimeout(async () => {
-      try {
-        const updatedProfile = await getUserProfile(uid);
-        if (updatedProfile) onUpdate(updatedProfile);
-      } catch (e) {
-        console.error("Error refreshing profile after Stripe sync event:", e);
+    const userDocPath = type === 'subscriptions' ? `subscriptions` : `payment`;
+    const userSyncRef = doc(db, USERS_COLLECTION, uid, userDocPath, stripeDocId);
+    
+    // Check if already synced
+    const syncSnap = await getDoc(userSyncRef);
+    if (syncSnap.exists()) return;
+
+    // Determine credits to award
+    let priceId = "";
+    if (type === 'subscriptions') {
+      priceId = stripeData.items?.[0]?.price?.id || stripeData.price?.id;
+    } else {
+      let firstPrice = stripeData.prices?.[0];
+      priceId = stripeData.items?.[0]?.price?.id || (typeof firstPrice === 'string' ? firstPrice : firstPrice?.id);
+      
+      const amount = stripeData.amount || stripeData.amount_received;
+      // Fallback to inferring from amount if priceId is missing
+      if (!priceId && amount) {
+        if (amount === 3999) priceId = 'price_1T2dYXIY2wu1OpEHx43rE2WD';
+        else if (amount === 6999) priceId = 'price_1T2dYdIY2wu1OpEHxhSwJWYO';
+        else if (amount === 11999) priceId = 'price_1T2dYiIY2wu1OpEHxCsp12Cx';
       }
-    }, 2500);
+    }
+
+    if (!priceId || !CREDIT_MAP[priceId]) return;
+
+    const award = CREDIT_MAP[priceId];
+
+    try {
+      await runTransaction(db, async (transaction) => {
+        const userRef = doc(db, USERS_COLLECTION, uid);
+        const userSnap = await transaction.get(userRef);
+        
+        if (!userSnap.exists()) return;
+
+        const currentData = userSnap.data() as UserProfile;
+        const newCredits = (currentData.credits || 0) + award.credits;
+        const updates: any = { credits: newCredits };
+        
+        if (award.plan) {
+          updates.plan = award.plan;
+        }
+
+        transaction.update(userRef, updates);
+        transaction.set(userSyncRef, {
+          ...stripeData,
+          syncedAt: serverTimestamp(),
+          awardedCredits: award.credits
+        });
+      });
+
+      // Fetch updated profile to trigger UI update
+      const updatedProfile = await getUserProfile(uid);
+      if (updatedProfile) onUpdate(updatedProfile);
+
+    } catch (error) {
+      console.error(`Error syncing Stripe ${type}:`, error);
+    }
   };
 
   // 1. Setup listeners for subscriptions (No longer waiting for customer doc creation to avoid race conditions for new signups)
