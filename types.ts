@@ -65,6 +65,7 @@ export interface StagedItem {
   isProcessing: boolean;
   error: string | null;
   watermarkText?: string;
+  isSavedVersion?: boolean;
 }
 
 export interface StagingState {

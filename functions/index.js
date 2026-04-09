@@ -106,7 +106,7 @@ exports.adminUpdateCredits = onCall(async (request) => {
   }
 });
 
-const { onDocumentWritten } = require("firebase-functions/v2/firestore");
+const functions = require("firebase-functions/v1");
 
 const CREDIT_MAP = {
   // Subscriptions
@@ -119,19 +119,30 @@ const CREDIT_MAP = {
   'price_1T2dYiIY2wu1OpEHxCsp12Cx': { credits: 100, plan: 'Pay as You Go' }
 };
 
-const handleStripeSync = async (event, type) => {
-  if (!event.data) return;
+const handleStripeSync = async (change, type, context) => {
+  const logger = require("firebase-functions/logger");
+  logger.info("STRIPE SYNC FUNCTION FIRED", { type, params: context.params });
 
-  const afterData = event.data.after.data();
-  if (!afterData) return; // Deleted
+  const afterData = change.after ? change.after.data() : null;
+  if (!afterData) {
+    logger.info("Event data is deleted or null, skipping.");
+    return; // Deleted
+  }
 
-  const { uid, docId } = event.params;
+  const { uid, docId } = context.params;
+  logger.info(`Processing ${type} for user: ${uid}, docId: ${docId}, status: ${afterData.status}`);
 
   // Check if conditions met
   if (type === 'subscriptions') {
-    if (afterData.status !== 'active' && afterData.status !== 'trialing') return;
+    if (afterData.status !== 'active' && afterData.status !== 'trialing') {
+      logger.info(`Status ${afterData.status} not active/trialing, skipping.`);
+      return;
+    }
   } else {
-    if (afterData.status !== 'succeeded') return;
+    if (afterData.status !== 'succeeded') {
+      logger.info(`Status ${afterData.status} not succeeded, skipping.`);
+      return;
+    }
   }
 
   // Determine priceId
@@ -150,20 +161,31 @@ const handleStripeSync = async (event, type) => {
     }
   }
 
-  if (!priceId || !CREDIT_MAP[priceId]) return;
+  logger.info(`Determined priceId: ${priceId}`);
+
+  if (!priceId || !CREDIT_MAP[priceId]) {
+    logger.error(`No matching priceId found in map for ${priceId}`);
+    return;
+  }
 
   const award = CREDIT_MAP[priceId];
   const userSyncRef = admin.firestore().collection('users').doc(uid).collection(type === 'subscriptions' ? 'subscriptions' : 'payment').doc(docId);
 
   try {
+    logger.info(`Starting transaction for ${award.credits} credits to ${uid}`);
     await admin.firestore().runTransaction(async (transaction) => {
-      // Idempotency check: see if we already synced this payment/subscription
       const syncDoc = await transaction.get(userSyncRef);
-      if (syncDoc.exists) return; // Already processed
+      if (syncDoc.exists) {
+        logger.info(`Sync doc already exists, already processed. Skipping.`);
+        return; // Already processed
+      }
 
       const userRef = admin.firestore().collection('users').doc(uid);
       const userSnap = await transaction.get(userRef);
-      if (!userSnap.exists) return;
+      if (!userSnap.exists) {
+        logger.error(`User document does not exist for uid ${uid}`);
+        return;
+      }
 
       const currentData = userSnap.data();
       const newCredits = (currentData.credits || 0) + award.credits;
@@ -178,6 +200,7 @@ const handleStripeSync = async (event, type) => {
         awardedCredits: award.credits,
         priceId
       });
+      logger.info(`Transaction writes queued successfully`);
     });
     logger.info(`Successfully credited ${award.credits} credits to ${uid} for ${type} ${docId}`);
   } catch (err) {
@@ -185,10 +208,10 @@ const handleStripeSync = async (event, type) => {
   }
 };
 
-exports.onStripeSubscriptionWritten = onDocumentWritten("customers/{uid}/subscriptions/{docId}", (event) => {
-  return handleStripeSync(event, 'subscriptions');
+exports.onStripeSubscriptionWrittenV1 = functions.firestore.document("customers/{uid}/subscriptions/{docId}").onWrite((change, context) => {
+  return handleStripeSync(change, 'subscriptions', context);
 });
 
-exports.onStripePaymentWritten = onDocumentWritten("customers/{uid}/payments/{docId}", (event) => {
-  return handleStripeSync(event, 'payments');
+exports.onStripePaymentWrittenV1 = functions.firestore.document("customers/{uid}/payments/{docId}").onWrite((change, context) => {
+  return handleStripeSync(change, 'payments', context);
 });

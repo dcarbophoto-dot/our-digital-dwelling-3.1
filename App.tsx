@@ -1070,6 +1070,7 @@ const App: React.FC = () => {
 
   const handleDownloadStaged = () => {
     const hasStaged = items.some(item => 
+        item.isSavedVersion ||
         (item.currentStyle && item.staged[item.currentStyle]) || 
         Object.keys(item.styleHistory).some(key => item.styleHistory[key]?.length > 0)
     );
@@ -1178,14 +1179,14 @@ const App: React.FC = () => {
         for (const item of items) {
             const originalBaseName = item.name.substring(0, item.name.lastIndexOf('.')) || item.name;
             const uniqueUrls = new Set<string>();
-            const addUrl = (url: string, suffix: string, watermarkText?: string, styleId?: string) => {
+            const addUrl = (url: string, suffix: string, watermarkText?: string, styleId?: string, is4kAI = true) => {
                 if (uniqueUrls.has(url)) return;
                 uniqueUrls.add(url);
                 exportQueue.push({
                    name: `${originalBaseName}_${suffix}.jpg`,
                    url: url,
                    watermarkText: watermarkText,
-                   is4kAI: true,
+                   is4kAI: is4kAI,
                    prompt: item.prompt,
                    styleId: styleId
                 });
@@ -1193,6 +1194,9 @@ const App: React.FC = () => {
             
             if (item.currentStyle && item.staged[item.currentStyle]) {
                addUrl(item.staged[item.currentStyle]!, `staged_${item.currentStyle}`, item.watermarkText, item.currentStyle);
+            }
+            if (item.isSavedVersion && item.original) {
+               addUrl(item.original, `saved_version`, item.watermarkText, item.currentStyle || undefined, false);
             }
         }
         
@@ -1386,6 +1390,7 @@ const App: React.FC = () => {
       refinementHistory: [],
       isProcessing: false,
       error: null,
+      isSavedVersion: true,
     };
     setItems(prev => {
       const originalIndex = prev.findIndex(item => item.id === activeId);
