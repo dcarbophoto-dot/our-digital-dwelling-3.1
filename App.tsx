@@ -1750,7 +1750,8 @@ const App: React.FC = () => {
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
           </div>
           <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-4">Verify Your Email</h1>
-          <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-8">Sent to <span className="font-bold text-indigo-600 dark:text-indigo-400">{verificationEmail}</span>.</p>
+          <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4">Sent to <span className="font-bold text-indigo-600 dark:text-indigo-400">{verificationEmail}</span>.</p>
+          <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed mb-8">If you dont receive a confirmation email, check your spam or trash folders</p>
           <div className="space-y-3">
             <button onClick={() => { setShowVerificationScreen(false); setIsLoginView(true); setShowAuth(true); }} className="w-full bg-indigo-600 text-white font-black py-4 rounded-2xl">Back to Login</button>
             <button onClick={handleResend} disabled={isResending} className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-2xl">{isResending ? 'Sending...' : 'Resend Email'}</button>
@@ -1805,6 +1806,7 @@ const App: React.FC = () => {
                 <input type="password" required value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white/50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl px-5 py-4 text-slate-900 dark:text-white" placeholder="Password" />
                 {isLoginView && <button type="button" onClick={() => setIsForgotPasswordView(true)} className="w-full text-right text-[10px] font-bold text-slate-400 hover:text-slate-300 transition-colors">Forgot password?</button>}
                 <button className="w-full bg-indigo-600 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-600/20">{isLoginView ? 'Sign In' : 'Create Account'}</button>
+                {!isLoginView && <p className="text-xs text-center text-slate-500 dark:text-slate-400 pt-2">If you dont receive a confirmation email, check your spam or trash folders</p>}
               </form>
               <div className="mt-8 text-center space-y-4">
                 <div className="text-xs font-bold text-slate-500 dark:text-slate-400">{isLoginView ? "Don't have an account?" : "Already have an account?"}<button onClick={() => setIsLoginView(!isLoginView)} className="ml-1 text-indigo-600 dark:text-indigo-400 hover:underline">{isLoginView ? 'Sign Up' : 'Sign In'}</button></div>
