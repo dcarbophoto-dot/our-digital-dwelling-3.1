@@ -42,7 +42,7 @@ export const INTERIOR_STYLES: StagingOption[] = [
     previewUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=200&h=150',
     prompt: 'Apply a Declutter staging style. Identify and remove loose clutter around the room, such as trash cans, loose items on kitchen counters, bathroom counters, or tables. Keep all main furniture and architectural details. Create a clean and tidy space. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are.',
     category: 'interior',
-    creditCost: 4
+    creditCost: 1
   },
   {
     id: 'empty',
@@ -165,7 +165,7 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     previewUrl: 'https://images.unsplash.com/photo-1598902108854-10e335adac99?auto=format&fit=crop&q=80&w=200&h=150',
     prompt: 'Transform the entire atmosphere from a dull, rainy, or overcast day into a vibrant, high-contrast sunny day. Replace the sky with a clear blue sunny sky. Maintain season of original photo. Adjust the lighting on the architecture to reflect warm sunlight and create realistic shadows. Preserve the house structure perfectly.',
     category: 'outdoor',
-    creditCost: 5
+    creditCost: 3
   },
   {
     id: 'lawn-manicured',
@@ -195,7 +195,7 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     previewUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=200&h=150',
     prompt: 'Apply an Exterior Declutter staging style. Identify and remove loose items from around the lawn, driveway, and patio, such as children\'s toys, sprinklers, garden hoses, or scattered loose items. Keep all main landscaping, trees, bushes, and architectural details. Create a clean and tidy outdoor space. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the house, driveway, paths, or permanent fixtures.',
     category: 'outdoor',
-    creditCost: 4
+    creditCost: 1
   },
   {
     id: 'season-autumn',
