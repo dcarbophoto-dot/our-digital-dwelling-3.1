@@ -2,21 +2,22 @@
 import { StagingOption, RoomTypeOption } from './types';
 
 export const INTERIOR_ROOM_TYPES: RoomTypeOption[] = [
-  { id: 'living_room', label: 'Living Room' },
-  { id: 'bedroom', label: 'Bedroom' },
-  { id: 'dining_room', label: 'Dining Room' },
-  { id: 'kitchen', label: 'Kitchen' },
   { id: 'bathroom', label: 'Bathroom' },
-  { id: 'office', label: 'Home Office' },
-  { id: 'great_room', label: 'Great Room' },
+  { id: 'bedroom', label: 'Bedroom' },
   { id: 'den', label: 'Den' },
-  { id: 'study', label: 'Study' },
+  { id: 'dining_room', label: 'Dining Room' },
   { id: 'game_room', label: 'Game Room' },
+  { id: 'generic', label: 'Generic' },
+  { id: 'great_room', label: 'Great Room' },
+  { id: 'office', label: 'Home Office' },
+  { id: 'kitchen', label: 'Kitchen' },
+  { id: 'living_room', label: 'Living Room' },
+  { id: 'study', label: 'Study' },
 ];
 
 export const EXTERIOR_SCENE_TYPES: RoomTypeOption[] = [
-  { id: 'exterior', label: 'Exterior Front' },
-  { id: 'backyard', label: 'Backyard' },
+  { id: 'exterior', label: 'Front Yard' },
+  { id: 'backyard', label: 'Back Yard' },
   { id: 'patio', label: 'Patio/Deck' },
 ];
 
@@ -32,6 +33,16 @@ export const INTERIOR_STYLES: StagingOption[] = [
     prompt: 'Start with the original image. Only modify specific items as requested by the user. Preserve everything else.',
     category: 'interior',
     creditCost: 1
+  },
+  {
+    id: 'declutter',
+    label: 'Declutter',
+    description: 'Remove loose clutter around a room to create a clean space.',
+    tips: 'Perfect for lived-in homes. If any items remain, use the Add/Remove Objects style for specific cleanup.',
+    previewUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=200&h=150',
+    prompt: 'Apply a Declutter staging style. Identify and remove loose clutter around the room, such as trash cans, loose items on kitchen counters, bathroom counters, or tables. Keep all main furniture and architectural details. Create a clean and tidy space. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are.',
+    category: 'interior',
+    creditCost: 4
   },
   {
     id: 'empty',
@@ -50,6 +61,16 @@ export const INTERIOR_STYLES: StagingOption[] = [
     tips: 'Best for historic homes. Refine with: "Add a vintage Persian rug and a velvet armchair."',
     previewUrl: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=200&h=150',
     prompt: 'Apply an Antique/Vintage staging style. Use period-correct furniture, rich wood textures, velvet or patterned upholstery, and vintage decor items like rugs and oil paintings. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are.',
+    category: 'interior',
+    creditCost: 4
+  },
+  {
+    id: 'coastal',
+    label: 'Coastal / Beach',
+    description: 'Light, airy, and relaxed with coastal-inspired elements.',
+    tips: 'Perfect for homes near the water or to create a breezy feel. Use the refinement tool to add subtle sea-glass blue accents.',
+    previewUrl: 'https://images.unsplash.com/photo-1616137466211-f939a420be84?auto=format&fit=crop&q=80&w=200&h=150',
+    prompt: 'Apply a Coastal or Beach staging style. Use a light, airy color palette with whites, creams, and subtle blues or seafoam greens. Include natural textures like rattan, jute, light wood, and linen upholstery. Create a relaxed, breezy atmosphere. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the walls, flooring, windows, window frames, doors, baseboards, or crown molding. Preserve all built-in features like kitchen cabinetry, islands, fireplaces, and appliances exactly as they are.',
     category: 'interior',
     creditCost: 4
   },
@@ -137,6 +158,26 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     creditCost: 1
   },
   {
+    id: 'declutter-exterior',
+    label: 'Declutter Exterior',
+    description: 'Remove loose items around the lawn and patio.',
+    tips: 'Perfect for lived-in homes. Refine with: "Remove all toys from the grass".',
+    previewUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=200&h=150',
+    prompt: 'Apply an Exterior Declutter staging style. Identify and remove loose items from around the lawn, driveway, and patio, such as children\'s toys, sprinklers, garden hoses, or scattered loose items. Keep all main landscaping, trees, bushes, and architectural details. Create a clean and tidy outdoor space. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the house, driveway, paths, or permanent fixtures.',
+    category: 'outdoor',
+    creditCost: 4
+  },
+  {
+    id: 'season-autumn',
+    label: 'Autumn Season',
+    description: 'Fall foliage with oranges and reds.',
+    tips: 'Cozy and nostalgic. If the colors feel too saturated, refine with: "Make the leaf colors more natural and earthy."',
+    previewUrl: 'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?auto=format&fit=crop&q=80&w=200&h=150',
+    prompt: 'Transform the season to Autumn. Change tree foliage to vibrant oranges, reds, and yellows. Add some fallen leaves to the ground. Replace the sky with a clear blue sunny sky. Keep the house structure exactly as is.',
+    category: 'outdoor',
+    creditCost: 5
+  },
+  {
     id: 'lawn-manicured',
     label: 'Lawn Replacement',
     description: 'Perfect, lush green grass replacement.',
@@ -157,26 +198,6 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     creditCost: 1
   },
   {
-    id: 'sunny-bright',
-    label: 'Sunny Day Overhaul',
-    description: 'Transform overcast or rainy shots into perfect sunny days.',
-    tips: 'Perfect for properties photographed in bad weather. This tool combines sky replacement and lawn enhancement with a warm sunlight filter to maximize curb appeal.',
-    previewUrl: 'https://images.unsplash.com/photo-1598902108854-10e335adac99?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Transform the entire atmosphere from a dull, rainy, or overcast day into a vibrant, high-contrast sunny day. Replace the sky with a clear blue sunny sky. Maintain season of original photo. Adjust the lighting on the architecture to reflect warm sunlight and create realistic shadows. Preserve the house structure perfectly.',
-    category: 'outdoor',
-    creditCost: 5
-  },
-  {
-    id: 'season-summer',
-    label: 'Summer Season',
-    description: 'Vibrant green trees, bright sun, blue sky.',
-    tips: 'Great for selling vacation homes. If the foliage is too sparse, refine with: "Add more leaves to the trees to make them look full and lush."',
-    previewUrl: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'SEASONAL TRANSFORMATION REQUIREMENTS: Replace all bare trees with full, lush summer foliage appropriate to the species (dense green leaves, natural variation). do not add any additional trees or shrubs. Convert all grass to rich, healthy, deep green summer lawn with natural texture and subtle tonal variation. Enhance shrubs and hedges to appear full, vibrant, and well-maintained. Remove all signs of winter dormancy (no brown grass, no bare branches, no gray vegetation). Add subtle seasonal richness: slight warmth in color temperature, but keep it realistic and not stylized. The sun should be bright and the sky clear blue. Create a warm, inviting summer atmosphere. Ensure background trees match foreground in density and seasonal consistency. Maintain photorealistic lighting consistency with soft daylight conditions. Avoid oversaturation or artificial greens.',
-    category: 'outdoor',
-    creditCost: 5
-  },
-  {
     id: 'season-spring',
     label: 'Spring Season',
     description: 'Fresh blooms, soft greens, and floral accents.',
@@ -187,22 +208,22 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     creditCost: 5
   },
   {
-    id: 'season-autumn',
-    label: 'Autumn Season',
-    description: 'Fall foliage with oranges and reds.',
-    tips: 'Cozy and nostalgic. If the colors feel too saturated, refine with: "Make the leaf colors more natural and earthy."',
-    previewUrl: 'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Transform the season to Autumn. Change tree foliage to vibrant oranges, reds, and yellows. Add some fallen leaves to the ground. Replace the sky with a clear blue sunny sky. Keep the house structure exactly as is.',
+    id: 'season-summer',
+    label: 'Summer Season',
+    description: 'Vibrant green trees, bright sun, blue sky.',
+    tips: 'Great for selling vacation homes. If the foliage is too sparse, refine with: "Add more leaves to the trees to make them look full and lush."',
+    previewUrl: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&q=80&w=200&h=150',
+    prompt: 'SEASONAL TRANSFORMATION REQUIREMENTS: Replace all bare trees with full, lush summer foliage appropriate to the species (dense green leaves, natural variation). do not add any additional trees or shrubs. Convert all grass to rich, healthy, deep green summer lawn with natural texture and subtle tonal variation. Enhance shrubs and hedges to appear full, vibrant, and well-maintained. Remove all signs of winter dormancy (no brown grass, no bare grass, no bare branches, no gray vegetation). Add subtle seasonal richness: slight warmth in color temperature, but keep it realistic and not stylized. The sun should be bright and the sky clear blue. Create a warm, inviting summer atmosphere. Ensure background trees match foreground in density and seasonal consistency. Maintain photorealistic lighting consistency with soft daylight conditions. Avoid oversaturation or artificial greens.',
     category: 'outdoor',
     creditCost: 5
   },
   {
-    id: 'season-winter',
-    label: 'Winter Season',
-    description: 'Snowy landscape and cozy winter atmosphere.',
-    tips: 'Help buyers imagine a cozy holiday home. Refine with: "Add a light dusting of snow to the window sills for a more realistic touch."',
-    previewUrl: 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Transform the season to Winter. Add realistic snow to the ground, roof, and trees. The atmosphere should be cold and crisp. Replace the sky with a clear blue sunny sky. Preserve the underlying architecture perfectly.',
+    id: 'sunny-bright',
+    label: 'Sunny Day Overhaul',
+    description: 'Transform overcast or rainy shots into perfect sunny days.',
+    tips: 'Perfect for properties photographed in bad weather. This tool combines sky replacement and lawn enhancement with a warm sunlight filter to maximize curb appeal.',
+    previewUrl: 'https://images.unsplash.com/photo-1598902108854-10e335adac99?auto=format&fit=crop&q=80&w=200&h=150',
+    prompt: 'Transform the entire atmosphere from a dull, rainy, or overcast day into a vibrant, high-contrast sunny day. Replace the sky with a clear blue sunny sky. Maintain season of original photo. Adjust the lighting on the architecture to reflect warm sunlight and create realistic shadows. Preserve the house structure perfectly.',
     category: 'outdoor',
     creditCost: 5
   },
@@ -213,6 +234,16 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     tips: 'The "Hero" shot for any luxury listing. Refine by adding a "Warm golden glow to all exterior lighting fixtures" to maximize the premium feel.',
     previewUrl: 'https://images.unsplash.com/photo-1510627489930-0c1b0bfb6785?auto=format&fit=crop&q=80&w=200&h=150',
     prompt: 'Transform the scene to a Twilight/Dusk setting. Deep blue evening sky. Turn on all interior lights so windows glow warmly. Turn on exterior lighting fixtures. Do not move furniture or change the house structure.',
+    category: 'outdoor',
+    creditCost: 5
+  },
+  {
+    id: 'season-winter',
+    label: 'Winter Season',
+    description: 'Snowy landscape and cozy winter atmosphere.',
+    tips: 'Help buyers imagine a cozy holiday home. Refine with: "Add a light dusting of snow to the window sills for a more realistic touch."',
+    previewUrl: 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&q=80&w=200&h=150',
+    prompt: 'Transform the season to Winter. Add realistic snow to the ground, roof, and trees. The atmosphere should be cold and crisp. Replace the sky with a clear blue sunny sky. Preserve the underlying architecture perfectly.',
     category: 'outdoor',
     creditCost: 5
   }
