@@ -158,22 +158,12 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     creditCost: 1
   },
   {
-    id: 'declutter-exterior',
-    label: 'Declutter Exterior',
-    description: 'Remove loose items around the lawn and patio.',
-    tips: 'Perfect for lived-in homes. Refine with: "Remove all toys from the grass".',
-    previewUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Apply an Exterior Declutter staging style. Identify and remove loose items from around the lawn, driveway, and patio, such as children\'s toys, sprinklers, garden hoses, or scattered loose items. Keep all main landscaping, trees, bushes, and architectural details. Create a clean and tidy outdoor space. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the house, driveway, paths, or permanent fixtures.',
-    category: 'outdoor',
-    creditCost: 4
-  },
-  {
-    id: 'season-autumn',
-    label: 'Autumn Season',
-    description: 'Fall foliage with oranges and reds.',
-    tips: 'Cozy and nostalgic. If the colors feel too saturated, refine with: "Make the leaf colors more natural and earthy."',
-    previewUrl: 'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Transform the season to Autumn. Change tree foliage to vibrant oranges, reds, and yellows. Add some fallen leaves to the ground. Replace the sky with a clear blue sunny sky. Keep the house structure exactly as is.',
+    id: 'sunny-bright',
+    label: 'Sunny Day Overhaul',
+    description: 'Transform overcast or rainy shots into perfect sunny days.',
+    tips: 'Perfect for properties photographed in bad weather. This tool combines sky replacement and lawn enhancement with a warm sunlight filter to maximize curb appeal.',
+    previewUrl: 'https://images.unsplash.com/photo-1598902108854-10e335adac99?auto=format&fit=crop&q=80&w=200&h=150',
+    prompt: 'Transform the entire atmosphere from a dull, rainy, or overcast day into a vibrant, high-contrast sunny day. Replace the sky with a clear blue sunny sky. Maintain season of original photo. Adjust the lighting on the architecture to reflect warm sunlight and create realistic shadows. Preserve the house structure perfectly.',
     category: 'outdoor',
     creditCost: 5
   },
@@ -198,6 +188,26 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     creditCost: 1
   },
   {
+    id: 'declutter-exterior',
+    label: 'Declutter Exterior',
+    description: 'Remove loose items around the lawn and patio.',
+    tips: 'Perfect for lived-in homes. Refine with: "Remove all toys from the grass".',
+    previewUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=200&h=150',
+    prompt: 'Apply an Exterior Declutter staging style. Identify and remove loose items from around the lawn, driveway, and patio, such as children\'s toys, sprinklers, garden hoses, or scattered loose items. Keep all main landscaping, trees, bushes, and architectural details. Create a clean and tidy outdoor space. CRITICAL ARCHITECTURAL FIDELITY: Maintain all architecturally correct detail. Do NOT change, smooth over, or alter the house, driveway, paths, or permanent fixtures.',
+    category: 'outdoor',
+    creditCost: 4
+  },
+  {
+    id: 'season-autumn',
+    label: 'Autumn Season',
+    description: 'Fall foliage with oranges and reds.',
+    tips: 'Cozy and nostalgic. If the colors feel too saturated, refine with: "Make the leaf colors more natural and earthy."',
+    previewUrl: 'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?auto=format&fit=crop&q=80&w=200&h=150',
+    prompt: 'Transform the season to Autumn. Change tree foliage to vibrant oranges, reds, and yellows. Add some fallen leaves to the ground. Replace the sky with a clear blue sunny sky. Keep the house structure exactly as is.',
+    category: 'outdoor',
+    creditCost: 5
+  },
+  {
     id: 'season-spring',
     label: 'Spring Season',
     description: 'Fresh blooms, soft greens, and floral accents.',
@@ -218,12 +228,12 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     creditCost: 5
   },
   {
-    id: 'sunny-bright',
-    label: 'Sunny Day Overhaul',
-    description: 'Transform overcast or rainy shots into perfect sunny days.',
-    tips: 'Perfect for properties photographed in bad weather. This tool combines sky replacement and lawn enhancement with a warm sunlight filter to maximize curb appeal.',
-    previewUrl: 'https://images.unsplash.com/photo-1598902108854-10e335adac99?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Transform the entire atmosphere from a dull, rainy, or overcast day into a vibrant, high-contrast sunny day. Replace the sky with a clear blue sunny sky. Maintain season of original photo. Adjust the lighting on the architecture to reflect warm sunlight and create realistic shadows. Preserve the house structure perfectly.',
+    id: 'season-winter',
+    label: 'Winter Season',
+    description: 'Snowy landscape and cozy winter atmosphere.',
+    tips: 'Help buyers imagine a cozy holiday home. Refine with: "Add a light dusting of snow to the window sills for a more realistic touch."',
+    previewUrl: 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&q=80&w=200&h=150',
+    prompt: 'Transform the season to Winter. Add realistic snow to the ground, roof, and trees. The atmosphere should be cold and crisp. Replace the sky with a clear blue sunny sky. Preserve the underlying architecture perfectly.',
     category: 'outdoor',
     creditCost: 5
   },
@@ -234,16 +244,6 @@ export const OUTDOOR_STYLES: StagingOption[] = [
     tips: 'The "Hero" shot for any luxury listing. Refine by adding a "Warm golden glow to all exterior lighting fixtures" to maximize the premium feel.',
     previewUrl: 'https://images.unsplash.com/photo-1510627489930-0c1b0bfb6785?auto=format&fit=crop&q=80&w=200&h=150',
     prompt: 'Transform the scene to a Twilight/Dusk setting. Deep blue evening sky. Turn on all interior lights so windows glow warmly. Turn on exterior lighting fixtures. Do not move furniture or change the house structure.',
-    category: 'outdoor',
-    creditCost: 5
-  },
-  {
-    id: 'season-winter',
-    label: 'Winter Season',
-    description: 'Snowy landscape and cozy winter atmosphere.',
-    tips: 'Help buyers imagine a cozy holiday home. Refine with: "Add a light dusting of snow to the window sills for a more realistic touch."',
-    previewUrl: 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&q=80&w=200&h=150',
-    prompt: 'Transform the season to Winter. Add realistic snow to the ground, roof, and trees. The atmosphere should be cold and crisp. Replace the sky with a clear blue sunny sky. Preserve the underlying architecture perfectly.',
     category: 'outdoor',
     creditCost: 5
   }
