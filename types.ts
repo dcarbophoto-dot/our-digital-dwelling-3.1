@@ -9,11 +9,11 @@ declare global {
 }
 
 export type StagingStyle = 
-  | 'empty' | 'modern' | 'rustic' | 'minimalist' | 'luxury' | 'scandinavian' | 'industrial' | 'add-remove'
+  | 'empty' | 'modern' | 'rustic' | 'minimalist' | 'luxury' | 'scandinavian' | 'industrial' | 'add-remove' | 'declutter' | 'coastal'
   | 'lawn-manicured' | 'sky-blue' | 'twilight' | 'season-winter' | 'season-autumn' | 'season-summer' | 'season-spring'
-  | 'sunny-bright' | 'antique' | 'traditional';
+  | 'sunny-bright' | 'antique' | 'traditional' | 'declutter-exterior';
 
-export type RoomType = 'living_room' | 'bedroom' | 'dining_room' | 'great_room' | 'den' | 'study' | 'game_room' | 'kitchen' | 'bathroom' | 'office' | 'exterior' | 'backyard' | 'patio' | '';
+export type RoomType = 'living_room' | 'bedroom' | 'dining_room' | 'great_room' | 'den' | 'study' | 'game_room' | 'kitchen' | 'bathroom' | 'office' | 'exterior' | 'backyard' | 'patio' | 'generic' | '';
 
 export type StyleCategory = 'interior' | 'outdoor';
 
