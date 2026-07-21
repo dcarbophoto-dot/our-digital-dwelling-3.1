@@ -66,21 +66,25 @@ export function useStorage<T>(key: string, initialValue: T): [T, (value: T | ((v
     };
   }, [key]);
 
-  // Save to IndexedDB whenever storedValue changes
+  // Save to IndexedDB whenever storedValue changes with debounce
   useEffect(() => {
     if (!isReady) return;
 
-    openDB().then(db => {
-      try {
-        const transaction = db.transaction(STORE_NAME, 'readwrite');
-        const store = transaction.objectStore(STORE_NAME);
-        store.put(storedValue, key);
-      } catch (err) {
-        console.error("Failed to save to IndexedDB (DataCloneError or NotFoundError possible):", err);
-      }
-    }).catch(err => {
-      console.error("Failed to open IndexedDB for saving:", err);
-    });
+    const timer = setTimeout(() => {
+      openDB().then(db => {
+        try {
+          const transaction = db.transaction(STORE_NAME, 'readwrite');
+          const store = transaction.objectStore(STORE_NAME);
+          store.put(storedValue, key);
+        } catch (err) {
+          console.error("Failed to save to IndexedDB (DataCloneError or NotFoundError possible):", err);
+        }
+      }).catch(err => {
+        console.error("Failed to open IndexedDB for saving:", err);
+      });
+    }, 500); // 500ms debounce to prevent OOM crashes on rapid state updates (e.g. text inputs)
+
+    return () => clearTimeout(timer);
   }, [key, storedValue, isReady]);
 
   return [storedValue, setStoredValue, isReady];
