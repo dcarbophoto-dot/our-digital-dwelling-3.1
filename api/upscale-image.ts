@@ -21,30 +21,43 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       auth: apiToken,
     });
 
-    const { imageBase64, prompt } = req.body;
+    const { imageBase64, prompt, imageType } = req.body;
     
     if (!imageBase64) {
       return res.status(400).json({ error: 'Image data is required' });
     }
 
-    // Default macro-texture prompt safety net if UI prompt injection fails
-    const finalPrompt = prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, highly detailed exterior and interior styling, sharp crisp foliage and landscaping";
+    let output: any;
 
-    // Execute Real-ESRGAN for extreme high-frequency architectural detail hallucination. 
-    // This endpoint is now exclusively queried by Interior formatting calls, so 'oil painting' artifacts on nature are bypassed.
-    const model = await replicate.models.get("nightmareai", "real-esrgan");
-    const output: any = await replicate.run(
-      `nightmareai/real-esrgan:${model.latest_version.id}`,
-      {
-        input: {
-          image: imageBase64,
-          scale: 4,
-          face_enhance: false
+    if (imageType === 'exterior') {
+      const finalPrompt = prompt || "highly detailed outdoor landscape, crisp foliage, sharp grass and leaves, high-resolution, photorealistic, 4k";
+      
+      output = await replicate.run(
+        "lucataco/supir:2b07e4e89e3a6bf45e419811fa1d8e1363650da52eb6bc3cecc3bc3b39d73d6e",
+        {
+          input: {
+            image: imageBase64,
+            prompt: finalPrompt,
+            upscale: 2
+          }
         }
-      }
-    );
+      );
+    } else {
+      const finalPrompt = prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, highly detailed interior styling";
+      const model = await replicate.models.get("nightmareai", "real-esrgan");
+      output = await replicate.run(
+        `nightmareai/real-esrgan:${model.latest_version.id}`,
+        {
+          input: {
+            image: imageBase64,
+            scale: 4,
+            face_enhance: false
+          }
+        }
+      );
+    }
 
-    const finalUrl = String(output);
+    const finalUrl = Array.isArray(output) ? String(output[0]) : String(output);
 
     return res.status(200).json({ url: finalUrl });
   } catch (error: any) {

@@ -1118,13 +1118,9 @@ const App: React.FC = () => {
         const styleDef = ALL_STYLES.find(s => s.id === item.currentStyle);
         
         if (downloadResolution === '4K') {
-           if (styleDef?.category === 'interior') {
-              const upscalePrompt = item.prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect staging";
-              preProcessedUrl = await upscaleImage(url, upscalePrompt);
-           } else {
-              // Bypassing AI upscalers for exteriors to prevent moiré/oil painting on dense shingles and foliage natively.
-              preProcessedUrl = url;
-           }
+           const isExterior = styleDef?.category === 'outdoor';
+           const upscalePrompt = item.prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect staging";
+           preProcessedUrl = await upscaleImage(url, upscalePrompt, isExterior ? 'exterior' : 'interior');
         }
         const maxDim = downloadResolution === '4K' ? 4096 : 2560;
         const processedDataUrl = await resizeAndFormatImage(
@@ -1213,13 +1209,9 @@ const App: React.FC = () => {
                 const styleDef = ALL_STYLES.find(s => s.id === queued.styleId);
                 
                 if (downloadResolution === '4K' && queued.is4kAI) {
-                   if (styleDef?.category === 'interior') {
-                       const upscalePrompt = queued.prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect staging";
-                       preProcessedUrl = await upscaleImage(queued.url, upscalePrompt);
-                   } else {
-                       // Bypassing Replicate neural upscaler to protect exterior architectural grids and foliage structures mathematically.
-                       preProcessedUrl = queued.url;
-                   }
+                   const isExterior = styleDef?.category === 'outdoor';
+                   const upscalePrompt = queued.prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect staging";
+                   preProcessedUrl = await upscaleImage(queued.url, upscalePrompt, isExterior ? 'exterior' : 'interior');
                 }
                 const maxDim = downloadResolution === '4K' ? 4096 : 2560;
                 const processedDataUrl = await resizeAndFormatImage(
