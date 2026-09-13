@@ -158,6 +158,10 @@ const handleStripeSync = async (change, type, context) => {
       if (amount === 3999) priceId = 'price_1T2dYXIY2wu1OpEHx43rE2WD';
       else if (amount === 6999) priceId = 'price_1T2dYdIY2wu1OpEHxhSwJWYO';
       else if (amount === 11999) priceId = 'price_1T2dYiIY2wu1OpEHxCsp12Cx';
+      // Subscriptions
+      else if (amount === 2999) priceId = 'price_1T1OzEIY2wu1OpEHADGXvsXV';
+      else if (amount === 4999) priceId = 'price_1T1OzVIY2wu1OpEHvMGvtAmL';
+      else if (amount === 9999) priceId = 'price_1T1OzcIY2wu1OpEHcjoWtrdt';
     }
   }
 
