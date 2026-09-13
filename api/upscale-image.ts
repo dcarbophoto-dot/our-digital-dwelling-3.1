@@ -30,14 +30,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let prediction;
     if (imageType === 'exterior') {
       const finalPrompt = prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect staging, stunning landscape";
-      const model = await replicate.models.get("batouresearch", "high-resolution-controlnet-tile");
+      const model = await replicate.models.get("lucataco", "supir");
       prediction = await replicate.predictions.create({
         version: model.latest_version.id,
         input: {
           image: imageBase64,
           prompt: finalPrompt,
-          resolution: 2560,
-          creativity: 0.35
+          upscale: 2,
+          quality: "quality"
         }
       });
     } else {
