@@ -32,13 +32,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (imageType === 'exterior') {
       const finalPrompt = prompt || "highly detailed outdoor landscape, crisp foliage, sharp grass and leaves, high-resolution, photorealistic, 4k";
       
+      const model = await replicate.models.get("batouresearch", "high-resolution-controlnet-tile");
       output = await replicate.run(
-        "lucataco/supir:2b07e4e89e3a6bf45e419811fa1d8e1363650da52eb6bc3cecc3bc3b39d73d6e",
+        `batouresearch/high-resolution-controlnet-tile:${model.latest_version.id}`,
         {
           input: {
             image: imageBase64,
             prompt: finalPrompt,
-            upscale: 2
+            resolution: 4096,
+            creativity: 0.35
           }
         }
       );
@@ -57,7 +59,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       );
     }
 
-    const finalUrl = Array.isArray(output) ? String(output[0]) : String(output);
+    const finalUrl = Array.isArray(output) 
+      ? output[0] 
+      : (typeof output === 'string' 
+          ? output 
+          : (output.url ? (typeof output.url === 'function' ? output.url() : output.url) : String(output)));
 
     return res.status(200).json({ url: finalUrl });
   } catch (error: any) {
