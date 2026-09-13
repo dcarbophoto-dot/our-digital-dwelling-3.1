@@ -59,11 +59,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       );
     }
 
-    const finalUrl = Array.isArray(output) 
-      ? output[0] 
-      : (typeof output === 'string' 
-          ? output 
-          : (output.url ? (typeof output.url === 'function' ? output.url() : output.url) : String(output)));
+    let finalUrl = '';
+    
+    // Output can be an array of FileOutput streams, a single FileOutput stream, or strings.
+    const extractUrl = (obj: any) => {
+      if (typeof obj === 'string') return obj;
+      if (obj && typeof obj.url === 'function') {
+        const u = obj.url();
+        return typeof u === 'string' ? u : u.toString();
+      }
+      if (obj && typeof obj.url === 'string') return obj.url;
+      return String(obj);
+    };
+
+    if (Array.isArray(output) && output.length > 0) {
+      finalUrl = extractUrl(output[0]);
+    } else {
+      finalUrl = extractUrl(output);
+    }
 
     return res.status(200).json({ url: finalUrl });
   } catch (error: any) {
