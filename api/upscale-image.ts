@@ -36,7 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         input: {
           image: imageBase64,
           prompt: finalPrompt,
-          resolution: 4096,
+          resolution: 2560,
           creativity: 0.35
         }
       });
