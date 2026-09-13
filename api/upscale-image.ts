@@ -27,60 +27,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Image data is required' });
     }
 
-    let output: any;
-
+    let prediction;
     if (imageType === 'exterior') {
-      const finalPrompt = prompt || "highly detailed outdoor landscape, crisp foliage, sharp grass and leaves, high-resolution, photorealistic, 4k";
-      
+      const finalPrompt = prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect staging, stunning landscape";
       const model = await replicate.models.get("batouresearch", "high-resolution-controlnet-tile");
-      output = await replicate.run(
-        `batouresearch/high-resolution-controlnet-tile:${model.latest_version.id}`,
-        {
-          input: {
-            image: imageBase64,
-            prompt: finalPrompt,
-            resolution: 4096,
-            creativity: 0.35
-          }
+      prediction = await replicate.predictions.create({
+        version: model.latest_version.id,
+        input: {
+          image: imageBase64,
+          prompt: finalPrompt,
+          resolution: 4096,
+          creativity: 0.35
         }
-      );
+      });
     } else {
       const finalPrompt = prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, highly detailed interior styling";
       const model = await replicate.models.get("nightmareai", "real-esrgan");
-      output = await replicate.run(
-        `nightmareai/real-esrgan:${model.latest_version.id}`,
-        {
-          input: {
-            image: imageBase64,
-            scale: 4,
-            face_enhance: false
-          }
+      prediction = await replicate.predictions.create({
+        version: model.latest_version.id,
+        input: {
+          image: imageBase64,
+          scale: 4,
+          face_enhance: false
         }
-      );
+      });
     }
 
-    let finalUrl = '';
-    
-    // Output can be an array of FileOutput streams, a single FileOutput stream, or strings.
-    const extractUrl = (obj: any) => {
-      if (typeof obj === 'string') return obj;
-      if (obj && typeof obj.url === 'function') {
-        const u = obj.url();
-        return typeof u === 'string' ? u : u.toString();
-      }
-      if (obj && typeof obj.url === 'string') return obj.url;
-      return String(obj);
-    };
-
-    if (Array.isArray(output) && output.length > 0) {
-      finalUrl = extractUrl(output[0]);
-    } else {
-      finalUrl = extractUrl(output);
-    }
-
-    return res.status(200).json({ url: finalUrl });
+    return res.status(200).json({ predictionId: prediction.id });
   } catch (error: any) {
-    console.error('Error during upscaling:', error);
-    return res.status(500).json({ error: error.message || 'Internal Server Error' });
+    console.error('Error in upscale-image:', error);
+    return res.status(500).json({ error: error.message || 'Unknown error occurred' });
   }
 }

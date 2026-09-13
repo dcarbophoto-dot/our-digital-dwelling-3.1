@@ -31,11 +31,41 @@ export const upscaleImage = async (base64Image: string, prompt?: string, imageTy
 
       const data = await response.json();
       
-      if (!data.url) {
+      // If the API returns a direct URL (backward compatibility)
+      if (data.url) {
+        return data.url;
+      }
+      
+      if (!data.predictionId) {
         throw new Error("Invalid response from upscaler API");
       }
 
-      return data.url;
+      // Poll the prediction
+      const predictionId = data.predictionId;
+      let isProcessing = true;
+      let finalUrl = '';
+      
+      while (isProcessing) {
+        await delay(2000);
+        const pollResponse = await fetch(`/api/poll-upscale?id=${predictionId}`);
+        
+        if (!pollResponse.ok) {
+          throw new Error(`Polling failed with status ${pollResponse.status}`);
+        }
+        
+        const pollData = await pollResponse.json();
+        if (pollData.status === 'succeeded') {
+          isProcessing = false;
+          if (!pollData.url) {
+            throw new Error("Polling succeeded but no URL was returned");
+          }
+          finalUrl = pollData.url;
+        } else if (pollData.status === 'failed' || pollData.status === 'canceled') {
+          throw new Error("Prediction failed during polling");
+        }
+      }
+      
+      return finalUrl;
     } catch (error: any) {
       lastError = error;
       console.error(`Upscale attempt ${attempt + 1} failed:`, error);
