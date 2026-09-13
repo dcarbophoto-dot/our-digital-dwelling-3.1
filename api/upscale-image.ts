@@ -29,15 +29,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     let prediction;
     if (imageType === 'exterior') {
-      const finalPrompt = prompt || "highly detailed, 8k resolution, photorealistic architectural real estate photography, crisp textures, perfect staging, stunning landscape";
-      const model = await replicate.models.get("lucataco", "supir");
+      // Fallback to real-esrgan for exteriors since SUPIR was deleted from Replicate
+      // and batouresearch generates red masking artifacts.
+      const model = await replicate.models.get("nightmareai", "real-esrgan");
       prediction = await replicate.predictions.create({
         version: model.latest_version.id,
         input: {
           image: imageBase64,
-          prompt: finalPrompt,
-          upscale: 2,
-          quality: "quality"
+          scale: 4,
+          face_enhance: false
         }
       });
     } else {
