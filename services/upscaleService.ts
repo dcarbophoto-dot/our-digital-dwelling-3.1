@@ -47,7 +47,9 @@ export const upscaleImage = async (base64Image: string, prompt?: string, imageTy
       
       while (isProcessing) {
         await delay(2000);
-        const pollResponse = await fetch(`/api/poll-upscale?id=${predictionId}`);
+        const pollResponse = await fetch(`/api/poll-upscale?id=${predictionId}&t=${Date.now()}`, {
+          cache: 'no-store'
+        });
         
         if (!pollResponse.ok) {
           throw new Error(`Polling failed with status ${pollResponse.status}`);
